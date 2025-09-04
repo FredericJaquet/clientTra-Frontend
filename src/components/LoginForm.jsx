@@ -1,0 +1,99 @@
+import React from "react";
+import { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import api from "../api/axios";
+
+
+function LoginForm() {
+
+    const storedUser = JSON.parse(localStorage.getItem("user"));
+  
+    useEffect(() => {
+      if (storedUser) {
+        document.documentElement.setAttribute("data-theme", storedUser.preferredTheme);
+        if (storedUser.preferredMode=="dark") {
+          document.documentElement.classList.add("dark");
+        } else {
+          document.documentElement.classList.remove("dark");
+        }
+      }
+    }, [storedUser]);
+
+  const [error, setError] = useState('');
+
+  const [formData, setFormData] = useState({ username: '', password: '' })
+  const navigate = useNavigate();
+
+  const handleChange = (e) => {
+    setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
+  }
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+
+    if (!formData.username || !formData.password) {
+      setError("Todos los campos son obligatorios");
+      return;
+    }
+
+    try {
+      const response = await api.post("/auth/login", formData);
+
+      const token = response.data.token;
+      const { token: _, ...user } = response.data;
+
+      localStorage.setItem("token", token);
+      localStorage.setItem("user", JSON.stringify(user));
+
+      console.log("token:", token);
+      console.log("user:", user);
+
+      setError("");
+      navigate("/dashboard");
+    } catch (err) {
+      console.error(err);
+      setError("Usuario y/o contraseña incorrecta");
+    }
+  };
+  
+  return (
+    <div className="min-h-screen w-1/2 bg-[color:var(--primary)] rounded-full flex items-center justify-center">
+      <div className="bg-[color:var(--secondary)] backdrop-blur-md rounded-2xl border border-[color:var(--border)] drop-shadow-xl hover:drop-shadow-2xl p-8 w-4/5 max-w-md overflow-hidden">
+        <h2 className="text-2xl font-bold text-[color:var(--text)] text-center mb-2">Log in</h2>
+        <p className="text-[color:var(--text)] text-center mb-6">
+          Bienvenido de nuevo, por favor inicia sesión.
+        </p>
+        <form className="flex flex-col gap-4" onSubmit={handleLogin}>
+          <input
+            type="text"
+            name="username"
+            onChange={handleChange}
+            placeholder="Username"
+            className="border border-[color:var(--border)] rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[color:var(--primary)]"
+          />
+          <input
+            type="password"
+            name="password"
+            onChange={handleChange}
+            placeholder="Password"
+            className="border border-[color:var(--border)] rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[color:var(--primary)]"
+          />
+          {error && (
+          <div className="text-white text-center rounded-lg px-6 py-2 bg-[color:var(--error)]">
+            {error}
+          </div>
+        )}
+          <button
+            type="submit"
+            className="bg-[color:var(--primary)] text-white rounded-lg py-2 hover:bg-[color:var(--primary-hover)] transition"
+          >
+            Login
+          </button>
+          <Link to="/Register" className=" text-center text-[color:var(--text)]">¿No tienes cuenta?</Link>
+        </form>
+      </div>
+    </div>
+  );
+}
+
+export default LoginForm;

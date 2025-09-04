@@ -1,0 +1,131 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+#root {
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+
+  overflow: auto;
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+
+/* ===== Paleta Azul (default) Light ===== */
+:root[data-theme="blue"] {
+  --background: #f9fafb;
+  --text: #1f2937;
+  --text-light:#e0f2fe;
+  --text-light-hover:#bae6fd;
+  --primary: #2563eb;
+  --primary-hover: #1d4ed8;
+  --secondary: #e0f2fe;
+  --border: #e5e7eb;
+  --success: #10b981;
+  --error: #ef4444;
+  --info: #2563eb;
+  --divide: #bae6fd;
+}
+
+/* ===== Paleta Azul Dark ===== */
+:root[data-theme="blue"].dark {
+  --background: #1f1b1d;
+  --text: #f8fafc;
+  --text-light:#e0f2fe;
+  --text-light-hover:#bae6fd;
+  --primary: #2563eb;
+  --primary-hover: #1d4ed8;
+  --secondary: #1e3a8a;
+  --border: #4b5563;
+  --success: #10b981;
+  --error: #ef4444;
+  --info: #60a5fa;
+  --divide: #bae6fd;
+}
+
+/* ===== Paleta Roja Light ===== */
+:root[data-theme="red"] {
+  --background: #fff5f5;
+  --text: #1f2937;
+  --text-light:#fff2f1;
+  --text-light-hover:#ffcdd2;
+  --primary: #ef4444;
+  --primary-hover: #b91c1c;
+  --secondary: #fff2f1;
+  --border: #e5e7eb;
+  --success: #059669;
+  --error: #ef4444;
+  --info: #2563eb;
+  --divide: #ffcdd2;
+}
+
+/* ===== Paleta Roja Dark ===== */
+:root[data-theme="red"].dark {
+  --background: #1f1b1d;
+  --text: #f8fafc;
+  --text-light:#fff2f1;
+  --text-light-hover:#ffcdd2;
+  --primary: #f87171;
+  --primary-hover: #ef4444;
+  --secondary: #7f1d1d;
+  --border: #4b5563;
+  --success: #059669;
+  --error: #ef4444;
+  --info: #2563eb;
+  --divide: #ffcdd2;
+}
+
+#sidebar::-webkit-scrollbar {
+  width: 4px;        /* muy fino */
+}
+
+#sidebar::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.6);
+  border-radius: 9999px;
+}
+
+#sidebar::-webkit-scrollbar-track {
+  background: transparent; /* transparente */
+}
+
+/* Aplica las variables */
+body {
+  background-color: var(--background);
+  color: var(--text);
+}
+
