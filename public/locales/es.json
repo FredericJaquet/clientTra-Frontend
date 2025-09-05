@@ -32,7 +32,8 @@
         "date": "Fecha",
         "pending_quotes": "Presupuestos pendientes",
         "month": "Mes",
-        "total": "Total"
+        "total": "Total",
+        "loading": "Cargando..."
     },
     "error": {
         "all_fields_required": "Todos los campos son obligatorios",

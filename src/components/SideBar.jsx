@@ -49,7 +49,7 @@ function Sidebar() {
                 <h6 className="text-lg font-semibold text-[color:var(--text-light)] mt-3">{t('dashboard.menu')}</h6>
                 <ul className="flex flex-col gap-1">
                     <li><Link to="/" onClick={handleLogout} className="text-[color:var(--text-light)] hover:text-[color:var(--text-light-hover)] pl-3 py-1 block">{t('dashboard.logout')}</Link></li>
-                    <li><a className="text-[color:var(--text-light)] hover:text-[color:var(--text-light-hover)] pl-3 py-1 block" href="#">{t('dashboard.dashboard')}</a></li>
+                    <li><Link to="/dashboard" className="text-[color:var(--text-light)] hover:text-[color:var(--text-light-hover)] pl-3 py-1 block" href="#">{t('dashboard.dashboard')}</Link></li>
                     <li><a className="text-[color:var(--text-light)] hover:text-[color:var(--text-light-hover)] pl-3 py-1 block" href="#">{t('dashboard.my_account')}</a></li>
                 </ul>
 

@@ -32,7 +32,8 @@
         "date": "Date",
         "pending_quotes": "Devis en attente",
         "month": "Mois",
-        "total": "Total"
+        "total": "Total",
+        "loading": "Chargement..."
     },
     "error": {
         "all_fields_required": "Tous les champs sont obligatoires",

@@ -32,7 +32,8 @@
         "date": "Date",
         "pending_quotes": "Pending Quotes",
         "month": "Month",
-        "total": "Total"
+        "total": "Total",
+        "loading": "Loading..."
     },
     "error": {
         "all_fields_required": "All fields are required",
