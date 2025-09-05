@@ -2,8 +2,19 @@ import React from "react";
 import { useState } from "react";
 import { useNavigate  } from "react-router-dom";
 import api from "../api/axios";
+import { useTranslation } from 'react-i18next';
 
 function RegisterStep1({ formData, setFormData, nextStep }) {
+
+  const { t } = useTranslation();
+
+  let userLang = navigator.language || navigator.userLanguage;
+
+  userLang = userLang.slice(0, 2).toLowerCase();
+  if (!["es", "fr", "en"].includes(userLang)) {
+      userLang = "en";
+  }
+
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
@@ -14,11 +25,11 @@ function RegisterStep1({ formData, setFormData, nextStep }) {
   const handleActualRegister = (e) => {
     e.preventDefault();
     if (!formData.username || !formData.emailAdmin || !formData.password || !formData.repeatedPassword) {
-      setError('Todos los campos son obligatorios');
+      setError(t('error.all_fields_required'));
       return;
     }
     if (formData.password !== formData.repeatedPassword) {
-      setError('Las contraseñas no coinciden');
+      setError(t('error.incorrect_repeated_password'));
       return;
     }
     setError('');
@@ -28,11 +39,11 @@ function RegisterStep1({ formData, setFormData, nextStep }) {
   const submitDemoRegister = async (e) => {
     e.preventDefault();
     if (!formData.username || !formData.emailAdmin || !formData.password || !formData.repeatedPassword) {
-      setError('Todos los campos son obligatorios');
+      setError(t('error.all_fields_required'));
       return;
     }
     if (formData.password !== formData.repeatedPassword) {
-      setError('Las contraseñas no coinciden');
+      setError(t('error.incorrect_repeated_password'));
       return;
     }
     e.preventDefault();
@@ -40,7 +51,10 @@ function RegisterStep1({ formData, setFormData, nextStep }) {
       await api.post("/registration/demo-data", {
         username: formData.username,
         password: formData.password,
-        email: formData.emailAdmin
+        email: formData.emailAdmin,
+        preferredLanguage: userLang,
+        idRole: 1,
+        idPlan: 1
       });
             
       navigate("/");
@@ -53,10 +67,8 @@ function RegisterStep1({ formData, setFormData, nextStep }) {
     <div className="min-h-screen flex items-center justify-center w-full">
       <div className="relative w-2/3 aspect-square bg-[color:var(--primary)] rounded-full flex items-center justify-center">
         <div className="bg-[color:var(--secondary)] rounded-2xl border text-[color:var(--text)] border-[color:var(--border)] drop-shadow-xl hover:drop-shadow-2xl p-8 w-2/3">
-          <h3 className="fw-bold text-center mb-4">Registro</h3>
-          <p className="text-center mb-6 text-[color:var(--info)]">
-            Registro Demo: puedes probar la aplicación sin crear empresa.<br/>
-            Si más adelante eliges "Registrar mi Empresa", se perderán los datos de la demo.<br/><br/>
+          <h3 className="fw-bold text-center mb-4">{t('register.title')}</h3>
+          <p className="text-center mb-6 text-[color:var(--info)]"style={{ whiteSpace: 'pre-line' }}>{t('register.intro')}<br/><br/>
           </p>
           <form className="flex flex-col gap-4">
             <div className="flex gap-2">
@@ -65,7 +77,7 @@ function RegisterStep1({ formData, setFormData, nextStep }) {
                 name="username"
                 value={formData.username}
                 onChange={handleChange}
-                placeholder="Usuario"
+                placeholder={t('register.username')}
                 className="border border-[color:var(--border)] rounded-lg p-2 w-1/2 focus:outline-none focus:ring-2 focus:ring-[color:var(--primary)]"
                 required
               />
@@ -74,7 +86,7 @@ function RegisterStep1({ formData, setFormData, nextStep }) {
                 name="emailAdmin"
                 value={formData.emailAdmin}
                 onChange={handleChange}
-                placeholder="Email"
+                placeholder={t('register.email')}
                 className="border border-[color:var(--border)] rounded-lg p-2 w-1/2 focus:outline-none focus:ring-2 focus:ring-[color:var(--primary)]"
                 required
               />
@@ -85,7 +97,7 @@ function RegisterStep1({ formData, setFormData, nextStep }) {
                 name="password"
                 value={formData.password}
                 onChange={handleChange}
-                placeholder="Contraseña"
+                placeholder={t('register.password')}
                 className="border border-[color:var(--border)] rounded-lg p-2 w-1/2 focus:outline-none focus:ring-2 focus:ring-[color:var(--primary)]"
                 required
               />
@@ -94,7 +106,7 @@ function RegisterStep1({ formData, setFormData, nextStep }) {
                 name="repeatedPassword"
                 value={formData.repeatedPassword}
                 onChange={handleChange}
-                placeholder="Repite la contraseña"
+                placeholder={t('register.repeated_password')}
                 className="border border-[color:var(--border)] rounded-lg p-2 w-1/2 focus:outline-none focus:ring-2 focus:ring-[color:var(--primary)]"
                 required
               />
@@ -111,13 +123,13 @@ function RegisterStep1({ formData, setFormData, nextStep }) {
                 onClick={submitDemoRegister}
                 className="bg-[color:var(--primary)] text-white drop-shadow-2xl rounded-lg px-6 py-2 hover:bg-[color:var(--primary-hover)] transition"
               >
-                Registro con Demo
+                {t('register.submit_demo')}
               </button>
               <button
                 onClick={handleActualRegister}
                 className="bg-[color:var(--primary)] text-white drop-shadow-2xl rounded-lg px-6 py-2 hover:bg-[color:var(--primary-hover)] transition"
               >
-                Registrar mi Empresa
+                {t('register.submit_actual')}
               </button>
             </div>
 

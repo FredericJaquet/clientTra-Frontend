@@ -6,10 +6,19 @@ const api = axios.create({
 
 // Interceptor para añadir token en cada request
 api.interceptors.request.use((config) => {
-  const token = localStorage.getItem("token");
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
+  // Endpoints que deben quedar libres de token
+  const publicEndpoints = ["/auth/login", "/registration"];
+
+  // Verifica si la URL actual empieza por alguno de los endpoints públicos
+  const isPublic = publicEndpoints.some((url) => config.url.startsWith(url));
+
+  if (!isPublic) {
+    const token = localStorage.getItem("token");
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
   }
+
   return config;
 });
 

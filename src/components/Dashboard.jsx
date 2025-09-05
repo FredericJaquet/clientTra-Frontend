@@ -20,9 +20,9 @@ function Dashboard() {
 
   return (
     <div className="flex h-screen">
-      <Sidebar /> {/* altura completa y scroll propio */}
+      <Sidebar />
       <div className="flex flex-col flex-1">
-        <SearchBar /> {/* sticky arriba */}
+        <SearchBar />
         <div className="flex-1 overflow-auto">
           <DashboardHome userData={storedUser} />
         </div>

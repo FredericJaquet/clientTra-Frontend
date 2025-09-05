@@ -2,8 +2,11 @@ import React from "react";
 import { useState } from "react";
 import '../assets/css/App.css';
 import glass from "../assets/img/search.png";
+import { useTranslation } from 'react-i18next';
 
 function SearchBar(){
+
+    const { t } = useTranslation();
 
     const [query, setQuery] = useState("");
 
@@ -28,7 +31,7 @@ function SearchBar(){
                     onChange={(e) => setQuery(e.target.value)}
                     className="border rounded-full w-11/12 ps-5" 
                     type="text"
-                    placeholder="Busca empresas por nombre comercial, nombre fiscal o CIF"/>
+                    placeholder={t('dashboard.search_bar')}/>
         </div>
     )
 }

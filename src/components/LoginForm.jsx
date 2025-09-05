@@ -2,9 +2,12 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import api from "../api/axios";
+import { useTranslation } from 'react-i18next';
 
 
 function LoginForm() {
+
+    const { t } = useTranslation();
 
     const storedUser = JSON.parse(localStorage.getItem("user"));
   
@@ -32,7 +35,7 @@ function LoginForm() {
     e.preventDefault();
 
     if (!formData.username || !formData.password) {
-      setError("Todos los campos son obligatorios");
+      setError(t('error.all_fields_required'));
       return;
     }
 
@@ -52,30 +55,30 @@ function LoginForm() {
       navigate("/dashboard");
     } catch (err) {
       console.error(err);
-      setError("Usuario y/o contraseña incorrecta");
+      setError(t('error.incorrect_credentials'));
     }
   };
   
   return (
     <div className="min-h-screen w-1/2 bg-[color:var(--primary)] rounded-full flex items-center justify-center">
       <div className="bg-[color:var(--secondary)] backdrop-blur-md rounded-2xl border border-[color:var(--border)] drop-shadow-xl hover:drop-shadow-2xl p-8 w-4/5 max-w-md overflow-hidden">
-        <h2 className="text-2xl font-bold text-[color:var(--text)] text-center mb-2">Log in</h2>
+        <h2 className="text-2xl font-bold text-[color:var(--text)] text-center mb-2">{t('login.title')}</h2>
         <p className="text-[color:var(--text)] text-center mb-6">
-          Bienvenido de nuevo, por favor inicia sesión.
+          {t('login.intro')}
         </p>
         <form className="flex flex-col gap-4" onSubmit={handleLogin}>
           <input
             type="text"
             name="username"
             onChange={handleChange}
-            placeholder="Username"
+            placeholder={t('login.username')}
             className="border border-[color:var(--border)] rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[color:var(--primary)]"
           />
           <input
             type="password"
             name="password"
             onChange={handleChange}
-            placeholder="Password"
+            placeholder={t('login.password')}
             className="border border-[color:var(--border)] rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[color:var(--primary)]"
           />
           {error && (
@@ -87,9 +90,9 @@ function LoginForm() {
             type="submit"
             className="bg-[color:var(--primary)] text-white rounded-lg py-2 hover:bg-[color:var(--primary-hover)] transition"
           >
-            Login
+            {t('login.submit')}
           </button>
-          <Link to="/Register" className=" text-center text-[color:var(--text)]">¿No tienes cuenta?</Link>
+          <Link to="/Register" className=" text-center text-[color:var(--text)]">{t('login.no_account')}</Link>
         </form>
       </div>
     </div>

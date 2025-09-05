@@ -1,9 +1,13 @@
 import React from "react";
 
-function Card({ title, headers = [], rows = [] }){
+function Card({ title, granTotal, headers = [], rows = [] }){
     return (
         <div className="rounded-xl shadow-lg w-3/4 p-4 bg-[color:var(--secondary)]">
-        <h4 className="text-lg font-semibold mb-2">{title}</h4>
+        <div className="flex flex-row">
+            <h4 className="text-lg font-semibold mb-2 w-1/2">{title}</h4>
+            {granTotal && (
+            <h4 className="text-lg font-semibold mb-2">{granTotal}€</h4>)}
+        </div>
         <hr className="border-[color:var(--primary)] mb-2" />
 
         {headers.length > 0 && (

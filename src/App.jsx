@@ -20,7 +20,15 @@ function App() {
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     console.log(storedUser);
-    if (!storedUser) {
+   if (storedUser) {
+      const user = JSON.parse(storedUser);
+      document.documentElement.setAttribute("data-theme", user.preferredTheme || "blue");
+      if (user.darkMode=="dark") {
+        document.documentElement.classList.add("dark");
+      } else {
+        document.documentElement.classList.remove("dark");
+      }
+    } else {
       document.documentElement.setAttribute("data-theme", "blue");
       document.documentElement.classList.remove("dark");
     }

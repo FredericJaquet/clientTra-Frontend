@@ -29,11 +29,6 @@ function Register(){
 
   const nextStep = () => setStep(2);
 
-  const submit = async () => {
-    console.log('Enviar al backend:', formData);
-    // Aquí llamarías a tu API
-  }
-
   return(
     <div className="min-h-screen flex flex-col">
         <div className="justify-items-start">
@@ -41,7 +36,7 @@ function Register(){
         </div>
         <div className="flex flex-1 items-center justify-center overflow-auto">
         {step === 1 && <RegisterStep1 formData={formData} setFormData={setFormData} nextStep={nextStep} />}
-        {step === 2 && <RegisterStep2 formData={formData} setFormData={setFormData} submit={submit} />}
+        {step === 2 && <RegisterStep2 formData={formData} setFormData={setFormData} />}
         </div>
     </div>
   );
