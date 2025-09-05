@@ -18,7 +18,7 @@ function SearchBar(){
         console.log("Buscando:", query);
     }
     return (
-        <div id="search_bar" className="sticky top-0 z-10 flex w-full p-4">
+        <div id="search_bar" className="bg-[color:var(--primary)] sticky top-0 z-10 flex w-full p-4">
             <img    id="glass_icon"
                     onClick={search}
                     className="me-2 hover:cursor-pointer hover:drop-shadow-xl"

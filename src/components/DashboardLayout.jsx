@@ -1,10 +1,10 @@
 import { useEffect } from 'react';
+import { Outlet } from 'react-router-dom';
 import '../assets/css/App.css'
 import SearchBar from './SearchBar';
 import Sidebar from './SideBar';
-import DashboardHome from './DashboardHome';
 
-function Dashboard() {
+function DashboardLayout() {
   const storedUser = JSON.parse(localStorage.getItem("user"));
 
   useEffect(() => {
@@ -24,11 +24,11 @@ function Dashboard() {
       <div className="flex flex-col flex-1">
         <SearchBar />
         <div className="flex-1 overflow-auto">
-          <DashboardHome userData={storedUser} />
+          <Outlet />
         </div>
       </div>
     </div>
   );
 }
 
-export default Dashboard;
+export default DashboardLayout;

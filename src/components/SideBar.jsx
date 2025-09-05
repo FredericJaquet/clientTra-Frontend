@@ -1,10 +1,10 @@
 import React from "react";
-import { useState } from "react";
-import { useEffect } from "react";
 import logoBlue from "../assets/img/logo_blue_transparent500x150.png";
 import logoRed from "../assets/img/logo_red_transparent500x150.png";
 import { Link } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
+import { useContext } from "react";
+import { ThemeContext } from "../contexts/ThemeContext";
 
 function Sidebar() {
 
@@ -13,28 +13,21 @@ function Sidebar() {
 
     const { t } = useTranslation();
     
-    const [theme, setTheme] = useState("red");
-
-    useEffect(() => {
-        const currentTheme = document.documentElement.getAttribute("data-theme");
-        if (currentTheme) {
-            setTheme(currentTheme);
-        }
-    }, []);
+    const { theme, darkMode, setTheme, toggleDarkMode } = useContext(ThemeContext);
 
     const logo = theme === "red" ? logoRed : logoBlue;
 
     const handleLogout = () => {
         localStorage.removeItem("token");
         localStorage.removeItem("user");
-        document.documentElement.setAttribute("data-theme", "blue");
-        document.documentElement.classList.remove("dark");
+        setTheme("blue");
+        if (darkMode) toggleDarkMode();
     };
 
     return (
         <div
             id="sidebar"
-            className="w-56 h-screen bg-[color:var(--primary)] p-3 rounded-r-3xl shadow-[8px_0_25px_rgba(0,0,0,0.35)] overflow-y-auto "
+            className="w-56 h-screen bg-[color:var(--primary)] p-3 rounded-ee-3xl shadow-[8px_0_25px_rgba(0,0,0,0.35)] overflow-y-auto "
         >
             <img
                 className="flex-none mb-4 rounded-md w-auto"
@@ -49,48 +42,49 @@ function Sidebar() {
                 <h6 className="text-lg font-semibold text-[color:var(--text-light)] mt-3">{t('dashboard.menu')}</h6>
                 <ul className="flex flex-col gap-1">
                     <li><Link to="/" onClick={handleLogout} className="text-[color:var(--text-light)] hover:text-[color:var(--text-light-hover)] pl-3 py-1 block">{t('dashboard.logout')}</Link></li>
-                    <li><Link to="/dashboard" className="text-[color:var(--text-light)] hover:text-[color:var(--text-light-hover)] pl-3 py-1 block" href="#">{t('dashboard.dashboard')}</Link></li>
-                    <li><a className="text-[color:var(--text-light)] hover:text-[color:var(--text-light-hover)] pl-3 py-1 block" href="#">{t('dashboard.my_account')}</a></li>
+                    <li><Link to="/dashboard" className="text-[color:var(--text-light)] hover:text-[color:var(--text-light-hover)] pl-3 py-1 block">{t('dashboard.dashboard')}</Link></li>
+                    <li><Link to="/dashboard/my-account" className="text-[color:var(--text-light)] hover:text-[color:var(--text-light-hover)] pl-3 py-1 block">{t('dashboard.my_account')}</Link></li>
                 </ul>
 
                 <h6 className="text-lg font-semibold text-[color:var(--text-light)] mt-4">{t('dashboard.companies')}</h6>
                 <ul className="flex flex-col gap-1">
-                    {role === "ROLE_ADMIN" && (<li><a className="text-[color:var(--text-light)] hover:text-[color:var(--text-light-hover)] pl-3 py-1 block" href="#">{t('dashboard.users')}</a></li>)}
-                    <li><a className="text-[color:var(--text-light)] hover:text-[color:var(--text-light-hover)] pl-3 py-1 block" href="#">{t('dashboard.my_company')}</a></li>
-                    <li><a className="text-[color:var(--text-light)] hover:text-[color:var(--text-light-hover)] pl-3 py-1 block" href="#">{t('dashboard.customers')}</a></li>
-                    <li><a className="text-[color:var(--text-light)] hover:text-[color:var(--text-light-hover)] pl-3 py-1 block" href="#">{t('dashboard.providers')}</a></li>
+                    {role === "ROLE_ADMIN" && (
+                        <li><Link to="/dashboard/users" className="text-[color:var(--text-light)] hover:text-[color:var(--text-light-hover)] pl-3 py-1 block">{t('dashboard.users')}</Link></li>)}
+                        <li><Link to="/dashboard/my-company" className="text-[color:var(--text-light)] hover:text-[color:var(--text-light-hover)] pl-3 py-1 block">{t('dashboard.my_company')}</Link></li>
+                        <li><Link to="/dashboard/customers" className="text-[color:var(--text-light)] hover:text-[color:var(--text-light-hover)] pl-3 py-1 block">{t('dashboard.customers')}</Link></li>
+                        <li><Link to="/dashboard/providers" className="text-[color:var(--text-light)] hover:text-[color:var(--text-light-hover)] pl-3 py-1 block">{t('dashboard.providers')}</Link></li>
                 </ul>
 
                 <h6 className="text-lg mt-4 font-semibold text-[color:var(--text-light)]">{t('dashboard.create')}</h6>
                 <ul className="flex flex-col gap-1">
-                    <li><a className="text-[color:var(--text-light)] hover:text-[color:var(--text-light-hover)] hover:underline pl-3 py-1 block " href="#">{t('dashboard.orders')}</a></li>
-                    <li><a className="text-[color:var(--text-light)] hover:text-[color:var(--text-light-hover)] hover:underline pl-3 py-1 block " href="#">{t('dashboard.customer_invoices')}</a></li>
-                    <li><a className="text-[color:var(--text-light)] hover:text-[color:var(--text-light-hover)] hover:underline pl-3 py-1 block " href="#">{t('dashboard.provider_invoices')}</a></li>
-                    <li><a className="text-[color:var(--text-light)] hover:text-[color:var(--text-light-hover)] hover:underline pl-3 py-1 block " href="#">{t('dashboard.quotes')}</a></li>
-                    <li><a className="text-[color:var(--text-light)] hover:text-[color:var(--text-light-hover)] hover:underline pl-3 py-1 block " href="#">{t('dashboard.pos')}</a></li>
+                    <li><Link to="/dashboard/orders/create" className="text-[color:var(--text-light)] hover:text-[color:var(--text-light-hover)] hover:underline pl-3 py-1 block">{t('dashboard.orders')}</Link></li>
+                    <li><Link to="/dashboard/customer-invoice/create" className="text-[color:var(--text-light)] hover:text-[color:var(--text-light-hover)] hover:underline pl-3 py-1 block ">{t('dashboard.customer_invoices')}</Link></li>
+                    <li><Link to="/dashboard/provider-invoice/create" className="text-[color:var(--text-light)] hover:text-[color:var(--text-light-hover)] hover:underline pl-3 py-1 block ">{t('dashboard.provider_invoices')}</Link></li>
+                    <li><Link to="/dashboard/quote/create" className="text-[color:var(--text-light)] hover:text-[color:var(--text-light-hover)] hover:underline pl-3 py-1 block ">{t('dashboard.quotes')}</Link></li>
+                    <li><Link to="/dashboard/po/create" className="text-[color:var(--text-light)] hover:text-[color:var(--text-light-hover)] hover:underline pl-3 py-1 block ">{t('dashboard.pos')}</Link></li>
                 </ul>
 
                 <h6 className="text-lg mt-4 font-semibold text-[color:var(--text-light)]">{t('dashboard.documents')}</h6>
                 <ul className="flex flex-col gap-1">
-                    <li><a className="text-[color:var(--text-light)] hover:text-[color:var(--text-light-hover)] hover:underline pl-3 py-1 block " href="#">{t('dashboard.orders')}</a></li>
-                    <li><a className="text-[color:var(--text-light)] hover:text-[color:var(--text-light-hover)] hover:underline pl-3 py-1 block " href="#">{t('dashboard.customer_invoices')}</a></li>
-                    <li><a className="text-[color:var(--text-light)] hover:text-[color:var(--text-light-hover)] hover:underline pl-3 py-1 block " href="#">{t('dashboard.provider_invoices')}</a></li>
-                    <li><a className="text-[color:var(--text-light)] hover:text-[color:var(--text-light-hover)] hover:underline pl-3 py-1 block " href="#">{t('dashboard.quotes')}</a></li>
-                    <li><a className="text-[color:var(--text-light)] hover:text-[color:var(--text-light-hover)] hover:underline pl-3 py-1 block " href="#">{t('dashboard.pos')}</a></li>
+                    <li><Link to="/dashboard/orders/list" className="text-[color:var(--text-light)] hover:text-[color:var(--text-light-hover)] hover:underline pl-3 py-1 block ">{t('dashboard.orders')}</Link></li>
+                    <li><Link to="/dashboard/customer-invoice/list" className="text-[color:var(--text-light)] hover:text-[color:var(--text-light-hover)] hover:underline pl-3 py-1 block ">{t('dashboard.customer_invoices')}</Link></li>
+                    <li><Link to="/dashboard/provider-invoice/list" className="text-[color:var(--text-light)] hover:text-[color:var(--text-light-hover)] hover:underline pl-3 py-1 block ">{t('dashboard.provider_invoices')}</Link></li>
+                    <li><Link to="/dashboard/quote/list" className="text-[color:var(--text-light)] hover:text-[color:var(--text-light-hover)] hover:underline pl-3 py-1 block ">{t('dashboard.quotes')}</Link></li>
+                    <li><Link to="/dashboard/po/list" className="text-[color:var(--text-light)] hover:text-[color:var(--text-light-hover)] hover:underline pl-3 py-1 block ">{t('dashboard.pos')}</Link></li>
                 </ul>
 
                 <h6 className="text-lg mt-4 font-semibold text-[color:var(--text-light)]">{t('dashboard.reports')}</h6>
                 <ul className="flex flex-col gap-1">
-                    <li><a className="text-[color:var(--text-light)] hover:text-[color:var(--text-light-hover)] hover:underline pl-3 py-1 block " href="#">{t('dashboard.incomes')}</a></li>
-                    <li><a className="text-[color:var(--text-light)] hover:text-[color:var(--text-light-hover)] hover:underline pl-3 py-1 block " href="#">{t('dashboard.outcomes')}</a></li>
-                    <li><a className="text-[color:var(--text-light)] hover:text-[color:var(--text-light-hover)] hover:underline pl-3 py-1 block " href="#">{t('dashboard.cashing')}</a></li>
-                    <li><a className="text-[color:var(--text-light)] hover:text-[color:var(--text-light-hover)] hover:underline pl-3 py-1 block " href="#">{t('dashboard.payment')}</a></li>
+                    <li><Link to="/dashboard/report/incomes" className="text-[color:var(--text-light)] hover:text-[color:var(--text-light-hover)] hover:underline pl-3 py-1 block ">{t('dashboard.incomes')}</Link></li>
+                    <li><Link to="/dashboard/report/outcomes" className="text-[color:var(--text-light)] hover:text-[color:var(--text-light-hover)] hover:underline pl-3 py-1 block ">{t('dashboard.outcomes')}</Link></li>
+                    <li><Link to="/dashboard/report/cashing" className="text-[color:var(--text-light)] hover:text-[color:var(--text-light-hover)] hover:underline pl-3 py-1 block ">{t('dashboard.cashing')}</Link></li>
+                    <li><Link to="/dashboard/report/payment" className="text-[color:var(--text-light)] hover:text-[color:var(--text-light-hover)] hover:underline pl-3 py-1 block ">{t('dashboard.payment')}</Link></li>
                 </ul>
 
                 <h6 className="text-lg mt-4 font-semibold text-[color:var(--text-light)]">{t('dashboard.graphics')}</h6>
                 <ul className="flex flex-col gap-1">
-                    <li><a className="text-[color:var(--text-light)] hover:text-[color:var(--text-light-hover)] hover:underline pl-3 py-1 block " href="#">{t('dashboard.incomes')}</a></li>
-                    <li><a className="text-[color:var(--text-light)] hover:text-[color:var(--text-light-hover)] hover:underline pl-3 py-1 block " href="#">{t('dashboard.outcomes')}</a></li>
+                    <li><Link to="/dashboard/graph/incomes" className="text-[color:var(--text-light)] hover:text-[color:var(--text-light-hover)] hover:underline pl-3 py-1 block ">{t('dashboard.incomes')}</Link></li>
+                    <li><Link to="/dashboard/graph/outcomes" className="text-[color:var(--text-light)] hover:text-[color:var(--text-light-hover)] hover:underline pl-3 py-1 block ">{t('dashboard.outcomes')}</Link></li>
                 </ul>
             </div>
         </div>
