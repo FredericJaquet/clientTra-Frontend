@@ -55,6 +55,7 @@
   --primary: #2563eb;
   --primary-hover: #1d4ed8;
   --secondary: #e0f2fe;
+  --secondary-light-hover:#bae6fd;
   --border: #e5e7eb;
   --success: #10b981;
   --error: #ef4444;
@@ -64,13 +65,14 @@
 
 /* ===== Paleta Azul Dark ===== */
 :root[data-theme="blue"].dark {
-  --background: #1f1b1d;
+  --background: #1e1e26;
   --text: #f8fafc;
   --text-light:#e0f2fe;
   --text-light-hover:#bae6fd;
-  --primary: #1e3a8a;
+  --primary: #2b2d30;
   --primary-hover: #1d4ed8;
   --secondary: #1e3a8a;
+  --secondary-light-hover:#bae6fd;
   --border: #4b5563;
   --success: #10b981;
   --error: #ef4444;
@@ -87,6 +89,7 @@
   --primary: #ef4444;
   --primary-hover: #b91c1c;
   --secondary: #fff2f1;
+  --secondary-light-hover:#ffcdd2;
   --border: #e5e7eb;
   --success: #059669;
   --error: #ef4444;
@@ -96,13 +99,14 @@
 
 /* ===== Paleta Roja Dark ===== */
 :root[data-theme="red"].dark {
-  --background: #1f1b1d;
+  --background: #1e1e26;
   --text: #f8fafc;
   --text-light:#fff2f1;
   --text-light-hover:#ffcdd2;
-  --primary: #7f1d1d;
+  --primary: #2b2d30;
   --primary-hover: #ef4444;
   --secondary: #7f1d1d;
+  --secondary-light-hover:#ffcdd2;
   --border: #4b5563;
   --success: #059669;
   --error: #ef4444;

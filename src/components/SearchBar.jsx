@@ -21,7 +21,7 @@ function SearchBar(){
         <div id="search_bar" className="bg-[color:var(--primary)] sticky top-0 z-10 flex w-full p-4">
             <img    id="glass_icon"
                     onClick={search}
-                    className="me-2 hover:cursor-pointer hover:drop-shadow-xl"
+                    className="me-2 h-10 hover:cursor-pointer hover:drop-shadow-xl"
                     src={glass}
                     alt="Buscar"/>
 

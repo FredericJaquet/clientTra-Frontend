@@ -1,10 +1,9 @@
-import { createContext, useState, useEffect } from "react";
-
-export const ThemeContext = createContext();
+import { useState, useEffect } from "react";
+import { ThemeContext } from "./ThemeContext";
 
 export function ThemeProvider({ children }) {
   const [theme, setTheme] = useState("blue");
-  const [darkMode, setDarkMode] = useState(false);
+  const [darkMode, setDarkMode] = useState("light");
 
   useEffect(() => {
     const storedUser = JSON.parse(localStorage.getItem("user"));
@@ -16,7 +15,7 @@ export function ThemeProvider({ children }) {
 
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme);
-    if (darkMode==="dark") {
+    if (darkMode === "dark") {
       document.documentElement.classList.add("dark");
     } else {
       document.documentElement.classList.remove("dark");

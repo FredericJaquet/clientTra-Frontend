@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next';
 
 function LoginForm() {
 
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
 
     const storedUser = JSON.parse(localStorage.getItem("user"));
   
@@ -47,12 +47,11 @@ function LoginForm() {
 
       localStorage.setItem("token", token);
       localStorage.setItem("user", JSON.stringify(user));
+      i18n.changeLanguage(user.preferredLanguage).then(() => {
+        setError("");
+        navigate("/dashboard");
+      });
 
-      console.log("token:", token);
-      console.log("user:", user);
-
-      setError("");
-      navigate("/dashboard");
     } catch (err) {
       console.error(err);
       setError(t('error.incorrect_credentials'));

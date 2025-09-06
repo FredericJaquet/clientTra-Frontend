@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
 import { useContext } from "react";
 import { ThemeContext } from "../contexts/ThemeContext";
+import SelectLanguage from "../contexts/LanguageContext";
 
 function Sidebar() {
 
@@ -22,6 +23,7 @@ function Sidebar() {
         localStorage.removeItem("user");
         setTheme("blue");
         if (darkMode) toggleDarkMode();
+        SelectLanguage();
     };
 
     return (

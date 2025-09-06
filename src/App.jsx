@@ -1,7 +1,8 @@
-import { useEffect, lazy, Suspense } from 'react';
+import { lazy, Suspense } from 'react';
 import './assets/css/App.css';
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import { ThemeProvider } from './contexts/ThemeContext';
+import { ThemeProvider } from "./contexts/ThemeProvider";
+import SelectLanguage from './contexts/LanguageContext';
 
 const Login = lazy(() => import('./components/Login'));
 const Register = lazy(() => import('./components/Register'));
@@ -36,23 +37,11 @@ function PrivateRoute({ children }) {
   return isAuthenticated() ? children : <Navigate to="/" replace />;
 }
 
-function App() {
 
-  useEffect(() => {
-    const storedUser = localStorage.getItem("user");
-    if (storedUser) {
-      const user = JSON.parse(storedUser);
-      document.documentElement.setAttribute("data-theme", user.preferredTheme || "blue");
-      if (user.darkMode === "dark") {
-        document.documentElement.classList.add("dark");
-      } else {
-        document.documentElement.classList.remove("dark");
-      }
-    } else {
-      document.documentElement.setAttribute("data-theme", "blue");
-      document.documentElement.classList.remove("dark");
-    }
-  }, []);
+
+function App() {
+  
+  SelectLanguage();
 
   return (
     <ThemeProvider>
