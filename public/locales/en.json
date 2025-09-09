@@ -1,4 +1,12 @@
 {
+    "button": {
+        "save": "Save",
+        "cancel": "Cancel",
+        "back": "Back",
+        "edit": "Edit",
+        "blue": "Blue",
+        "red": "Red"
+    },
     "dashboard": {
         "menu": "Menu",
         "logout": "Logout",
@@ -33,12 +41,18 @@
         "pending_quotes": "Pending Quotes",
         "month": "Month",
         "total": "Total",
-        "loading": "Loading..."
+        "loading": "Loading...",
+        "no_results": "No results..."
     },
     "error": {
         "all_fields_required": "All fields are required",
         "incorrect_credentials": "Incorrect username and/or password",
-        "incorrect_repeated_password": "Passwords do not match"
+        "user_disabled": "This user has been disabled",
+        "auth_failed": "Authentication failed",
+        "incorrect_repeated_password": "Passwords do not match",
+        "saving_user": "Error saving the user",
+        "email_invalid": "Invalid email",
+        "url_invalid": "Invalid Web"
     },
     "login": {
         "title": "Login",
@@ -51,7 +65,7 @@
     "navbar": {
         "login": "Login",
         "project": "Project",
-        "how_to": "How it works",
+        "dashboard": "Dashboard",
         "register": "Register"
     },
     "register": {
@@ -75,5 +89,26 @@
         "city": "City",
         "State": "State/Province",
         "country": "Country"
+    },
+        "users": {
+        "admin": "Administrator",
+        "accounting": "Finance",
+        "user": "User",
+        "users": "Users",
+        "add": "Add",
+        "enabled": "Enabled",
+        "disabled": "Disabled",
+        "no_users": "There are no users in this category",
+        "name": "Name",
+        "role": "Role",
+        "email": "Email",
+        "plan": "Plan",
+        "status": "Status",
+        "password": "Password",
+        "add_user": "Add User",
+        "theme": "Theme",
+        "darkmode": "Dark Mode",
+        "lanuage": "Language"
     }
+
 }

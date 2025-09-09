@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useNavigate  } from "react-router-dom";
 import api from "../api/axios";
 import { useTranslation } from 'react-i18next';
+import { emailValidator } from "../utils/validator";
 
 function RegisterStep1({ formData, setFormData, nextStep }) {
 
@@ -20,6 +21,7 @@ function RegisterStep1({ formData, setFormData, nextStep }) {
 
   const handleChange = (e) => {
     setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
+    console.log(formData);
   }
 
   const handleActualRegister = (e) => {
@@ -32,11 +34,15 @@ function RegisterStep1({ formData, setFormData, nextStep }) {
       setError(t('error.incorrect_repeated_password'));
       return;
     }
+    if(!emailValidator(formData.emailAdmin)){
+      setError(t('error.email_invalid'));
+      return;
+    }
     setError('');
     nextStep();
   };
 
-  const submitDemoRegister = async (e) => {
+  const handleDemoRegister = async (e) => {
     e.preventDefault();
     if (!formData.username || !formData.emailAdmin || !formData.password || !formData.repeatedPassword) {
       setError(t('error.all_fields_required'));
@@ -46,7 +52,7 @@ function RegisterStep1({ formData, setFormData, nextStep }) {
       setError(t('error.incorrect_repeated_password'));
       return;
     }
-    e.preventDefault();
+
     try {
       await api.post("/registration/demo-data", {
         username: formData.username,
@@ -120,7 +126,7 @@ function RegisterStep1({ formData, setFormData, nextStep }) {
 
             <div className="flex justify-center gap-4 mt-4">
               <button
-                onClick={submitDemoRegister}
+                onClick={handleDemoRegister}
                 className="bg-[color:var(--primary)] text-white drop-shadow-2xl rounded-lg px-6 py-2 hover:bg-[color:var(--primary-hover)] transition"
               >
                 {t('register.submit_demo')}
@@ -132,7 +138,6 @@ function RegisterStep1({ formData, setFormData, nextStep }) {
                 {t('register.submit_actual')}
               </button>
             </div>
-
           </form>
         </div>
       </div>

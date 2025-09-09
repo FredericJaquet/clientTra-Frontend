@@ -3,13 +3,24 @@ import '../assets/css/App.css';
 import Navbar from "./Navbar";
 import RegisterStep1 from './RegisterStep1';
 import RegisterStep2 from './RegisterStep2';
+import { useTranslation } from 'react-i18next';
+
+
+
 
 function Register(){
-    const [step, setStep] = useState(1);
-    const [formData, setFormData] = useState({
+
+  const {i18n } = useTranslation();
+
+  const [step, setStep] = useState(1);
+  const [formData, setFormData] = useState({
     username: '',
     emailAdmin: '',
     password: '',
+    preferredLanguage: i18n.language,
+    preferredTheme: 'blue',
+    darkMode: false,
+
     repeatedPassword:'',
     legalName: '',
     comName: '',
@@ -18,7 +29,7 @@ function Register(){
     web:'',
     Address: {
         street:'',
-        StNumber:'',
+        stNumber:'',
         apt:'',
         cp:'',
         city:'',

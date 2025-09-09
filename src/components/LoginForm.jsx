@@ -1,26 +1,36 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import api from "../api/axios";
+import axios from "../api/axios";
 import { useTranslation } from 'react-i18next';
+import { ThemeContext } from "../contexts/ThemeContext"; 
 
 
 function LoginForm() {
 
     const { t, i18n } = useTranslation();
+    const { setTheme, setDarkMode } = useContext(ThemeContext);
 
-    const storedUser = JSON.parse(localStorage.getItem("user"));
+    const errors = {
+      "Invalid username or password": t('error.incorrect_credentials'),
+      "User disabled": t('error.user_disabled'),
+      "Authentication failed": t('error.auth_failed')
+    }
+
+    /*const storedUser = JSON.parse(localStorage.getItem("user"));
   
     useEffect(() => {
       if (storedUser) {
-        document.documentElement.setAttribute("data-theme", storedUser.preferredTheme);
+        setTheme(storedUser.preferredTheme);
+        setDarkMode(storedUser.darkMode);
+        /*document.documentElement.setAttribute("data-theme", storedUser.preferredTheme);
         if (storedUser.preferredMode=="dark") {
           document.documentElement.classList.add("dark");
         } else {
           document.documentElement.classList.remove("dark");
         }
       }
-    }, [storedUser]);
+    }, [storedUser]);*/
 
   const [error, setError] = useState('');
 
@@ -40,21 +50,27 @@ function LoginForm() {
     }
 
     try {
-      const response = await api.post("/auth/login", formData);
+      const response = await axios.post("/auth/login", formData);
 
       const token = response.data.token;
       const { token: _, ...user } = response.data;
 
       localStorage.setItem("token", token);
       localStorage.setItem("user", JSON.stringify(user));
+      setTheme(user.preferredTheme);
+      setDarkMode(user.preferredMode);
       i18n.changeLanguage(user.preferredLanguage).then(() => {
         setError("");
         navigate("/dashboard");
       });
 
+      console.log(localStorage.user);
+
     } catch (err) {
-      console.error(err);
-      setError(t('error.incorrect_credentials'));
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+      const backendError = err?.response?.data?.error;
+      setError(errors[backendError] ?? t('error.auth_failed'));
     }
   };
   

@@ -4,12 +4,12 @@ const api = axios.create({
   baseURL: "http://localhost:8080/api",
 });
 
-// Interceptor para añadir token en cada request
+// Interceptor to add token to each request
 api.interceptors.request.use((config) => {
   // Endpoints que deben quedar libres de token
   const publicEndpoints = ["/auth/login", "/registration"];
 
-  // Verifica si la URL actual empieza por alguno de los endpoints públicos
+  // Endpoints that must remain token-free
   const isPublic = publicEndpoints.some((url) => config.url.startsWith(url));
 
   if (!isPublic) {
@@ -21,5 +21,20 @@ api.interceptors.request.use((config) => {
 
   return config;
 });
+
+export const setupResponseInterceptor = (navigate) => {
+  api.interceptors.response.use(
+    (response) => response,
+    (error) => {
+      if (error.response?.status === 401) {
+        // Token invalid or expired
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+        navigate("/");
+      }
+      return Promise.reject(error);
+    }
+  );
+};
 
 export default api;

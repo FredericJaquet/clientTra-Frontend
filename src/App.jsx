@@ -1,8 +1,8 @@
-import { lazy, Suspense } from 'react';
-import './assets/css/App.css';
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { lazy, Suspense, useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import { ThemeProvider } from "./contexts/ThemeProvider";
 import SelectLanguage from './contexts/LanguageContext';
+import { setupResponseInterceptor } from "./api/axios";
 
 const Login = lazy(() => import('./components/Login'));
 const Register = lazy(() => import('./components/Register'));
@@ -30,62 +30,72 @@ const PaymentReport = lazy(() => import('./components/PaymentReport'));
 const IncomesGraph = lazy(() => import('./components/IncomesGraph'));
 const OutcomesGraph = lazy(() => import('./components/OutcomesGraph'));
 
+// Check for token for private routes
 const isAuthenticated = () => localStorage.getItem("token") !== null;
 
-// Wrapper de ruta privada
+// Private Route Wrapper
 function PrivateRoute({ children }) {
   return isAuthenticated() ? children : <Navigate to="/" replace />;
 }
 
+// Component that configures the interceptor within the router
+function AppWrapper() {
+  const navigate = useNavigate();
 
+  useEffect(() => {
+    setupResponseInterceptor(navigate); // Redirect to login if 401
+  }, [navigate]);
 
-function App() {
-  
   SelectLanguage();
 
   return (
     <ThemeProvider>
-      <Router>
-        <Suspense fallback={<div className="text-center mt-10">Cargando...</div>}>
-          <Routes>
-            <Route path="/" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route 
-              path="/dashboard" 
-              element={
-                <PrivateRoute>
-                  <DashboardLayout />
-                </PrivateRoute>
-              }
-            >
-              <Route index element={<DashboardHome />} />
-              <Route path="my-account" element={<MyAccount />} />
-              <Route path="users" element={<Users />} />
-              <Route path="my-company" element={<MyCompany />} />
-              <Route path="customers" element={<Customers />} />
-              <Route path="providers" element={<Providers />} />
-              <Route path="orders/create" element={<OrderForm />} />
-              <Route path="customer-invoice/create" element={<CustomerInvoiceForm />} />
-              <Route path="provider-invoice/create" element={<ProviderInvoiceForm />} />
-              <Route path="quote/create" element={<QuoteForm />} />
-              <Route path="po/create" element={<PoForm />} />
-              <Route path="orders/list" element={<OrdersList />} />
-              <Route path="customer-invoice/list" element={<CustomerInvoicesList />} />
-              <Route path="provider-invoice/list" element={<ProviderInvoicesList />} />
-              <Route path="quote/list" element={<QuotesList />} />
-              <Route path="po/list" element={<PosList />} />
-              <Route path="report/incomes" element={<IncomesReport />} />
-              <Route path="report/outcomes" element={<OutcomesReport />} />
-              <Route path="report/cashing" element={<CashingReport />} />
-              <Route path="report/payment" element={<PaymentReport />} />
-              <Route path="graph/incomes" element={<IncomesGraph />} />
-              <Route path="graph/outcomes" element={<OutcomesGraph />} />
-            </Route>
-          </Routes>
-        </Suspense>
-      </Router>
+      <Suspense fallback={<div className="text-center mt-10">Cargando...</div>}>
+        <Routes>
+          <Route path="/" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route
+            path="/dashboard"
+            element={
+              <PrivateRoute>
+                <DashboardLayout />
+              </PrivateRoute>
+            }
+          >
+            <Route index element={<DashboardHome />} />
+            <Route path="my-account" element={<MyAccount />} />
+            <Route path="users" element={<Users />} />
+            <Route path="my-company" element={<MyCompany />} />
+            <Route path="customers" element={<Customers />} />
+            <Route path="providers" element={<Providers />} />
+            <Route path="orders/create" element={<OrderForm />} />
+            <Route path="customer-invoice/create" element={<CustomerInvoiceForm />} />
+            <Route path="provider-invoice/create" element={<ProviderInvoiceForm />} />
+            <Route path="quote/create" element={<QuoteForm />} />
+            <Route path="po/create" element={<PoForm />} />
+            <Route path="orders/list" element={<OrdersList />} />
+            <Route path="customer-invoice/list" element={<CustomerInvoicesList />} />
+            <Route path="provider-invoice/list" element={<ProviderInvoicesList />} />
+            <Route path="quote/list" element={<QuotesList />} />
+            <Route path="po/list" element={<PosList />} />
+            <Route path="report/incomes" element={<IncomesReport />} />
+            <Route path="report/outcomes" element={<OutcomesReport />} />
+            <Route path="report/cashing" element={<CashingReport />} />
+            <Route path="report/payment" element={<PaymentReport />} />
+            <Route path="graph/incomes" element={<IncomesGraph />} />
+            <Route path="graph/outcomes" element={<OutcomesGraph />} />
+          </Route>
+        </Routes>
+      </Suspense>
     </ThemeProvider>
   );
 }
 
-export default App;
+// Final Export with Router
+export default function App() {
+  return (
+    <Router>
+      <AppWrapper />
+    </Router>
+  );
+}

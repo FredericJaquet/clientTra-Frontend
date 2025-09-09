@@ -1,39 +1,181 @@
-import { useContext } from "react";
+import api from "../api/axios";
+import { useContext, useState, useEffect } from "react";
 import { ThemeContext } from "../contexts/ThemeContext";
+import { useTranslation } from 'react-i18next';
+import { emailValidator } from "../utils/validator";
 
 function MyAccount() {
+
+  const { t, i18n } = useTranslation();
   const { theme, setTheme, darkMode, setDarkMode } = useContext(ThemeContext);
 
-  const handleThemeChange = (e) => setTheme(e.target.value);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editData, setEditData] = useState({ username:"", email: "" });
+  const [user, setUser]=useState({});
+  const [error, setError]=useState("");
 
-  const toggleDarkMode = () => setDarkMode(prev => (prev === "dark" ? "light" : "dark"));
+  useEffect(() => {
+    api.get("/users/me")
+      .then((response) => {
+        setUser(response.data);
+        setEditData({
+          username: response.data.userName,
+          email: response.data.email,
+          preferredLanguage: response.data.preferredLanguage,
+          preferredTheme: response.data.preferredTheme,
+          darkMode: response.data.darkMode
+        });
+      })
+      .catch((err) => console.error("Error fetching user:", err));
+  }, []);
+
+  const handleSaveEmail = async () => {
+    if(!emailValidator(editData.email)){
+      setError(t('error.email_invalid'));
+      return;
+    }
+    try {
+      const response = await api.patch("users/me", editData);
+      setUser(response.data);
+      setIsEditing(false);
+      setError("");
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  const handleThemeChange = async (e) => {
+    const newTheme = e.target.value;
+    setTheme(newTheme);
+    setEditData(prev => ({...prev, preferredTheme: newTheme}));
+    try {
+      const response = await api.patch("users/me", { ...editData, preferredTheme: newTheme });
+      console.log(response);
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  const handleLanChange = async (e) => {
+    const newLang=e.target.value;
+    i18n.changeLanguage(newLang);
+    setEditData(prev => ({...prev, preferredLanguage: newLang}));
+    console.log(editData);
+    try {
+      const response = await api.patch("users/me", {...editData,preferredLanguage: newLang});
+      console.log(response);
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  const toggleDarkMode = async () => {
+    const newMode = darkMode === "dark" ? "light" : "dark";
+    setDarkMode(newMode);
+    const isDarkMode = newMode === "dark";
+    setEditData(prev => ({ ...prev, darkMode: isDarkMode }));
+    try {
+      const response = await api.patch("users/me", { ...editData, darkMode: isDarkMode });
+      console.log(response);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  //Edit
+  const handleEdit = () => {
+    if (user) {
+      setIsEditing(!isEditing);
+    }
+  };
 
   return (
-    <div className="p-5">
-      <h2>Mi Cuenta</h2>
-
-      <div className="mb-4">
-        <label className="mr-2">Theme:</label>
-        <select className="text-black" value={theme} onChange={handleThemeChange}>
-          <option value="blue">Blue</option>
-          <option value="red">Red</option>
-        </select>
-      </div>
-
-      <div className="flex items-center gap-3">
-        <span>Modo oscuro</span>
-        <button
-          onClick={toggleDarkMode}
-          className={`relative w-14 h-8 rounded-full transition-colors duration-300 ${
-            darkMode === "dark" ? "bg-gray-800" : "bg-gray-300"
-          }`}
-        >
-          <span
-            className={`absolute top-1 left-1 w-6 h-6 bg-white rounded-full shadow-md transform transition-transform duration-300 ${
-              darkMode === "dark" ? "translate-x-6" : "translate-x-0"
-            }`}
-          ></span>
-        </button>
+    <div className="flex w-full flex-col items-center gap-5 py-10">
+      <div className="rounded-xl shadow-lg w-3/4 p-4 bg-[color:var(--secondary)]">
+        <div className="flex flex-row">
+          <h4 className="text-lg font-semibold mb-2 w-1/2">{t('dashboard.my_account')}</h4>
+        </div>
+        <hr className="border-[color:var(--primary)] mb-2" />
+        <div className="grid grid-cols-[1fr_2fr_1fr_2fr] sd:grid-cols-2 gap-4">
+            <label className="mr-2">{t('users.name')}:</label>
+            <label className="mr-2">{user.userName}</label>
+            <label className="mr-2">{t('users.theme')}:</label>
+            <select className="h-8 w-1/2 ml-4 bg-[color:var(--background)] border rounded-full px-2 justify-start" value={theme} onChange={handleThemeChange}>
+              <option value="blue">{t('button.blue')}</option>
+              <option value="red">{t('button.red')}</option>
+            </select>
+            <label className="mr-2">{t('users.email')}:</label>
+            {!isEditing ? 
+            <label className="mr-2">{user.email}</label>
+            :
+            <input
+              type="text"
+              value={editData.email}
+              onChange={(e) => setEditData(prev => ({ ...prev, email: e.target.value }))}
+              className="bg-[color:var(--background)] p-2 mr-2 h-8 rounded-lg border"
+            />
+            }
+            <label className="mr-2">{t('users.darkmode')}:</label>
+            <button
+              onClick={toggleDarkMode}
+              className={`relative w-14 h-8 rounded-full transition-colors duration-300 ${
+                darkMode === "dark" ? "bg-gray-800" : "bg-gray-300"
+              }`}
+            >
+              <span
+                className={`absolute top-1 left-1 w-6 h-6 bg-white rounded-full shadow-md transform transition-transform duration-300 ${
+                  darkMode === "dark" ? "translate-x-6" : "translate-x-0"
+                }`}
+              ></span>
+            </button>
+            <label className="mr-2">{t('users.role')}:</label>
+            <label className="mr-2">{user.roleName === "ROLE_ADMIN"
+                            ? t('users.admin')
+                            : user.roleName === "ROLE_ACCOUNTING"
+                            ? t('users.accounting')
+                            : user.roleName === "ROLE_USER"
+                            ? t('users.user')
+                            : user.roleName}</label>
+            <label className="mr-2">{t('users.language')}:</label>
+            <select className=" h-8 w-1/2 ml-4 bg-[color:var(--background)] border rounded-full px-2"
+                    value={i18n.language}
+                    onChange={handleLanChange}>
+              <option value="es">Español</option>
+              <option value="fr">Français</option>
+              <option value="en">English</option>
+            </select>
+            <label className="mr-2">{t('users.plan')}:</label>
+            <label className="mr-2">{user.planName}</label>
+          </div>
+          <div className="flex justify-end">
+           {error && (
+              <div className="text-white text-center rounded-lg px-6 py-2 bg-[color:var(--error)]">
+                {error}
+              </div>
+            )}
+            {!isEditing ?
+              <button
+                onClick={handleEdit}
+                className="mt-4 px-4 py-2 bg-[color:var(--primary)] text-[color:var(--text-light)] rounded-xl hover:bg-[color:var(--primary-hover)]"
+              >
+                {t('button.edit')}
+              </button> :
+              <div className="flex gap-2">
+                <button
+                  onClick={handleSaveEmail}
+                  className="mt-4 px-4 py-2 bg-[color:var(--primary)] text-[color:var(--text-light)] rounded-xl hover:bg-[color:var(--primary-hover)]"
+                >
+                  {t('button.save')}
+                </button>
+                <button
+                  onClick={handleEdit}
+                  className="mt-4 px-4 py-2 bg-[color:var(--primary)] text-[color:var(--text-light)] rounded-xl hover:bg-[color:var(--primary-hover)]"
+                  >
+                    {t('button.cancel')}
+                </button>
+              </div>
+            }
+          </div>
       </div>
     </div>
   );

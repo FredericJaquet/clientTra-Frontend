@@ -1,4 +1,12 @@
 {
+    "button":{
+        "save": "Guardar",
+        "cancel": "Cancelar",
+        "back": "Volver",
+        "edit": "Editar",
+        "blue": "Azul",
+        "red": "Rojo"
+    },
     "dashboard": {
         "menu": "Menú",
         "logout":"Logout",
@@ -33,12 +41,18 @@
         "pending_quotes": "Presupuestos pendientes",
         "month": "Mes",
         "total": "Total",
-        "loading": "Cargando..."
+        "loading": "Cargando...",
+        "no_results": "No hay resultados..."
     },
     "error": {
         "all_fields_required": "Todos los campos son obligatorios",
         "incorrect_credentials": "Usuario y/o contraseña incorrecta",
-        "incorrect_repeated_password": "Las contraseñas no coinciden"
+        "user_disabled": "Este usuario ha sido desactivado",
+        "auth_failed": "Error de autenticación",
+        "incorrect_repeated_password": "Las contraseñas no coinciden",
+        "saving_user": "Error al guadar el usuario",
+        "email_invalid": "Email no válido",
+        "url_invalid": "Dirección web no válida"
     },
     "login": {
         "title": "Iniciar sesión",
@@ -51,7 +65,7 @@
     "navbar": {
         "login": "Login",
         "project": "Proyecto",
-        "how_to": "¿Cómo funciona?",
+        "dashboard": "Dashboard",
         "register": "Registro"
     },
     "register": {
@@ -75,5 +89,25 @@
         "city": "Ciudad",
         "State": "Provincia",
         "country": "País"
+    },
+    "users": {
+        "admin": "Administrador",
+        "accounting": "Finanzas",
+        "user": "Usuario",
+        "users": "Usuarios",
+        "add": "Añadir",
+        "enabled": "Activado",
+        "disabled": "Desactivado",
+        "no_users": "No hay usuarios en esta categoría",
+        "name": "Nombre",
+        "role": "Rol",
+        "email": "Email",
+        "plan": "Plan",
+        "status": "Estado",
+        "password": "Contraseña",
+        "add_user": "Añadir Usuario",
+        "theme": "Tema colores",
+        "darkmode": "Modo Oscuro",
+        "language": "Idioma"
     }
 }

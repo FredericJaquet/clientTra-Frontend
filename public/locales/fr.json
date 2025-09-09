@@ -1,4 +1,12 @@
 {
+    "button": {
+        "save": "Enregistrer",
+        "cancel": "Annuler",
+        "back": "Retour",
+        "edit": "Modifier",
+        "blue": "Bleu",
+        "red": "Rouge"
+    },
     "dashboard": {
         "menu": "Menu",
         "logout": "Se déconnecter",
@@ -33,12 +41,18 @@
         "pending_quotes": "Devis en attente",
         "month": "Mois",
         "total": "Total",
-        "loading": "Chargement..."
+        "loading": "Chargement...",
+        "no_results": "Sans résultats..."
     },
     "error": {
         "all_fields_required": "Tous les champs sont obligatoires",
         "incorrect_credentials": "Nom d'utilisateur et/ou mot de passe incorrect",
-        "incorrect_repeated_password": "Les mots de passe ne correspondent pas"
+        "user_disabled": "Cet utilisateur a été désactivé",
+        "auth_failed": "Échec de l'authentification",
+        "incorrect_repeated_password": "Les mots de passe ne correspondent pas",
+        "saving_user": "Erreur lors de la sauvegarde de l'utilisateur",
+        "email_invalid": "Email non valide",
+        "url_invalid": "Adresse web non valide"
     },
     "login": {
         "title": "Se connecter",
@@ -51,7 +65,7 @@
     "navbar": {
         "login": "Connexion",
         "project": "Projet",
-        "how_to": "Comment ça marche ?",
+        "dashboard": "Dashboard",
         "register": "Inscription"
     },
     "register": {
@@ -75,5 +89,28 @@
         "city": "Ville",
         "State": "Province",
         "country": "Pays"
+    },
+        "users": {
+        "admin": "Administrateur",
+        "accounting": "Finances",
+        "user": "Utilisateur",
+        "users": "Utilisateurs",
+        "add": "Ajouter",
+        "enabled": "Activé",
+        "disabled": "Désactivé",
+        "no_users": "Il n'y a pas d'utilisateurs dans cette catégorie",
+        "name": "Nom",
+        "role": "Rôle",
+        "email": "Email",
+        "plan": "Plan",
+        "status": "Statut",
+        "password": "Mot de passe",
+        "add_user": "Ajouter un utilisateur",
+        "theme": "Thème couleurs",
+        "darkmode": "Mode nuit",
+        "language": "Langue"
     }
+
+
+
 }

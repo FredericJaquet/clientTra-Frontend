@@ -73,7 +73,7 @@ function DashboardHome() {
 
   return (
     <div id="dashboard" className="flex w-full overflow-auto flex-col flex-grow items-center gap-5 p-3">
-      {/* Finanzas */}
+      {/* Balance */}
       {(role === "ROLE_ADMIN" || role === "ROLE_ACCOUNTING") && (
         <Card
           title={t('dashboard.finances')}
@@ -86,54 +86,95 @@ function DashboardHome() {
         />
       )}
 
-      {/* Usuarios */}
+      {/* Users */}
       {role === "ROLE_ADMIN" && (
         <Card
           title={t('dashboard.users')}
           headers={[t('dashboard.name'), t('dashboard.email')]}
-          rows={loading || !users.length ? [[t('dashboard.loading'), ""]] : users.map(u => [u.userName, u.email])}
+          rows={
+            loading
+            ? [[t('dashboard.loading'), ""]]
+            : users.length === 0
+              ? [[t('dashboard.no_results'), ""]]
+              : users.map(u => [u.userName, u.email])
+        }
         />
       )}
 
-      {/* Cobros pendientes */}
+      {/* Cashing */}
       {(role === "ROLE_ADMIN" || role === "ROLE_ACCOUNTING") && (
         <Card
           title={t('dashboard.cashing')}
-          granTotal={loading || !cashingReport ? t('dashboard.loading') : cashingReport.grandTotal.toFixed(2)}
+          granTotal={
+            loading
+              ? t('dashboard.loading')
+              : !cashingReport
+                ? t('dashboard.no_results')
+                : cashingReport.grandTotal.toFixed(2)
+          }
           headers={[t('dashboard.month'), t('dashboard.total')]}
-          rows={loading || !cashingReport?.monthlyReports ? [[t('dashboard.loading'), ""]] :
-            cashingReport.monthlyReports.map(r => [r.deadline.toString(), `${r.monthlyTotal.toFixed(2)}€`])
+          rows={
+            loading
+              ? [[t('dashboard.loading'), ""]]
+              : !cashingReport || !cashingReport.monthlyReports?.length
+                ? [[t('dashboard.no_results'), ""]]
+                : cashingReport.monthlyReports.map(r => [
+                    r.deadline.toString(),
+                    `${r.monthlyTotal.toFixed(2)}€`
+                  ])
           }
         />
       )}
 
-      {/* Pagos pendientes */}
+      {/* Payments */}
       {(role === "ROLE_ADMIN" || role === "ROLE_ACCOUNTING") && (
         <Card
           title={t('dashboard.payment')}
-          granTotal={loading || !paymentReport ? t('dashboard.loading') : paymentReport.grandTotal.toFixed(2)}
+          granTotal={
+            loading
+              ? t('dashboard.loading')
+              : !paymentReport
+                ? t('dashboard.no_results')
+                : paymentReport.grandTotal.toFixed(2)
+          }
           headers={[t('dashboard.month'), t('dashboard.total')]}
-          rows={loading || !paymentReport?.monthlyReports ? [[t('dashboard.loading'), ""]] :
-            paymentReport.monthlyReports.map(r => [r.deadline.toString(), `${r.monthlyTotal.toFixed(2)}€`])
+          rows={
+            loading
+              ? [[t('dashboard.loading'), ""]]
+              : !paymentReport || !paymentReport.monthlyReports?.length
+                ? [[t('dashboard.no_results'), ""]]
+                : paymentReport.monthlyReports.map(r => [
+                    r.deadline.toString(),
+                    `${r.monthlyTotal.toFixed(2)}€`
+                  ])
           }
         />
       )}
 
-      {/* Pedidos pendientes */}
+      {/* Pending Orders */}
       <Card
         title={t('dashboard.pending_orders')}
         headers={[t('dashboard.number'), t('dashboard.date')]}
-        rows={loading || !pendingOrders.length ? [[t('dashboard.loading'), ""]] :
-          pendingOrders.map(r => [r.descrip, r.dateOrder])
+        rows={
+          loading
+            ? [[t('dashboard.loading'), ""]]
+            : !pendingOrders || !pendingOrders.length
+              ? [[t('dashboard.no_results'), ""]]
+              : pendingOrders.map(r => [r.descrip, r.dateOrder])
         }
       />
 
-      {/* Presupuestos pendientes */}
+
+      {/* Pending Quotes */}
       <Card
         title={t('dashboard.pending_quotes')}
         headers={[t('dashboard.number'), t('dashboard.date')]}
-        rows={loading || !pendingQuotes.length ? [[t('dashboard.loading'), ""]] :
-          pendingQuotes.map(r => [r.docNumber, r.docDate])
+        rows={
+          loading
+            ? [[t('dashboard.loading'), ""]]
+            : !pendingQuotes || !pendingQuotes.length
+              ? [[t('dashboard.no_results'), ""]]
+              : pendingQuotes.map(r => [r.docNumber, r.docDate])
         }
       />
     </div>
