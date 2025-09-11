@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useTranslation } from 'react-i18next';
 import api from "../api/axios";
 
-function Phones ({phones, idCompany}){
+function Phones ({phones, idCompany, onPhonesChange}){
 
     //TODO Ver como pasar los tel nuevos a la lista del Company, porque desaparece al volver a la pestaña
 
@@ -59,7 +59,7 @@ function Phones ({phones, idCompany}){
 
     const handleAddSubmit = async (e) => {
         e.preventDefault();
-        if(!formData.phoneNumber || !formData.kind){
+        if (!formData.phoneNumber || !formData.kind) {
             setError(t('error.all_fields_required'));
             return;
         }
@@ -67,20 +67,24 @@ function Phones ({phones, idCompany}){
         try {
             const response = await api.post(`/companies/${idCompany}/phones`, formData);
 
-            setPhonesList((prevPhones) => [...prevPhones, response.data]);
+            setPhonesList(prevPhones => {
+                const updatedPhones = [...prevPhones, response.data];
+                onPhonesChange(updatedPhones);
+                return updatedPhones;
+            });
 
             setShowAddForm(false);
             setError("");
-            setFormData({phoneNumber:"", kind:""});
+            setFormData({ phoneNumber: "", kind: "" });
         } catch (err) {
             console.error(err);
-            setError(err.response.data.message);
+            setError(err.response?.data?.message || "Error");
         }
     };
 
     const handleEditSubmit = async (e) => {
         e.preventDefault();
-        if(!formData.phoneNumber || !formData.kind){
+        if (!formData.phoneNumber || !formData.kind) {
             setError(t('error.all_fields_required'));
             return;
         }
@@ -88,22 +92,43 @@ function Phones ({phones, idCompany}){
         try {
             const response = await api.patch(`/companies/${idCompany}/phones/${selectedPhone.idPhone}`, formData);
 
-            console.log(response.data);
-
-            setPhonesList((prevPhones) =>
-                prevPhones.map((phone) =>
+            setPhonesList(prevPhones => {
+                const updatedPhones = prevPhones.map(phone =>
                     phone.idPhone === selectedPhone.idPhone ? response.data : phone
-                )
-            );
+                );
+                onPhonesChange(updatedPhones);
+                return updatedPhones;
+            });
 
             setShowEditForm(false);
             setError("");
-            setFormData({phoneNumber:"", kind:""});
+            setFormData({ phoneNumber: "", kind: "" });
         } catch (err) {
             console.error(err);
-            setError(err.response.data.message);
+            setError(err.response?.data?.message || "Error");
         }
-    }
+    };
+
+    const handleDeletePhone = async () => {
+        if (!phoneToDelete) return;
+
+        try {
+            await api.delete(`/companies/${idCompany}/phones/${phoneToDelete.idPhone}`);
+
+            setPhonesList(prevPhones => {
+                const updatedPhones = prevPhones.filter(p => p.idPhone !== phoneToDelete.idPhone);
+                onPhonesChange(updatedPhones);
+                return updatedPhones;
+            });
+
+            setShowDeleteConfirm(false);
+            setPhoneToDelete(null);
+        } catch (err) {
+            console.error(err);
+            setError(t('error.deleting_phone'));
+        }
+    };
+
 
     const handleChange = (e) => {
         setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
@@ -129,24 +154,6 @@ function Phones ({phones, idCompany}){
     const cancelDelete = () => {
         setPhoneToDelete(null);
         setShowDeleteConfirm(false);
-    };
-
-    const handleDeletePhone = async () => {
-        if (!phoneToDelete) return;
-
-        try {
-            await api.delete(`/companies/${idCompany}/phones/${phoneToDelete.idPhone}`);
-
-            setPhonesList((prev) =>
-                prev.filter((p) => p.idPhone !== phoneToDelete.idPhone)
-            );
-
-            setShowDeleteConfirm(false);
-            setPhoneToDelete(null);
-        } catch (err) {
-            console.error(err);
-            setError(t('error.deleting_phone'));
-        }
     };
 
     return (

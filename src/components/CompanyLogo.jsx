@@ -1,7 +1,7 @@
 import api from "../api/axios";
 import { useEffect, useState } from "react";
 
-function CompanyLogo({ logoPath }) {
+function CompanyLogo({ logoPath, onLogoChange }) {
   const [preview, setPreview] = useState(null);
 
   useEffect(() => {
@@ -9,6 +9,28 @@ function CompanyLogo({ logoPath }) {
       setPreview(`${api.defaults.baseURL.replace("/api", "")}/${logoPath}`);
     }
   }, [logoPath]);
+
+  const handleFileChange = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    // preview local antes de subir
+    setPreview(URL.createObjectURL(file));
+
+    const formData = new FormData();
+    formData.append("logo", file);
+
+    try {
+      const res = await api.post("/owner/logo", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+
+      console.log("✅ Logo subido:", res.data);
+      onLogoChange(res.data);
+    } catch (err) {
+      console.error("❌ Error subiendo logo:", err);
+    }
+  };
 
   return (
     <div className="flex flex-col items-center gap-4">
@@ -31,7 +53,7 @@ function CompanyLogo({ logoPath }) {
           name="logo"
           accept="image/*"
           className="hidden"
-          onChange={(e) => console.log("Nuevo logo:", e.target.files[0])}
+          onChange={handleFileChange}
         />
       </label>
     </div>

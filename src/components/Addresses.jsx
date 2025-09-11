@@ -3,7 +3,7 @@ import api from "../api/axios";
 import { useTranslation } from 'react-i18next';
 
 
-function Addresses ({addresses, idCompany}){
+function Addresses ({addresses, idCompany, onAddressChange}){
     const { t } = useTranslation();
     const user = JSON.parse(localStorage.getItem("user"));
     const role = user?.role || "ROLE_USER";
@@ -64,6 +64,7 @@ function Addresses ({addresses, idCompany}){
             setAddress(response.data);
             setIsEditing(false);
             setError("");
+            onAddressChange(response.data);
         } catch (err) {
             console.error(err);
             setError(err.response.data.message);

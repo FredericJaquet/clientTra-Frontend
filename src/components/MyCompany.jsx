@@ -27,7 +27,6 @@ function MyCompany(){
                                         bankAccounts: "",
                                         users: "",
                                         logoPath: "" });
-
     const [company, setCompany] = useState({});
     const [error, setError] = useState("");
     const [isDemo, setIsDemo] = useState(true);
@@ -50,6 +49,7 @@ function MyCompany(){
                 users: response.data.users,
                 logoPath: response.data.logoPath
             });
+            console.log(response.data);
         })
         .catch((err) => console.error("Error fetching My Company:", err));
     }, []);
@@ -98,6 +98,7 @@ function MyCompany(){
                     <Addresses
                     addresses={company.addresses}
                     idCompany={company.idCompany}
+                    onAddressChange={handleAddressChange}
                     />
                 );
             case "phones":
@@ -105,6 +106,7 @@ function MyCompany(){
                     <Phones
                     phones={company.phones}
                     idCompany={company.idCompany}
+                    onPhonesChange={handlePhonesChange}
                     />
                 );
             case "bank_accounts":
@@ -112,12 +114,14 @@ function MyCompany(){
                 <BankAccounts
                     bankAccounts={company.bankAccounts}
                     idCompany={company.idCompany}
+                    onAccountsChange={handleBankAccountsChange}
                     />
                 );
             case "logo":
                 return (
                 <CompanyLogo
                     logoPath={company.logoPath}
+                    onLogoChange={handleLogoChange}
                     />
                 );
             default:
@@ -125,7 +129,25 @@ function MyCompany(){
         }
     };
 
-    //COMPLEJIDAD: Subir el logo y guardar el path. Se debería de guardar en el backend, como "idCompany.png".
+    const handleAddressChange = (newAddress) => {
+        setCompany(prev => ({ ...prev, addresses: [newAddress] }));
+        setFormData(prev => ({ ...prev, addresses: [newAddress] }));
+    };
+
+    const handlePhonesChange = (newPhones) => {
+        setCompany(prev => ({ ...prev, phones: newPhones }));
+        setFormData(prev => ({ ...prev, phones: newPhones }));
+    };
+
+    const handleBankAccountsChange = (newAccounts) => {
+        setCompany(prev => ({ ...prev, bankAccounts: newAccounts }));
+        setFormData(prev => ({ ...prev, bankAccounts: newAccounts }));
+    };
+
+    const handleLogoChange = (newLogoPath) => {
+        setCompany(prev => ({ ...prev, logoPath: newLogoPath }));
+        setFormData(prev => ({ ...prev, logoPath: newLogoPath }));
+    };
 
     return(
         <div className="flex w-full flex-col items-center gap-5 py-10">

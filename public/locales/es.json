@@ -17,12 +17,30 @@
         "back": "Volver",
         "edit": "Editar",
         "blue": "Azul",
-        "red": "Rojo"
+        "red": "Rojo",
+        "next": "Siguiente"
     },
     "companies": {
         "phones": "Teléfonos",
         "addresses": "Dirección",
         "bank_accounts": "Cuentas bancarias"
+    },
+    "customers": {
+        "customers": "Clientes",
+        "no_customers": "No hay clientes en esta categoría",
+        "com_name": "Nombre comercial",
+        "legal_name": "Nombre fiscal",
+        "vat_number": "CIF",
+        "email": "Email",
+        "web": "Web",
+        "add_customer": "Añadir Cliente",
+        "default_vat": "IVA por defecto",
+        "invocing_method": "Método de envio de la factura",
+        "default_withholding": "Retención por defecto",
+        "pay_method": "Método de pago",
+        "duedate": "Plazo de pago",
+        "europe": "Europeo",
+        "enabled": "Activo"
     },
     "dashboard": {
         "menu": "Menú",

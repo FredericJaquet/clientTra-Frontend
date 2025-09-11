@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useTranslation } from 'react-i18next';
 import api from "../api/axios";
 
-function BankAccounts ({bankAccounts, idCompany}){
+function BankAccounts ({bankAccounts, idCompany, onAccountsChange}){
 
     const { t } = useTranslation();
     const user = JSON.parse(localStorage.getItem("user"));
@@ -64,7 +64,11 @@ function BankAccounts ({bankAccounts, idCompany}){
         try {
             const response = await api.post(`/companies/${idCompany}/accounts`, formData);
 
-            setAccountsList((prevAccounts) => [...prevAccounts, response.data]);
+            setAccountsList(prevAccounts => {
+                const updatedAccounts = [...prevAccounts, response.data];
+                onAccountsChange(updatedAccounts);
+                return updatedAccounts;
+            });
 
             setShowAddForm(false);
             setError("");
@@ -87,11 +91,13 @@ function BankAccounts ({bankAccounts, idCompany}){
 
             console.log(response.data);
 
-            setAccountsList((prevAccounts) =>
-                prevAccounts.map((account) =>
+            setAccountsList(prevAccounts => {
+                const updatedAccounts = prevAccounts.map(account =>
                     account.idBankAccount === selectedAccount.idBankAccount ? response.data : account
-                )
-            );
+                );
+                onAccountsChange(updatedAccounts);
+                return updatedAccounts;
+            });
 
             setShowEditForm(false);
             setError("");
@@ -101,6 +107,26 @@ function BankAccounts ({bankAccounts, idCompany}){
             setError(err.response.data.message);
         }
     }
+
+    const handleDeleteAccount = async () => {
+        if (!accountToDelete) return;
+
+        try {
+            await api.delete(`/companies/${idCompany}/accounts/${accountToDelete.idBankAccount}`);
+
+            setAccountsList(prevAccounts => {
+                const updatedAccounts = prevAccounts.filter(a => a.idBankAccount !== accountToDelete.idBankAccount);
+                onAccountsChange(updatedAccounts);
+                return updatedAccounts;
+            });
+
+            setShowDeleteConfirm(false);
+            setAccountToDelete(null);
+        } catch (err) {
+            console.error(err);
+            setError(t('error.deleting_account'));
+        }
+    };
     
     const handleChange = (e) => {
         setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
@@ -124,24 +150,6 @@ function BankAccounts ({bankAccounts, idCompany}){
     const cancelDelete = () => {
         setAccountToDelete(null);
         setShowDeleteConfirm(false);
-    };
-
-    const handleDeleteAccount = async () => {
-        if (!accountToDelete) return;
-
-        try {
-            await api.delete(`/companies/${idCompany}/accounts/${accountToDelete.idBankAccount}`);
-
-            setAccountsList((prev) =>
-                prev.filter((p) => p.idBankAccount !== accountToDelete.idBankAccount)
-            );
-
-            setShowDeleteConfirm(false);
-            setAccountToDelete(null);
-        } catch (err) {
-            console.error(err);
-            setError(t('error.deleting_account'));
-        }
     };
 
     return (

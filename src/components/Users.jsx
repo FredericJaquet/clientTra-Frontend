@@ -130,17 +130,17 @@ function Users() {
   //Edit
   const handleEdit = () => {
     if (flippedUser) {
-        setIsEditing(true);
-        setEditData({ idUser: flippedUser.idUser, idRole: roleNameToId[flippedUser.roleName] || 3, enabled: flippedUser.enabled });
-      }
-    };
+      setIsEditing(true);
+      setEditData({ idUser: flippedUser.idUser, idRole: roleNameToId[flippedUser.roleName] || 3, enabled: flippedUser.enabled });
+    }
+  };
 
     //Back
     const handleBack = () => {
-    setFlippedUser(null);
-    setIsEditing(false);
-    setCardHeight(0);
-  }
+      setFlippedUser(null);
+      setIsEditing(false);
+      setCardHeight(0);
+    }
 
     // Cancel Edition
     const handleCancelEdit = () => {
@@ -283,17 +283,17 @@ function Users() {
                   <thead>
                     <tr>
                       <th 
-                        className="w-1/2 py-3 text-left text-[color:var(--text)] font-medium"
+                        className="w-1/3 py-3 text-left text-[color:var(--text)] font-medium"
                         onClick={() => handleSort("userName")}>
                         {t('users.name')} {sortConfig.key === "userName" && (sortConfig.direction === "asc" ? "▲" : "▼")}
                       </th>
                       <th 
-                        className="w-1/2 py-3 text-left text-[color:var(--text)] font-medium"
+                        className="w-1/3 py-3 text-left text-[color:var(--text)] font-medium"
                         onClick={() => handleSort("roleName")}>
                         {t('users.role')} {sortConfig.key === "roleName" && (sortConfig.direction === "asc" ? "▲" : "▼")}
                       </th>
                       <th 
-                        className="w-1/2 py-3 text-left text-[color:var(--text)] font-medium"
+                        className="w-1/3 py-3 text-left text-[color:var(--text)] font-medium"
                         onClick={() => handleSort("email")}>
                         {t('users.email')} {sortConfig.key === "email" && (sortConfig.direction === "asc" ? "▲" : "▼")}
                       </th>

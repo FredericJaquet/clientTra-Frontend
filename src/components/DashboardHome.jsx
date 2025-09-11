@@ -32,7 +32,6 @@ function DashboardHome() {
           promises.push(
             axios.get("/users").then(res => setUsers(res.data))
           );
-          
         }
 
         if (role === "ROLE_ADMIN" || role === "ROLE_ACCOUNTING") {
