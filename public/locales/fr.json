@@ -1,11 +1,28 @@
 {
+    "bank_accounts":{
+        "add_account": "Ajouter compte bancaire",
+        "edit_account": "Modifier compte bancaire",
+        "swift": "Swift",
+        "iban": "IBAN",
+        "branch": "Sucursale",
+        "holder": "Titulaire",
+        "confirm_delete" : "Vous voulez éliminer ce compte ?",
+        "no_accounts": "Il n'y a pas de compte bancaires pour cette entreprise"
+    },
     "button": {
+        "add": "Ajouter",
         "save": "Enregistrer",
         "cancel": "Annuler",
+        "delete": "Éliminer",
         "back": "Retour",
         "edit": "Modifier",
         "blue": "Bleu",
         "red": "Rouge"
+    },
+    "companies": {
+        "phones": "Téléphones",
+        "addresses": "Adresse",
+        "bank_accounts": "Comptes bancaires"
     },
     "dashboard": {
         "menu": "Menu",
@@ -46,13 +63,19 @@
     },
     "error": {
         "all_fields_required": "Tous les champs sont obligatoires",
+        "iban_required": "Le numéro IBAN est obligatoire",
         "incorrect_credentials": "Nom d'utilisateur et/ou mot de passe incorrect",
         "user_disabled": "Cet utilisateur a été désactivé",
         "auth_failed": "Échec de l'authentification",
         "incorrect_repeated_password": "Les mots de passe ne correspondent pas",
         "saving_user": "Erreur lors de la sauvegarde de l'utilisateur",
+        "saving_phone": "Erreur lors de la sauvegarde du téléphone",
+        "saving_account": "Erreur lors de la sauvegarde du compte bancaire",
         "email_invalid": "Email non valide",
-        "url_invalid": "Adresse web non valide"
+        "url_invalid": "Adresse web non valide",
+        "edit_disabled": "Non disponible en mode Demo",
+        "deleting_phone": "Erreur lors de l'éliminatin du téléphone",
+        "deleting_account": "Erreur lors de l'éliminatin du compte bancaire"
     },
     "login": {
         "title": "Se connecter",
@@ -67,6 +90,13 @@
         "project": "Projet",
         "dashboard": "Dashboard",
         "register": "Inscription"
+    },
+    "phones":{
+        "phoneNumber": "Numéro",
+        "kind": "Type",
+        "add_phone": "Ajouter téléphone",
+        "edit_phone": "Modifier téléphone",
+        "confirm_delete" : "Vous voulez éliminer ce téléphone ?"
     },
     "register": {
         "title": "Inscription",
@@ -87,7 +117,7 @@
         "apt": "Appartement",
         "cp": "Code postal",
         "city": "Ville",
-        "State": "Province",
+        "state": "Province",
         "country": "Pays"
     },
         "users": {

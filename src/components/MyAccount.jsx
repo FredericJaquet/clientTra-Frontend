@@ -10,7 +10,7 @@ function MyAccount() {
   const { theme, setTheme, darkMode, setDarkMode } = useContext(ThemeContext);
 
   const [isEditing, setIsEditing] = useState(false);
-  const [editData, setEditData] = useState({ username:"", email: "" });
+  const [formData, setFormData] = useState({ username:"", email: "" });
   const [user, setUser]=useState({});
   const [error, setError]=useState("");
 
@@ -18,7 +18,7 @@ function MyAccount() {
     api.get("/users/me")
       .then((response) => {
         setUser(response.data);
-        setEditData({
+        setFormData({
           username: response.data.userName,
           email: response.data.email,
           preferredLanguage: response.data.preferredLanguage,
@@ -30,12 +30,12 @@ function MyAccount() {
   }, []);
 
   const handleSaveEmail = async () => {
-    if(!emailValidator(editData.email)){
+    if(!emailValidator(formData.email)){
       setError(t('error.email_invalid'));
       return;
     }
     try {
-      const response = await api.patch("users/me", editData);
+      const response = await api.patch("/users/me", formData);
       setUser(response.data);
       setIsEditing(false);
       setError("");
@@ -47,9 +47,9 @@ function MyAccount() {
   const handleThemeChange = async (e) => {
     const newTheme = e.target.value;
     setTheme(newTheme);
-    setEditData(prev => ({...prev, preferredTheme: newTheme}));
+    setFormData(prev => ({...prev, preferredTheme: newTheme}));
     try {
-      const response = await api.patch("users/me", { ...editData, preferredTheme: newTheme });
+      const response = await api.patch("/users/me", { ...formData, preferredTheme: newTheme });
       console.log(response);
     } catch (err) {
       console.error(err);
@@ -59,10 +59,10 @@ function MyAccount() {
   const handleLanChange = async (e) => {
     const newLang=e.target.value;
     i18n.changeLanguage(newLang);
-    setEditData(prev => ({...prev, preferredLanguage: newLang}));
-    console.log(editData);
+    setFormData(prev => ({...prev, preferredLanguage: newLang}));
+    console.log(formData);
     try {
-      const response = await api.patch("users/me", {...editData,preferredLanguage: newLang});
+      const response = await api.patch("/users/me", {...formData,preferredLanguage: newLang});
       console.log(response);
     } catch (err) {
       console.error(err);
@@ -73,9 +73,9 @@ function MyAccount() {
     const newMode = darkMode === "dark" ? "light" : "dark";
     setDarkMode(newMode);
     const isDarkMode = newMode === "dark";
-    setEditData(prev => ({ ...prev, darkMode: isDarkMode }));
+    setFormData(prev => ({ ...prev, darkMode: isDarkMode }));
     try {
-      const response = await api.patch("users/me", { ...editData, darkMode: isDarkMode });
+      const response = await api.patch("/users/me", { ...formData, darkMode: isDarkMode });
       console.log(response);
     } catch (err) {
       console.error(err);
@@ -92,9 +92,7 @@ function MyAccount() {
   return (
     <div className="flex w-full flex-col items-center gap-5 py-10">
       <div className="rounded-xl shadow-lg w-3/4 p-4 bg-[color:var(--secondary)]">
-        <div className="flex flex-row">
-          <h4 className="text-lg font-semibold mb-2 w-1/2">{t('dashboard.my_account')}</h4>
-        </div>
+        <h4 className="text-lg font-semibold mb-2 w-1/2">{t('dashboard.my_account')}</h4>
         <hr className="border-[color:var(--primary)] mb-2" />
         <div className="grid grid-cols-[1fr_2fr_1fr_2fr] sd:grid-cols-2 gap-4">
             <label className="mr-2">{t('users.name')}:</label>
@@ -110,8 +108,8 @@ function MyAccount() {
             :
             <input
               type="text"
-              value={editData.email}
-              onChange={(e) => setEditData(prev => ({ ...prev, email: e.target.value }))}
+              value={formData.email}
+              onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
               className="bg-[color:var(--background)] p-2 mr-2 h-8 rounded-lg border"
             />
             }

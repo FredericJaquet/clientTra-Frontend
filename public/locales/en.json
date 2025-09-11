@@ -1,11 +1,28 @@
 {
+    "bank_accounts":{
+        "add_account": "Add Bank Account",
+        "edit_account": "Edit Bank Account",
+        "swift": "Swift",
+        "iban": "IBAN",
+        "branch": "Branch",
+        "holder": "Holder",
+        "confirm_delete" : "Do you really want to delete this Account?",
+        "no_accounts": "There is no Bak Account for this company"
+    },
     "button": {
+        "add": "Add",
         "save": "Save",
         "cancel": "Cancel",
+        "delete": "Delete",
         "back": "Back",
         "edit": "Edit",
         "blue": "Blue",
         "red": "Red"
+    },
+    "companies": {
+        "phones": "Phones",
+        "addresses": "Address",
+        "bank_accounts": "Bank Accounts"
     },
     "dashboard": {
         "menu": "Menu",
@@ -47,12 +64,18 @@
     "error": {
         "all_fields_required": "All fields are required",
         "incorrect_credentials": "Incorrect username and/or password",
+        "iban_required": "IBAN required",
         "user_disabled": "This user has been disabled",
         "auth_failed": "Authentication failed",
         "incorrect_repeated_password": "Passwords do not match",
         "saving_user": "Error saving the user",
+        "saving_phone": "Error saving the phone",
+        "saving_account": "Error saving the Bank Account",
         "email_invalid": "Invalid email",
-        "url_invalid": "Invalid Web"
+        "url_invalid": "Invalid Web",
+        "edit_disabled": "Not available for Demo Mode",
+        "deleting_phone": "Error deleting Phone",
+        "deleting_account": "Error deleting Bank Account"
     },
     "login": {
         "title": "Login",
@@ -67,6 +90,15 @@
         "project": "Project",
         "dashboard": "Dashboard",
         "register": "Register"
+    },
+    "phones":{
+        "phoneNumber": "Number",
+        "kind": "Type",
+        "no_phones": "There is no phones for this company",
+        "add_phone": "Add New Phone",
+        "edit_phone": "Edit Phone",
+        "deleting_phone": "Error deleting phone",
+        "confirm_delete" : "Do you really want to delete this phone?"
     },
     "register": {
         "title": "Register",
@@ -87,7 +119,7 @@
         "apt": "Apt",
         "cp": "ZIP",
         "city": "City",
-        "State": "State/Province",
+        "state": "State/Province",
         "country": "Country"
     },
         "users": {
@@ -108,7 +140,7 @@
         "add_user": "Add User",
         "theme": "Theme",
         "darkmode": "Dark Mode",
-        "lanuage": "Language"
+        "language": "Language"
     }
 
 }

@@ -13,13 +13,13 @@ function Users() {
     "ROLE_USER": 3
   };
 
+  const cardRef = useRef(null);
+  const frontRef = useRef(null);
+  const backRef = useRef(null);
   const [users, setUsers] = useState([]);
   const [selectedTab, setSelectedTab] = useState("enabled");
   const [flippedUser, setFlippedUser] = useState(null);
   const [showAddForm, setShowAddForm] = useState(false);
-  const cardRef = useRef(null);
-  const frontRef = useRef(null);
-  const backRef = useRef(null);
   const [cardHeight, setCardHeight] = useState(0);
   const [sortConfig, setSortConfig] = useState({ key: "userName", direction: "asc" });
   const [formData, setFormData] = useState({ username:"", password:"", email:"", preferredLanguage: i18n.language, idRole:"", idPlan:1})
@@ -47,9 +47,9 @@ function Users() {
   }, [flippedUser]);
 
   const filteredUsers = users
-  .filter((u) =>
-    selectedTab === "enabled" ? u.enabled === true : u.enabled === false
-  );
+                        .filter((u) =>
+                          selectedTab === "enabled" ? u.enabled === true : u.enabled === false
+                        );
 
   const sortedUsers = [...filteredUsers].sort((a, b) => {
     const aValue = a[sortConfig.key] ?? "";
@@ -117,7 +117,7 @@ function Users() {
 
     } catch (err) {
       console.error(err);
-      setError(t('error.saving_user'));
+      setError(err.response.data.message);
     }
   };
 
@@ -162,7 +162,8 @@ function Users() {
         setIsEditing(false);
         setCardHeight(0);
       } catch (err) {
-        console.error("Error updating user:", err);
+        console.error(err);
+        setError(err.response.data.message);
       }
     };
 
@@ -179,19 +180,19 @@ function Users() {
                 name="username"
                 placeholder={t('users.name')}
                 onChange={handleChange}
-                className="p-2 rounded-lg border"
+                className="p-2 rounded-lg border bg-[color:var(--background)]"
                  />
               <input
                 type="password"
                 name="password"
                 placeholder={t('users.password')}
                 onChange={handleChange}
-                className="p-2 rounded-lg border"
+                className="p-2 rounded-lg border bg-[color:var(--background)]"
                  />
               <select
                 name="idRole"
                 onChange={handleChange}
-                className="p-2 rounded-lg border">
+                className="p-2 rounded-lg border bg-[color:var(--background)]">
                   <option value="1">{t('users.admin')}</option>
                   <option value="2">{t('users.accounting')}</option>
                   <option value="3">{t('users.user')}</option>
@@ -201,7 +202,7 @@ function Users() {
                 name="email"
                 placeholder={t('users.email')}
                 onChange={handleChange}
-                className="p-2 rounded-lg border"
+                className="p-2 rounded-lg border bg-[color:var(--background)]"
                  />
                 {error && (
                   <div className="text-white text-center rounded-lg px-6 py-2 bg-[color:var(--error)]">
@@ -247,7 +248,7 @@ function Users() {
                         className="mb-4 px-4 py-2 bg-[color:var(--primary)] text-[color:var(--text-light)] rounded-xl w-max flex items-center gap-2 hover:bg-[color:var(--primary-hover)] transition-colors duration-300"
                         onClick={addUser}
                     >
-                    <span className="text-lg font-bold">+</span> {t('users.add')}
+                    <span className="text-lg font-bold">+</span> {t('button.add')}
                     </button>
 
                 </div>

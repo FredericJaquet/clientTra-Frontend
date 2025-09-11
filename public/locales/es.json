@@ -1,11 +1,28 @@
 {
+    "bank_accounts":{
+        "add_account": "Añadir cuenta bancaria",
+        "edit_account": "Modificar cuenta bancaria",
+        "swift": "Swift",
+        "iban": "IBAN",
+        "branch": "Sucursal",
+        "holder": "Titular",
+        "confirm_delete" : "¿Quieres eliminar esta cuenta?",
+        "no_accounts": "No hay cuentas bancarias para esta empresa"
+    },
     "button":{
+        "add": "Añadir",
         "save": "Guardar",
         "cancel": "Cancelar",
+        "delete": "Eliminar",
         "back": "Volver",
         "edit": "Editar",
         "blue": "Azul",
         "red": "Rojo"
+    },
+    "companies": {
+        "phones": "Teléfonos",
+        "addresses": "Dirección",
+        "bank_accounts": "Cuentas bancarias"
     },
     "dashboard": {
         "menu": "Menú",
@@ -46,13 +63,19 @@
     },
     "error": {
         "all_fields_required": "Todos los campos son obligatorios",
+        "iban_required": "El IBAN es obligatorio",
         "incorrect_credentials": "Usuario y/o contraseña incorrecta",
         "user_disabled": "Este usuario ha sido desactivado",
         "auth_failed": "Error de autenticación",
         "incorrect_repeated_password": "Las contraseñas no coinciden",
         "saving_user": "Error al guadar el usuario",
+        "saving_phone": "Error al guadar el teléfono",
+        "saving_account": "Error al guadar la cuenta bancaria",
         "email_invalid": "Email no válido",
-        "url_invalid": "Dirección web no válida"
+        "url_invalid": "Dirección web no válida",
+        "edit_disabled": "No disponible en modo demo",
+        "deleting_phone": "Error al eliminar el teléfono",
+        "deleting_account": "Error al eliminar la cuenta bancaria"
     },
     "login": {
         "title": "Iniciar sesión",
@@ -68,6 +91,14 @@
         "dashboard": "Dashboard",
         "register": "Registro"
     },
+    "phones":{
+        "phone_number": "Número",
+        "kind": "Tipo",
+        "no_phones": "No hay teléfonos para esta empresa",
+        "add_phone": "Añadir teléfono",
+        "edit_phone": "Modificar teléfono",
+        "confirm_delete" : "¿Quieres eliminar este teléfono?"
+    },
     "register": {
         "title": "Registro",
         "intro": "Registro Demo: puedes probar la aplicación sin crear empresa.\nSi más adelante eliges 'Registrar mi Empresa', se perderán los datos de la demo.",
@@ -78,7 +109,7 @@
         "submit_actual": "Registrar mi Empresa",
         "company_data": "Datos de tu empresa",
         "legal_name": "Nombre fiscal",
-        "com_name": "nombre comercial",
+        "com_name": "Nombre comercial",
         "cif": "CIF",
         "email": "Email",
         "web": "Web",
@@ -87,7 +118,7 @@
         "apt": "Piso",
         "cp": "CP",
         "city": "Ciudad",
-        "State": "Provincia",
+        "state": "Provincia",
         "country": "País"
     },
     "users": {

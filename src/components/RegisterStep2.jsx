@@ -78,6 +78,7 @@ function RegisterStep2({ formData, setFormData }) {
             
       navigate("/");
     } catch (err) {
+        console.log(err);
       setError(err.response.data.message);
     }
     
@@ -87,7 +88,7 @@ function RegisterStep2({ formData, setFormData }) {
     <div className="min-h-screen flex items-center justify-center w-full">
         <div className="relative w-2/3 aspect-square bg-[color:var(--primary)] rounded-full flex items-center justify-center ">
             <div  className="bg-[color:var(--secondary)] rounded-2xl border text-[color:var(--text)] border-[color:var(--border)] drop-shadow-xl hover:drop-shadow-2xl p-8 w-2/3">
-                <h3 className="fw-bold text-center mb-4">Datos de tu empresa</h3>
+                <h3 className="fw-bold text-center mb-4">{t('register.company_data')}</h3>
                 <form >
                     <div className="flex flex-col gap-4 ">
                         <div className="flex gap-2 ">
@@ -98,7 +99,7 @@ function RegisterStep2({ formData, setFormData }) {
                                 onChange={handleChange}
                                 className="border border-[color:var(--border)] rounded-lg p-2 w-1/2 focus:outline-none focus:ring-2 focus:ring-[color:var(--primary)]"
                                 required
-                                placeholder="Nombre Fiscal"
+                                placeholder={t('register.legal_name')}
                             />
                             <input
                                 name="comName"
@@ -106,7 +107,7 @@ function RegisterStep2({ formData, setFormData }) {
                                 value={formData.comName}
                                 onChange={handleChange}
                                 className="border border-[color:var(--border)] rounded-lg p-2 w-1/2 focus:outline-none focus:ring-2 focus:ring-[color:var(--primary)]"
-                                placeholder="Nombre comercial"
+                                placeholder={t('register.com_name')}
                             />
                         </div>
                         <div className="flex gap-2">
@@ -116,7 +117,7 @@ function RegisterStep2({ formData, setFormData }) {
                                 value={formData.vatNumber}
                                 onChange={handleChange}
                                 className="border border-[color:var(--border)] rounded-lg p-2 w-1/2 focus:outline-none focus:ring-2 focus:ring-[color:var(--primary)]"
-                                placeholder="CIF"
+                                placeholder={t('register.cif')}
                                 required
                             />
                             <input
@@ -125,7 +126,7 @@ function RegisterStep2({ formData, setFormData }) {
                             value={formData.emailCompany}
                             onChange={handleChange}
                             className="border border-[color:var(--border)] rounded-lg p-2 w-1/2 focus:outline-none focus:ring-2 focus:ring-[color:var(--primary)]"
-                            placeholder="Email" />
+                            placeholder={t('register.email')} />
                         </div>
                         <div className="flex gap-2 ">
                             <input
@@ -134,7 +135,7 @@ function RegisterStep2({ formData, setFormData }) {
                                 onChange={handleChange}
                                 className="border border-[color:var(--border)] rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-[color:var(--primary)]"
                                 type="url"
-                                placeholder="Web" />
+                                placeholder={t('register.web')} />
                         </div>
                         <hr className="border-primary"/>
                         <div className="flex gap-2">
@@ -144,7 +145,7 @@ function RegisterStep2({ formData, setFormData }) {
                                 value={formData.Address.street}
                                 onChange={handleChange}
                                 className="border border-[color:var(--border)] rounded-lg p-2 w-1/2 focus:outline-none focus:ring-2 focus:ring-[color:var(--primary)]"
-                                placeholder="Calle"
+                                placeholder={t('register.street')}
                                 required />
                             <input
                                 name="stNumber"
@@ -152,7 +153,7 @@ function RegisterStep2({ formData, setFormData }) {
                                 onChange={handleChange}
                                 className="border border-[color:var(--border)] rounded-lg p-2 w-1/2 focus:outline-none focus:ring-2 focus:ring-[color:var(--primary)]"
                                 type="text"
-                                placeholder="Portal"
+                                placeholder={t('register.st_number')}
                                 required
                             />
                         </div>
@@ -163,7 +164,7 @@ function RegisterStep2({ formData, setFormData }) {
                                 value={formData.Address.apt}
                                 onChange={handleChange}
                                 className="border border-[color:var(--border)] rounded-lg p-2 w-1/2 focus:outline-none focus:ring-2 focus:ring-[color:var(--primary)]"
-                                placeholder="Piso"
+                                placeholder={t('register.apt')}
                             />
                             <input
                                 name="cp"
@@ -171,7 +172,7 @@ function RegisterStep2({ formData, setFormData }) {
                                 value={formData.Address.cp}
                                 onChange={handleChange}
                                 className="border border-[color:var(--border)] rounded-lg p-2 w-1/2 focus:outline-none focus:ring-2 focus:ring-[color:var(--primary)]"
-                                placeholder="CP"
+                                placeholder={t('register.cp')}
                                 required
                             />
                         </div>
@@ -182,7 +183,7 @@ function RegisterStep2({ formData, setFormData }) {
                                 value={formData.Address.city}
                                 onChange={handleChange}
                                 className="border border-[color:var(--border)] rounded-lg p-2 w-1/2 focus:outline-none focus:ring-2 focus:ring-[color:var(--primary)]"
-                                placeholder="Ciudad"
+                                placeholder={t('register.city')}
                                 required
                             />
                             <input
@@ -191,7 +192,7 @@ function RegisterStep2({ formData, setFormData }) {
                                 value={formData.Address.state}
                                 onChange={handleChange}
                                 className="border border-[color:var(--border)] rounded-lg p-2 w-1/2 focus:outline-none focus:ring-2 focus:ring-[color:var(--primary)]"
-                                placeholder="Provincia"
+                                placeholder={t('register.state')}
                             />
                         </div>
                         <div className="flex gap-2">
@@ -201,7 +202,7 @@ function RegisterStep2({ formData, setFormData }) {
                                 value={formData.Address.country}
                                 onChange={handleChange}
                                 className="border border-[color:var(--border)] rounded-lg p-2 w-1/2 focus:outline-none focus:ring-2 focus:ring-[color:var(--primary)]"
-                                placeholder="País"
+                                placeholder={t('register.country')}
                                 required
                             />
                         </div>

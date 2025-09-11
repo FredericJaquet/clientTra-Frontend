@@ -5,7 +5,6 @@ import axios from "../api/axios";
 import { useTranslation } from 'react-i18next';
 import { ThemeContext } from "../contexts/ThemeContext"; 
 
-
 function LoginForm() {
 
     const { t, i18n } = useTranslation();
@@ -17,29 +16,14 @@ function LoginForm() {
       "Authentication failed": t('error.auth_failed')
     }
 
-    /*const storedUser = JSON.parse(localStorage.getItem("user"));
-  
-    useEffect(() => {
-      if (storedUser) {
-        setTheme(storedUser.preferredTheme);
-        setDarkMode(storedUser.darkMode);
-        /*document.documentElement.setAttribute("data-theme", storedUser.preferredTheme);
-        if (storedUser.preferredMode=="dark") {
-          document.documentElement.classList.add("dark");
-        } else {
-          document.documentElement.classList.remove("dark");
-        }
-      }
-    }, [storedUser]);*/
-
   const [error, setError] = useState('');
 
-  const [formData, setFormData] = useState({ username: '', password: '' })
+  const [formData, setFormData]= useState({ username: '', password: '' })
   const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
-  }
+  };
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -63,8 +47,6 @@ function LoginForm() {
         setError("");
         navigate("/dashboard");
       });
-
-      console.log(localStorage.user);
 
     } catch (err) {
       localStorage.removeItem("token");
