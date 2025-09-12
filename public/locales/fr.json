@@ -76,7 +76,10 @@
         "url_invalid": "Adresse web non valide",
         "edit_disabled": "Non disponible en mode Demo",
         "deleting_phone": "Erreur lors de l'éliminatin du téléphone",
-        "deleting_account": "Erreur lors de l'éliminatin du compte bancaire"
+        "deleting_account": "Erreur lors de l'éliminatin du compte bancaire",
+        "invalid_duedate": "Le délai de paiement doit être un nombre",
+        "invalid_default_vat": "La valeur de la TVA doit être un nombre",
+        "invalid_default_withholding": "La valeur de la retenue doit être un nombre"
     },
     "login": {
         "title": "Se connecter",

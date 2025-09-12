@@ -46,7 +46,7 @@ function CompanyLogo({ logoPath, onLogoChange }) {
         </div>
       )}
 
-      <label className="px-4 py-2 bg-[color:var(--primary)] text-[color:var(--text-light)] rounded-xl cursor-pointer hover:bg-[color:var(--primary-hover)] transition">
+      <label className="px-4 py-2 bg-[color:var(--primary)] text-[color:var(--text-light)] rounded-lg cursor-pointer hover:bg-[color:var(--primary-hover)] transition">
         Cambiar logo
         <input
           type="file"

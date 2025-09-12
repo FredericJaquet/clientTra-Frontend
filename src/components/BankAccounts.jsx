@@ -200,14 +200,14 @@ function BankAccounts ({bankAccounts, idCompany, onAccountsChange}){
                         <div className="flex justify-end gap-2 mt-4">
                             <button
                             type="button"
-                            className="px-4 py-2 rounded bg-[color:var(--primary)] text-[color:var(--text-light)] hover:bg-[color:var(--primary-hover)]"
+                            className="mb-4 px-4 py-2 rounded-xl bg-[color:var(--primary)] text-[color:var(--text-light)] w-max flex items-center gap-2 hover:bg-[color:var(--primary-hover)] transition-colors duration-300"
                             onClick={handleCancelAdd}
                             >
                             {t('button.cancel')}
                             </button>
                             <button
                             type="submit"
-                            className="px-4 py-2 rounded bg-[color:var(--primary)] text-[color:var(--text-light)] hover:bg-[color:var(--primary-hover)]"
+                            className="mb-4 px-4 py-2 rounded-xl bg-[color:var(--primary)] text-[color:var(--text-light)] w-max flex items-center gap-2 hover:bg-[color:var(--primary-hover)] transition-colors duration-300"
                             >
                             {t('button.save')}
                             </button>
@@ -262,14 +262,14 @@ function BankAccounts ({bankAccounts, idCompany, onAccountsChange}){
                         <div className="flex justify-end gap-2 mt-4">
                             <button
                             type="button"
-                            className="px-4 py-2 rounded bg-[color:var(--primary)] text-[color:var(--text-light)] hover:bg-[color:var(--primary-hover)]"
+                            className="mb-4 px-4 py-2 rounded-xl bg-[color:var(--primary)] text-[color:var(--text-light)] w-max flex items-center gap-2 hover:bg-[color:var(--primary-hover)] transition-colors duration-300"
                             onClick={handleCancelEdit}
                             >
                             {t('button.cancel')}
                             </button>
                             <button
                             type="submit"
-                            className="px-4 py-2 rounded bg-[color:var(--primary)] text-[color:var(--text-light)] hover:bg-[color:var(--primary-hover)]"
+                            className="mb-4 px-4 py-2 rounded-xl bg-[color:var(--primary)] text-[color:var(--text-light)] w-max flex items-center gap-2 hover:bg-[color:var(--primary-hover)] transition-colors duration-300"
                             >
                             {t('button.save')}
                             </button>
@@ -286,14 +286,14 @@ function BankAccounts ({bankAccounts, idCompany, onAccountsChange}){
                         <div className="flex justify-end gap-2 mt-4">
                             <button
                                 type="button"
-                                className="px-4 py-2 rounded bg-[color:var(--primary)] text-[color:var(--text-light)] hover:bg-[color:var(--primary-hover)]"
+                                className="px-4 py-2 rounded-lg bg-[color:var(--primary)] text-[color:var(--text-light)] hover:bg-[color:var(--primary-hover)]"
                                 onClick={cancelDelete}
                             >
                                 {t('button.cancel')}
                             </button>
                             <button
                                 type="button"
-                                className="px-4 py-2 rounded bg-red-500 text-white hover:bg-red-700"
+                                className="px-4 py-2 rounded-lg bg-red-500 text-white hover:bg-red-700"
                                 onClick={handleDeleteAccount}
                             >
                                 {t('button.delete')}

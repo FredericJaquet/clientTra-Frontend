@@ -160,10 +160,10 @@ function MyCompany(){
                             onClick={handleEdit}
                             disabled={isDemo} 
                             title={isDemo ? t('error.edit_disabled') : ""}
-                            className={`px-4 py-2 rounded-xl 
+                            className={`mb-4 px-4 py-2 rounded-xl
                                         ${isDemo 
                                             ? "bg-gray-400 text-gray-200 cursor-not-allowed"
-                                            : "bg-[color:var(--primary)] text-[color:var(--text-light)] hover:bg-[color:var(--primary-hover)]"
+                                            : "bg-[color:var(--primary)] text-[color:var(--text-light)] w-max flex items-center gap-2 hover:bg-[color:var(--primary-hover)] transition-colors duration-300"
                                         }`}
                         >
                             {t('button.edit')}
@@ -172,13 +172,13 @@ function MyCompany(){
                     <div className="flex gap-2">
                         <button
                         onClick={handleSave}
-                        className=" px-4 py-2 bg-[color:var(--primary)] text-[color:var(--text-light)] rounded-xl hover:bg-[color:var(--primary-hover)]"
+                        className="mb-4 px-4 py-2 rounded-xl bg-[color:var(--primary)] text-[color:var(--text-light)] w-max flex items-center gap-2 hover:bg-[color:var(--primary-hover)] transition-colors duration-300"
                         >
                         {t('button.save')}
                         </button>
                         <button
                         onClick={handleEdit}
-                        className="px-4 py-2 bg-[color:var(--primary)] text-[color:var(--text-light)] rounded-xl hover:bg-[color:var(--primary-hover)]"
+                        className="mb-4 px-4 py-2 rounded-xl bg-[color:var(--primary)] text-[color:var(--text-light)] w-max flex items-center gap-2 hover:bg-[color:var(--primary-hover)] transition-colors duration-300"
                         >
                             {t('button.cancel')}
                         </button>

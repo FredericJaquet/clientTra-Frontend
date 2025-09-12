@@ -12,6 +12,7 @@ const MyAccount = lazy(() => import('./components/MyAccount'));
 const Users = lazy(() => import('./components/Users'));
 const MyCompany = lazy(() => import('./components/MyCompany'));
 const Customers = lazy(() => import('./components/Customers'));
+const CustomerDetails = lazy(() => import('./components/CustomerDetails'));
 const Providers = lazy(() => import('./components/Providers'));
 const OrderForm = lazy(() => import('./components/OrderForm'));
 const CustomerInvoiceForm = lazy(() => import('./components/CustomerInvoiceForm'));
@@ -84,6 +85,7 @@ function AppWrapper() {
             <Route path="report/payment" element={<PaymentReport />} />
             <Route path="graph/incomes" element={<IncomesGraph />} />
             <Route path="graph/outcomes" element={<OutcomesGraph />} />
+            <Route path="customers/:id" element={<CustomerDetails />} />
           </Route>
         </Routes>
       </Suspense>

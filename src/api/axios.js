@@ -22,7 +22,8 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
-export const setupResponseInterceptor = (navigate) => {
+//export const setupResponseInterceptor = (navigate) => {
+export const setupResponseInterceptor = () => {
   api.interceptors.response.use(
     (response) => response,
     (error) => {
@@ -30,7 +31,8 @@ export const setupResponseInterceptor = (navigate) => {
         // Token invalid or expired
         localStorage.removeItem("token");
         localStorage.removeItem("user");
-        navigate("/");
+        //navigate("/", { replace: true });
+        window.location.href = "/";
       }
       return Promise.reject(error);
     }

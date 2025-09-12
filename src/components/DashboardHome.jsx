@@ -108,7 +108,7 @@ function DashboardHome() {
             loading
               ? t('dashboard.loading')
               : !cashingReport
-                ? t('dashboard.no_results')
+                ? t(0.00.toFixed(2))
                 : cashingReport.grandTotal.toFixed(2)
           }
           headers={[t('dashboard.month'), t('dashboard.total')]}
@@ -133,7 +133,7 @@ function DashboardHome() {
             loading
               ? t('dashboard.loading')
               : !paymentReport
-                ? t('dashboard.no_results')
+                ? t(0.00.toFixed(2))
                 : paymentReport.grandTotal.toFixed(2)
           }
           headers={[t('dashboard.month'), t('dashboard.total')]}

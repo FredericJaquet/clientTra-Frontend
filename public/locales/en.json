@@ -76,7 +76,11 @@
         "url_invalid": "Invalid Web",
         "edit_disabled": "Not available for Demo Mode",
         "deleting_phone": "Error deleting Phone",
-        "deleting_account": "Error deleting Bank Account"
+        "deleting_account": "Error deleting Bank Account",
+        "invalid_duedate": "The payment term must be a number",
+        "invalid_default_vat": "The VAT value must be a number",
+        "invalid_default_withholding": "The withholding value must be a number"
+
     },
     "login": {
         "title": "Login",

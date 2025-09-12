@@ -1,14 +1,14 @@
 import api from "../api/axios";
 import { useState, useEffect } from "react";
 import { useTranslation } from 'react-i18next';
+import { useNavigate  } from "react-router-dom";
 import { emailValidator, urlValidator } from "../utils/validator";
-import Addresses from "./Addresses";
-import Phones from "./Phones";
-import BankAccounts from "./BankAccounts";
+
 
 function Customers(){
 
     const { t } = useTranslation();
+    const navigate = useNavigate();
 
     const user = JSON.parse(localStorage.getItem("user"));
     const role = user?.role || "ROLE_USER";
@@ -33,7 +33,6 @@ function Customers(){
                                     });
 
     const [customers, setCustomers] = useState([]);
-    const [selectedCustomer, setSelectedCustomer] = useState({}); 
     const [error, setError] = useState("");
     const [selectedTab, setSelectedTab] = useState("enabled");
     const [sortConfig, setSortConfig] = useState({ key: "comName", direction: "asc" });
@@ -47,12 +46,6 @@ function Customers(){
                 })
             .catch((err) => console.error("Error fetching customers:", err));
         }, []);
-
-    useEffect(() => {
-        if (selectedCustomer) {
-            //Enviar el SelectedCustomer a una ficha de detalle...
-        }
-    }, [selectedCustomer]);
 
     const filteredCustomers = customers
                         .filter((c) =>
@@ -102,15 +95,15 @@ function Customers(){
         }
 
         if (isNaN(Number(formData.duedate))) {
-            setError("Due date must be a number");
+            setError(t('error.invalid_duedate'));
             return;
         }
         if (isNaN(Number(formData.defaultVat))) {
-            setError("Default VAT must be a number");
+            setError(t('error.invalid_default_vat'));
             return;
         }
         if (isNaN(Number(formData.defaultWithholding))) {
-            setError("Default withholding must be a number");
+            setError(t('error.invalid_default_withholding'));
             return;
         }
 
@@ -352,14 +345,14 @@ function Customers(){
                                 <div className="flex justify-end gap-2 mt-4">
                                     <button
                                     type="button"
-                                    className="px-4 py-2 rounded bg-[color:var(--primary)] text-[color:var(--text-light)] hover:bg-[color:var(--primary-hover)]"
+                                    className="mb-4 px-4 py-2 rounded-xl bg-[color:var(--primary)] text-[color:var(--text-light)] w-max flex items-center gap-2 hover:bg-[color:var(--primary-hover)] transition-colors duration-300"
                                     onClick={handleCancelAdd}
                                     >
                                         {t('button.cancel')}
                                     </button>
                                     <button
                                     type="submit"
-                                    className="px-4 py-2 rounded bg-[color:var(--primary)] text-[color:var(--text-light)] hover:bg-[color:var(--primary-hover)]"
+                                    className="mb-4 px-4 py-2 rounded-xl bg-[color:var(--primary)] text-[color:var(--text-light)] w-max flex items-center gap-2 hover:bg-[color:var(--primary-hover)] transition-colors duration-300"
                                     >
                                         {t('button.save')}
                                     </button>
@@ -373,9 +366,9 @@ function Customers(){
                 <div className="w-full flex flex-row">
                     <div className="w-full flex justify-between items-center mb-2">
                         <h4 className="text-lg font-semibold mb-2 w-1/2">{t('customers.customers')}</h4>
-                        {(role === "ROLE_ADMIN" || role === "ROLE_ACOUNTING") &&
+                        {(role === "ROLE_ADMIN" || role === "ROLE_ACCOUNTING") &&
                         <button
-                            className="mb-4 px-4 py-2 bg-[color:var(--primary)] text-[color:var(--text-light)] rounded-xl w-max flex items-center gap-2 hover:bg-[color:var(--primary-hover)] transition-colors duration-300"
+                            className="mb-4 px-4 py-2 rounded-xl bg-[color:var(--primary)] text-[color:var(--text-light)] w-max flex items-center gap-2 hover:bg-[color:var(--primary-hover)] transition-colors duration-300"
                             onClick={addCustomer}
                         >
                         <span className="text-lg font-bold">+</span> {t('button.add')}
@@ -412,7 +405,7 @@ function Customers(){
                     <thead>
                         <tr>
                         <th 
-                            className="w-1/6 py-3 text-left text-[color:var(--text)] font-medium"
+                            className="w-1/4 py-3 text-left text-[color:var(--text)] font-medium"
                             onClick={() => handleSort("comName")}>
                             {t('customers.com_name')} {sortConfig.key === "comName" && (sortConfig.direction === "asc" ? "▲" : "▼")}
                         </th>
@@ -438,7 +431,7 @@ function Customers(){
                         <tr
                             key={customer.idCustomer}
                             className="cursor-pointer text-[color:var(--text)] hover:bg-[color:var(--primary)] hover:text-[color:var(--text-light-hover)] transition-colors"
-                            onClick={() => setSelectedCustomer(customer)}
+                            onClick={() => navigate(`/dashboard/customers/${customer.idCustomer}`)}
                         >
                             <td className="w-1/6 py-2">{customer.comName}</td>
                             <td className=" w-1/6 py-2">{customer.vatNumber}</td>

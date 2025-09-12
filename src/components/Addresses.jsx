@@ -164,7 +164,7 @@ function Addresses ({addresses, idCompany, onAddressChange}){
                     role === "ROLE_ADMIN" && (
                     <button
                         onClick={handleEdit}
-                        className="mt-4 px-4 py-2 bg-[color:var(--primary)] text-[color:var(--text-light)] rounded-xl hover:bg-[color:var(--primary-hover)]"
+                        className="mb-4 px-4 py-2 rounded-xl bg-[color:var(--primary)] text-[color:var(--text-light)] w-max flex items-center gap-2 hover:bg-[color:var(--primary-hover)] transition-colors duration-300"
                     >
                         {t('button.edit')}
                     </button> )
@@ -172,13 +172,13 @@ function Addresses ({addresses, idCompany, onAddressChange}){
                     <div className="flex gap-2">
                         <button
                         onClick={handleSave}
-                        className="mt-4 px-4 py-2 bg-[color:var(--primary)] text-[color:var(--text-light)] rounded-xl hover:bg-[color:var(--primary-hover)]"
+                        className="mb-4 px-4 py-2 rounded-xl bg-[color:var(--primary)] text-[color:var(--text-light)] w-max flex items-center gap-2 hover:bg-[color:var(--primary-hover)] transition-colors duration-300"
                         >
                         {t('button.save')}
                         </button>
                         <button
                         onClick={handleEdit}
-                        className="mt-4 px-4 py-2 bg-[color:var(--primary)] text-[color:var(--text-light)] rounded-xl hover:bg-[color:var(--primary-hover)]"
+                        className="mb-4 px-4 py-2 rounded-xl bg-[color:var(--primary)] text-[color:var(--text-light)] w-max flex items-center gap-2 hover:bg-[color:var(--primary-hover)] transition-colors duration-300"
                         >
                             {t('button.cancel')}
                         </button>

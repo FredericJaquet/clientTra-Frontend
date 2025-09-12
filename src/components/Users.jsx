@@ -212,14 +212,14 @@ function Users() {
               <div className="flex justify-end gap-2 mt-4">
                 <button
                   type="button"
-                  className="px-4 py-2 rounded bg-[color:var(--primary)] text-[color:var(--text-light)] hover:bg-[color:var(--primary-hover)]"
+                  className="mb-4 px-4 py-2 bg-[color:var(--primary)] text-[color:var(--text-light)] rounded-xl w-max flex items-center gap-2 hover:bg-[color:var(--primary-hover)] transition-colors duration-300"
                   onClick={handleCancelAdd}
                 >
                   {t('button.cancel')}
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 rounded bg-[color:var(--primary)] text-[color:var(--text-light)] hover:bg-[color:var(--primary-hover)]"
+                  className="mb-4 px-4 py-2 bg-[color:var(--primary)] text-[color:var(--text-light)] rounded-xl w-max flex items-center gap-2 hover:bg-[color:var(--primary-hover)] transition-colors duration-300"
                 >
                   {t('button.save')}
                 </button>
@@ -245,7 +245,7 @@ function Users() {
                 <div className="w-full flex justify-between items-center mb-2">
                     <h4 className="text-lg font-semibold mb-2 w-1/2">{t('users.users')}</h4>
                     <button
-                        className="mb-4 px-4 py-2 bg-[color:var(--primary)] text-[color:var(--text-light)] rounded-xl w-max flex items-center gap-2 hover:bg-[color:var(--primary-hover)] transition-colors duration-300"
+                        
                         onClick={addUser}
                     >
                     <span className="text-lg font-bold">+</span> {t('button.add')}
@@ -329,7 +329,7 @@ function Users() {
           <div ref={backRef} className="absolute inset-0 rounded-xl shadow-lg bg-[color:var(--primary)] text-[color:var(--text-light)] p-4 [transform:rotateY(180deg)] [backface-visibility:hidden] flex flex-col">
             <button
               onClick={handleBack}
-              className="mb-4 px-4 py-2 bg-[color:var(--secondary)] text-[color:var(--text)] hover:bg-[color:var(--secondary-light-hover)] rounded-xl w-max"
+              className="mb-4 px-4 py-2 bg-[color:var(--secondary)] text-[color:var(--text)] rounded-xl w-max flex items-center gap-2 hover:bg-[color:var(--secondary-light-hover)] transition-colors duration-300"
             >
               ← {t('button.back')}
             </button>
@@ -378,13 +378,13 @@ function Users() {
                     <div className="flex gap-2 justify-end mt-4 mb-4">
                       <button
                         onClick={handleCancelEdit}
-                        className="px-4 py-2 bg-[color:var(--secondary)] text-[color:var(--text)] rounded-xl hover:bg-[color:var(--secondary-light-hover)]"
+                        className="mb-4 px-4 py-2 bg-[color:var(--secondary)] text-[color:var(--text)] rounded-xl w-max flex items-center gap-2 hover:bg-[color:var(--secondary-light-hover)] transition-colors duration-300"
                       >
                         {t('button.cancel')}
                       </button>
                       <button
                         onClick={handleSaveEdit}
-                        className="px-4 py-2 bg-[color:var(--secondary)] text-[color:var(--text)] rounded-xl hover:bg-[color:var(--secondary-light-hover)]"
+                        className="mb-4 px-4 py-2 bg-[color:var(--secondary)] text-[color:var(--text)] rounded-xl w-max flex items-center gap-2 hover:bg-[color:var(--secondary-light-hover)] transition-colors duration-300"
                       >
                         {t('button.save')}
                       </button>
@@ -410,7 +410,7 @@ function Users() {
                     <div className="flex justify-end mb-4">
                       <button
                         onClick={handleEdit}
-                        className="mt-4 px-4 py-2 bg-[color:var(--secondary)] text-[color:var(--text)] rounded-xl hover:bg-[color:var(--secondary-light-hover)]"
+                        className="mb-4 px-4 py-2 bg-[color:var(--secondary)] text-[color:var(--text)] rounded-xl w-max flex items-center gap-2 hover:bg-[color:var(--secondary-light-hover)] transition-colors duration-300"
                       >
                         {t('button.edit')}
                       </button>

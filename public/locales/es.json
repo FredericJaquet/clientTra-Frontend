@@ -93,7 +93,10 @@
         "url_invalid": "Dirección web no válida",
         "edit_disabled": "No disponible en modo demo",
         "deleting_phone": "Error al eliminar el teléfono",
-        "deleting_account": "Error al eliminar la cuenta bancaria"
+        "deleting_account": "Error al eliminar la cuenta bancaria",
+        "invalid_duedate": "El plazo de pago debe ser un número",
+        "invalid_default_vat": "El valor del IVA debe ser un número",
+        "invalid_default_withholding": "El valor de la retención debe ser un número"
     },
     "login": {
         "title": "Iniciar sesión",
