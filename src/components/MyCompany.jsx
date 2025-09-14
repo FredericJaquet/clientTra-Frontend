@@ -63,8 +63,8 @@ function MyCompany(){
 
     const handleEdit = () => {
         if (company) {
-        setIsEditing(!isEditing);
-        setError("");
+            setIsEditing(!isEditing);
+            setError("");
         }
     };
 
@@ -259,6 +259,7 @@ function MyCompany(){
                         {error}
                     </div>
                 )}
+                {/* Tabs */}
                 <div className="flex border-b border-[color:var(--primary)] mt-4 mb-4">
                     {["addresses", "phones", "bank_accounts", "logo"].map((tab) => (
                         <button

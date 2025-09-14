@@ -25,6 +25,17 @@
         "addresses": "Dirección",
         "bank_accounts": "Cuentas bancarias"
     },
+    "contacts":{
+        "add_contact":"Añadir contacto",
+        "edit_contact": "Modificar Contacto",
+        "no_contacts": "No hay contactos para esta empresa",
+        "confirm_delete":"¿Quieres eliminar este contacto?",
+        "firstname": "Nombre",
+        "middlename": "Primer apellido",
+        "lastname": "Secundo apellido",
+        "role": "Rol",
+        "email": "Email"
+    },
     "customers": {
         "customers": "Clientes",
         "no_customers": "No hay clientes en esta categoría",
@@ -33,6 +44,7 @@
         "vat_number": "CIF",
         "email": "Email",
         "web": "Web",
+        "language": "Idioma",
         "add_customer": "Añadir Cliente",
         "default_vat": "IVA por defecto",
         "invocing_method": "Método de envio de la factura",
@@ -40,7 +52,15 @@
         "pay_method": "Método de pago",
         "duedate": "Plazo de pago",
         "europe": "Europeo",
-        "enabled": "Activo"
+        "enabled": "Activo",
+        "detail": "Detalle del cliente",
+        "confirm_delete": "¿Quieres eliminar este cliente?",
+        "vat": "IVA",
+        "withholding": "Retención",
+        "yes": "Sí",
+        "no": "No",
+        "contacts": "Contactos",
+        "schemes": "Esquemas"
     },
     "dashboard": {
         "menu": "Menú",
@@ -94,9 +114,19 @@
         "edit_disabled": "No disponible en modo demo",
         "deleting_phone": "Error al eliminar el teléfono",
         "deleting_account": "Error al eliminar la cuenta bancaria",
+        "deleting_contact": "Error al eliminar el contacto",
+        "deleting_scheme": "Error al eliminar el esquema",
+        "editing_scheme": "Error al editar el esquema",
         "invalid_duedate": "El plazo de pago debe ser un número",
         "invalid_default_vat": "El valor del IVA debe ser un número",
-        "invalid_default_withholding": "El valor de la retención debe ser un número"
+        "invalid_default_withholding": "El valor de la retención debe ser un número",
+        "invalid_discount": "El valor del descuento debe ser un número",
+        "invalid_price": "El valor del precio debe ser un número"
+    },
+    "languages": {
+        "es": "Español",
+        "fr": "Francés",
+        "en": "Inglés"
     },
     "login": {
         "title": "Iniciar sesión",
@@ -141,6 +171,19 @@
         "city": "Ciudad",
         "state": "Provincia",
         "country": "País"
+    },
+    "schemes": {
+        "add_scheme": "Añadir Esquema",
+        "name":"Nombre",
+        "price": "Precio",
+        "units": "Unidades",
+        "field": "Sector",
+        "sourceLanguage": "Idioma de origen",
+        "targetLanguage": "Idioma de destino",
+        "lines": "Líneas",
+        "descrip": "Descripción",
+        "discount": "Descuento",
+        "no_schemes": "No hay esquemas para esta empresa"
     },
     "users": {
         "admin": "Administrador",

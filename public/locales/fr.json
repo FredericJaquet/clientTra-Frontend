@@ -25,6 +25,32 @@
         "addresses": "Adresse",
         "bank_accounts": "Comptes bancaires"
     },
+    "customers": {
+        "customers": "Clients",
+        "no_customers": "Il n’y a aucun client dans cette catégorie",
+        "com_name": "Nom commercial",
+        "legal_name": "Raison sociale",
+        "vat_number": "Numéro de TVA",
+        "email": "Email",
+        "web": "Site web",
+        "language": "Langue",
+        "add_customer": "Ajouter un client",
+        "default_vat": "TVA par défaut",
+        "invocing_method": "Méthode d’envoi de la facture",
+        "default_withholding": "Retenue par défaut",
+        "pay_method": "Méthode de paiement",
+        "duedate": "Délai de paiement",
+        "europe": "Européen",
+        "enabled": "Actif",
+        "detail": "Détail du client",
+        "confirm_delete": "Voulez-vous supprimer ce client ?",
+        "vat": "TVA",
+        "withholding": "Retenue",
+        "yes": "Oui",
+        "no": "Non",
+        "contacts": "Contacts",
+        "schemes": "Schémas"
+    },
     "dashboard": {
         "menu": "Menu",
         "logout": "Se déconnecter",
@@ -77,9 +103,19 @@
         "edit_disabled": "Non disponible en mode Demo",
         "deleting_phone": "Erreur lors de l'éliminatin du téléphone",
         "deleting_account": "Erreur lors de l'éliminatin du compte bancaire",
+        "deleting_scheme": "Erreur lors de l'éliminatin du schéma de facturation",
+        "editing_scheme": "Erreur lors de la modification du schéma de facturation",
+        "deleting_contact": "Erreur lors de l'éliminatin du contact",
         "invalid_duedate": "Le délai de paiement doit être un nombre",
         "invalid_default_vat": "La valeur de la TVA doit être un nombre",
-        "invalid_default_withholding": "La valeur de la retenue doit être un nombre"
+        "invalid_default_withholding": "La valeur de la retenue doit être un nombre",
+        "invalid_discount": "La valeur de la réduction doit être un nombre",
+        "invalid_price": "La valeur du prix de base doit être un nombre"
+    },
+    "languages": {
+        "es": "Espagnol",
+        "fr": "Français",
+        "en": "Anglais"
     },
     "login": {
         "title": "Se connecter",
@@ -124,7 +160,7 @@
         "state": "Province",
         "country": "Pays"
     },
-        "users": {
+    "users": {
         "admin": "Administrateur",
         "accounting": "Finances",
         "user": "Utilisateur",

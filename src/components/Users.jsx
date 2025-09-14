@@ -245,7 +245,7 @@ function Users() {
                 <div className="w-full flex justify-between items-center mb-2">
                     <h4 className="text-lg font-semibold mb-2 w-1/2">{t('users.users')}</h4>
                     <button
-                        
+                        className="mb-4 px-4 py-2 bg-[color:var(--primary)] text-[color:var(--text-light)] rounded-xl w-max flex items-center gap-2 hover:bg-[color:var(--primary-hover)] transition-colors duration-300"
                         onClick={addUser}
                     >
                     <span className="text-lg font-bold">+</span> {t('button.add')}

@@ -1,22 +1,60 @@
 import React from "react";
-import { useState } from "react";
+import api from "../api/axios";
+import { useState, useEffect } from "react";
+import { useTranslation } from 'react-i18next';
+import { useNavigate  } from "react-router-dom";
 import '../assets/css/App.css';
 import glass from "../assets/img/search.png";
-import { useTranslation } from 'react-i18next';
+
 
 function SearchBar(){
 
     const { t } = useTranslation();
+    const navigate = useNavigate();
 
     const [query, setQuery] = useState("");
+    const [customersSearchResult, setCustomersSearchResult] = useState([]);
+    const [providersSearchResult, setProvidersSearchResult] = useState([]);
 
-    const search = (e) =>{
-        if (e.type === "keydown" && e.key !== "Enter"){
-        return;
-    }
+    const search = (e) => {
+        if (e.type === "keydown" && e.key !== "Enter") return;
 
-        console.log("Buscando:", query);
-    }
+        api.get(`/customers/search?input=${query}`)
+            .then((res) => setCustomersSearchResult(res.data))
+            .catch((err) => console.error("Error fetching customers:", err));
+    };
+
+    // Effect for Customers
+    useEffect(() => {
+        if (customersSearchResult.length > 0) {
+            if (customersSearchResult.length === 1) {
+                navigate(`/dashboard/customers/${customersSearchResult[0].idCustomer}`);
+            } else {
+                navigate(`/dashboard/customers?search=${query}`);
+            }
+        } else if (query !== "") {
+            // si no hay clientes, buscamos proveedores
+            api.get(`/providers/search?input=${query}`)
+                .then((res) => setProvidersSearchResult(res.data))
+                .catch((err) => console.error("Error fetching providers:", err));
+        }
+    }, [customersSearchResult]);
+
+    // effect for Providers
+    useEffect(() => {
+        if (providersSearchResult.length > 0) {
+            if (providersSearchResult.length === 1) {
+                console.log("Ir a ficha proveedor");
+                //navigate(`/dashboard/providers/${providersSearchResult[0].idProvider}`);
+            } else {
+                console.log("Ir a lista  poroveedores");
+                //navigate(`/dashboard/providers?search=${query}`);
+            }
+        }
+    }, [providersSearchResult]);
+
+
+
     return (
         <div id="search_bar" className="bg-[color:var(--primary)] sticky top-0 z-10 flex w-full p-4">
             <img    id="glass_icon"

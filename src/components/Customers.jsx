@@ -1,7 +1,7 @@
 import api from "../api/axios";
 import { useState, useEffect } from "react";
 import { useTranslation } from 'react-i18next';
-import { useNavigate  } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { emailValidator, urlValidator } from "../utils/validator";
 
 
@@ -9,10 +9,12 @@ function Customers(){
 
     const { t } = useTranslation();
     const navigate = useNavigate();
+    const [searchParams] = useSearchParams();
 
     const user = JSON.parse(localStorage.getItem("user"));
     const role = user?.role || "ROLE_USER";
 
+    const searchQuery = searchParams.get("search");
     const [formData, setFormData] = useState({ 
                                         vatNumber:"",
                                         comName: "",
@@ -31,7 +33,6 @@ function Customers(){
                                         defaultWithholding: "",
                                         europe: true,
                                     });
-
     const [customers, setCustomers] = useState([]);
     const [error, setError] = useState("");
     const [selectedTab, setSelectedTab] = useState("enabled");
@@ -39,13 +40,17 @@ function Customers(){
     const [showAddForm, setShowAddForm] = useState(false);
 
     useEffect(() => {
-        api
-            .get("/customers")
-            .then((res) => {
-                    setCustomers(res.data);
-                })
+        if (searchQuery) {
+            api.get(`/customers/search?input=${searchQuery}`)
+                .then(res => setCustomers(res.data))
+                .catch(err => console.error(err));
+            
+        } else {
+        api.get("/customers")
+            .then((res) => setCustomers(res.data))
             .catch((err) => console.error("Error fetching customers:", err));
-        }, []);
+        }
+    }, [searchQuery]);
 
     const filteredCustomers = customers
                         .filter((c) =>
@@ -88,12 +93,10 @@ function Customers(){
             setError(t('error.email_invalid'));
             return;
         }
-
         if(!urlValidator(formData.web)){
             setError(t('error.url_invalid'));
             return;
         }
-
         if (isNaN(Number(formData.duedate))) {
             setError(t('error.invalid_duedate'));
             return;
@@ -215,9 +218,9 @@ function Customers(){
                                         name="defaultLanguage"
                                         onChange={handleChange}
                                         className="p-2 w-full rounded-lg border bg-[color:var(--background)]">
-                                        <option value="es">Español</option>
-                                        <option value="fr">Français</option>
-                                        <option value="en">English</option>
+                                        <option value="es">{t("languages.es")}</option>
+                                        <option value="fr">{t("languages.fr")}</option>
+                                        <option value="en">{t("languages.en")}</option>
                                     </select>
                                 </div>
                                 <hr className="border-primary"/>
@@ -362,6 +365,7 @@ function Customers(){
                     </div>
                 </div>
             )}
+            {/* List */}
             <div className="rounded-xl shadow-lg w-3/4 p-4 bg-[color:var(--secondary)]">
                 <div className="w-full flex flex-row">
                     <div className="w-full flex justify-between items-center mb-2">
@@ -375,7 +379,6 @@ function Customers(){
                         </button>}
                     </div>
                 </div>
-                <hr className="border-[color:var(--primary)] mb-2" />
 
                 {/* Tabs */}
                 <div className="flex border-b border-[color:var(--primary)] mb-4">

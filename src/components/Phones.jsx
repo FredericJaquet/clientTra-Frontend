@@ -23,8 +23,8 @@ function Phones ({phones, idCompany, onPhonesChange}){
 
     const handleSort = (key) => {
         setSortConfig((prev) => ({
-        key,
-        direction: prev.key === key && prev.direction === "asc" ? "desc" : "asc",
+            key,
+            direction: prev.key === key && prev.direction === "asc" ? "desc" : "asc",
         }));
     };
 
@@ -233,15 +233,15 @@ function Phones ({phones, idCompany, onPhonesChange}){
                         )}
                         <div className="flex justify-end gap-2 mt-4">
                             <button
-                            type="button"
-                            className="mb-4 px-4 py-2 rounded-xl bg-[color:var(--primary)] text-[color:var(--text-light)] w-max flex items-center gap-2 hover:bg-[color:var(--primary-hover)] transition-colors duration-300"
-                            onClick={handleCancelEdit}
+                                type="button"
+                                className="mb-4 px-4 py-2 rounded-xl bg-[color:var(--primary)] text-[color:var(--text-light)] w-max flex items-center gap-2 hover:bg-[color:var(--primary-hover)] transition-colors duration-300"
+                                onClick={handleCancelEdit}
                             >
                             {t('button.cancel')}
                             </button>
                             <button
-                            type="submit"
-                           className="mb-4 px-4 py-2 rounded-xl bg-[color:var(--primary)] text-[color:var(--text-light)] w-max flex items-center gap-2 hover:bg-[color:var(--primary-hover)] transition-colors duration-300"
+                                type="submit"
+                                className="mb-4 px-4 py-2 rounded-xl bg-[color:var(--primary)] text-[color:var(--text-light)] w-max flex items-center gap-2 hover:bg-[color:var(--primary-hover)] transition-colors duration-300"
                             >
                             {t('button.save')}
                             </button>
