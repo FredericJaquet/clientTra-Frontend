@@ -1,3 +1,3 @@
 import api from './axios';
 
-export const getAllPendingOrders = () => api.get('/orders/pending');
+export const getAllPendingOrders = () => api.get('/orders/pending/customers');

@@ -1,8 +1,9 @@
 import { useState, useEffect, useRef } from "react";
-import api from "../api/axios";
+import axios from "../api/axios";
 import { useTranslation } from 'react-i18next';
 import { ServerRouter } from "react-router-dom";
 
+//TODO: Evitar editción de esquemas si USER
 function Schemes({schemes, idCompany, onSchemesChange}){
 
     const { t } = useTranslation();
@@ -83,7 +84,7 @@ function Schemes({schemes, idCompany, onSchemesChange}){
         }
 
         try {
-            const response = await api.post(`/companies/${idCompany}/schemes`, formData);
+            const response = await axios.post(`/companies/${idCompany}/schemes`, formData);
 
             setSchemesList(prevSchemes => {
                 const updatedSchemes = [...prevSchemes, response.data];
@@ -115,7 +116,7 @@ function Schemes({schemes, idCompany, onSchemesChange}){
         }
 
         try {
-            const response = await api.patch(`/companies/${idCompany}/schemes/${selectedScheme.idScheme}`, formData);
+            const response = await axios.patch(`/companies/${idCompany}/schemes/${selectedScheme.idScheme}`, formData);
 
             setSchemesList(prevSchemes => {
                 const updatedSchemes = prevSchemes.map(scheme =>
@@ -145,7 +146,7 @@ function Schemes({schemes, idCompany, onSchemesChange}){
         if (!schemeToDelete) return;
 
         try {
-            await api.delete(`/companies/${idCompany}/schemes/${schemeToDelete.idScheme}`);
+            await axios.delete(`/companies/${idCompany}/schemes/${schemeToDelete.idScheme}`);
 
             setSchemesList(prevSchemes => {
                 const updatedSchemes = prevSchemes.filter(s => s.idScheme !== schemeToDelete.idScheme);
@@ -166,6 +167,7 @@ function Schemes({schemes, idCompany, onSchemesChange}){
     }
 
     const handleLineChange = (e) => {
+        e.preventDefault();
         const { name, value } = e.target;
         setLineInput(prev => ({ ...prev, [name]: value }));
     };
@@ -315,6 +317,7 @@ function Schemes({schemes, idCompany, onSchemesChange}){
                                         placeholder={t('schemes.descrip')}
                                         value={lineInput.descrip}
                                         onChange={handleLineChange}
+                                        onKeyDown={handleAddLine}
                                         className="border border-[color:var(--border)] rounded-lg p-2 w-1/2 focus:outline-none focus:ring-2 focus:ring-[color:var(--primary)]"
                                     />
                                     <input
@@ -341,10 +344,10 @@ function Schemes({schemes, idCompany, onSchemesChange}){
                                             key={index}
                                             className="flex cursor-pointer text-[color:var(--text)] hover:bg-[color:var(--primary)] hover:text-[color:var(--text-light-hover)] transition-colors"
                                             onDoubleClick={() => handleEditLine(index)}
-                                            title="Double click to edit" // tooltip al pasar el ratón
+                                            title="Double click to edit"
                                         >
                                             <label className="w-1/2 py-2">{line.descrip}</label>
-                                            <label className="w-1/2 py-2">{line.discount}</label>
+                                            <label className="w-1/2 py-2">{line.discount>1 ? `${line.discount}%` : `${line.discount*100}%`}</label>
                                         </div>
                                     ))}
                                 </div>
@@ -373,7 +376,7 @@ function Schemes({schemes, idCompany, onSchemesChange}){
                     </div>
                 </div>
             )}
-            {/* Card Edit Phone */}
+            {/* Card Edit Scheme */}
             {showEditForm && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
                     <div className="bg-[color:var(--secondary)] rounded-xl shadow-lg p-6 w-1/2 max-h-[90vh] flex flex-col">
@@ -449,7 +452,7 @@ function Schemes({schemes, idCompany, onSchemesChange}){
                                 title="Double click to edit"
                             >
                                 <label className="w-1/2 py-2">{line.descrip}</label>
-                                <label className="w-1/2 py-2">{line.discount}</label>
+                                <label className="w-1/2 py-2">{line.discount>1 ? `${line.discount}%` : `${line.discount*100}%`}</label>
                             </div>
                             ))}
                         </div>
@@ -463,6 +466,7 @@ function Schemes({schemes, idCompany, onSchemesChange}){
                                 name="descrip"
                                 value={lineInput.descrip}
                                 onChange={handleLineChange}
+                                onKeyDown={handleAddLine}
                                 className="border border-[color:var(--border)] rounded-lg p-2 w-1/2 focus:outline-none focus:ring-2 focus:ring-[color:var(--primary)]"
                             />
                             <input

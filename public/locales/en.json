@@ -20,8 +20,26 @@
         "red": "Red",
         "next": "Next"
     },
+    "companies": {
+        "phones": "Phones",
+        "addresses": "Address",
+        "bank_accounts": "Bank Accounts"
+    },
+    "contacts": {
+        "add_contact": "Add contact",
+        "edit_contact": "Edit Contact",
+        "no_contacts": "There are no contacts for this company",
+        "confirm_delete": "Do you want to delete this contact?",
+        "firstname": "First name",
+        "middlename": "Middle name",
+        "lastname": "Last name",
+        "role": "Role",
+        "email": "Email"
+    },
     "customers": {
         "customers": "Customers",
+        "all_customers": "All customers",
+        "customer": "Customer",
         "no_customers": "There are no customers in this category",
         "com_name": "Trade name",
         "legal_name": "Legal name",
@@ -46,11 +64,6 @@
         "contacts": "Contacts",
         "schemes": "Schemes"
     },
-    "companies": {
-        "phones": "Phones",
-        "addresses": "Address",
-        "bank_accounts": "Bank Accounts"
-    },
     "dashboard": {
         "menu": "Menu",
         "logout": "Logout",
@@ -65,6 +78,8 @@
         "providers": "Providers",
         "create": "Create",
         "orders": "Orders",
+        "orders_Customer": "Orders Customers",
+        "orders_providers": "Orders Providers",
         "customer_invoices": "Customer Invoices",
         "provider_invoices": "Provider Invoices",
         "quotes": "Quotes",
@@ -98,6 +113,8 @@
         "saving_user": "Error saving the user",
         "saving_phone": "Error saving the phone",
         "saving_account": "Error saving the Bank Account",
+        "saving_customer": "Error saving the Customer",
+        "saving_provider": "Error saving the provider",
         "email_invalid": "Invalid email",
         "url_invalid": "Invalid Web",
         "edit_disabled": "Not available for Demo Mode",
@@ -105,12 +122,19 @@
         "deleting_account": "Error deleting Bank Account",
         "deleting_contact": "Error deleting Contact",
         "deleting_scheme": "Error deleting Scheme",
+        "deleting_order": "Error deleting Order",
         "editing_scheme": "Error editing Scheme",
+        "editing_customer": "Error editing Customer",
+        "editing_provider": "Erreur lors de la modification du client",
+        "editing_order": "Error editing Order",
         "invalid_duedate": "The payment term must be a number",
         "invalid_default_vat": "The VAT value must be a number",
         "invalid_default_withholding": "The withholding value must be a number",
         "invalid_discount": "The discount value must be a number",
-        "invalid_price": "The price value must be a number"
+        "invalid_price": "The price value must be a number",
+        "invalid_qty": "The quantity value must be a number",
+        "no_customer_selected":"You must select a customer",
+        "order_without_items": "The order total must be > 0."
     },
     "languages": {
         "es": "Spanish",
@@ -137,8 +161,31 @@
         "no_phones": "There is no phones for this company",
         "add_phone": "Add New Phone",
         "edit_phone": "Edit Phone",
-        "deleting_phone": "Error deleting phone",
         "confirm_delete" : "Do you really want to delete this phone?"
+    },
+    "providers": {
+        "providers": "Providers",
+        "no_cproviders": "There are no providers in this category",
+        "com_name": "Trade name",
+        "legal_name": "Legal name",
+        "vat_number": "VAT number",
+        "email": "Email",
+        "web": "Website",
+        "language": "Language",
+        "add_provider": "Add provider",
+        "default_vat": "Default VAT",
+        "default_withholding": "Default withholding",
+        "duedate": "Due date",
+        "europe": "European",
+        "enabled": "Enabled",
+        "detail": "Provider detail",
+        "confirm_delete": "Do you want to delete this provider?",
+        "vat": "VAT",
+        "withholding": "Withholding",
+        "yes": "Yes",
+        "no": "No",
+        "contacts": "Contacts",
+        "schemes": "Schemes"
     },
     "register": {
         "title": "Register",
@@ -162,6 +209,20 @@
         "state": "State/Province",
         "country": "Country"
     },
+    "schemes": {
+        "add_scheme": "Add Scheme",
+        "select_scheme": "Select Scheme",
+        "name": "Name",
+        "price": "Price",
+        "units": "Units",
+        "field": "Field",
+        "sourceLanguage": "Source language",
+        "targetLanguage": "Target language",
+        "lines": "Lines",
+        "descrip": "Description",
+        "discount": "Discount",
+        "no_schemes": "There are no schemes for this company"
+    },
     "users": {
         "admin": "Administrator",
         "accounting": "Finance",
@@ -182,5 +243,4 @@
         "darkmode": "Dark Mode",
         "language": "Language"
     }
-
 }

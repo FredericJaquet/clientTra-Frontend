@@ -25,8 +25,21 @@
         "addresses": "Adresse",
         "bank_accounts": "Comptes bancaires"
     },
+    "contacts": {
+        "add_contact": "Ajouter un contact",
+        "edit_contact": "Modifier le contact",
+        "no_contacts": "Il n’y a aucun contact pour cette entreprise",
+        "confirm_delete": "Voulez-vous supprimer ce contact ?",
+        "firstname": "Prénom",
+        "middlename": "Deuxième prénom",
+        "lastname": "Nom de famille",
+        "role": "Rôle",
+        "email": "Email"
+    },
     "customers": {
         "customers": "Clients",
+        "all_customers": "Tous les clients",
+        "customer": "Client",
         "no_customers": "Il n’y a aucun client dans cette catégorie",
         "com_name": "Nom commercial",
         "legal_name": "Raison sociale",
@@ -65,6 +78,8 @@
         "providers": "Fournisseurs",
         "create": "Créer",
         "orders": "Commandes",
+        "orders_customers": "Commandes Clientes",
+        "orders_providers": "Commandes Fournisseurs",
         "customer_invoices": "Factures clients",
         "provider_invoices": "Factures fournisseurs",
         "quotes": "Devis",
@@ -98,19 +113,27 @@
         "saving_user": "Erreur lors de la sauvegarde de l'utilisateur",
         "saving_phone": "Erreur lors de la sauvegarde du téléphone",
         "saving_account": "Erreur lors de la sauvegarde du compte bancaire",
+        "saving_customer": "Erreur lors de la sauvegarde du client",
+        "saving_provider": "Erreur lors de la sauvegarde du fournisseur",
         "email_invalid": "Email non valide",
         "url_invalid": "Adresse web non valide",
         "edit_disabled": "Non disponible en mode Demo",
-        "deleting_phone": "Erreur lors de l'éliminatin du téléphone",
-        "deleting_account": "Erreur lors de l'éliminatin du compte bancaire",
-        "deleting_scheme": "Erreur lors de l'éliminatin du schéma de facturation",
+        "deleting_phone": "Erreur lors de l'élimination du téléphone",
+        "deleting_account": "Erreur lors de l'élimination du compte bancaire",
+        "deleting_scheme": "Erreur lors de l'élimination du schéma de facturation",
+        "deleting_contact": "Erreur lors de l'élimination du contact",
         "editing_scheme": "Erreur lors de la modification du schéma de facturation",
-        "deleting_contact": "Erreur lors de l'éliminatin du contact",
+        "editing_customer": "Erreur lors de la modification du client",
+        "editing_provider": "Erreur lors de la modification du fournisseur",
         "invalid_duedate": "Le délai de paiement doit être un nombre",
         "invalid_default_vat": "La valeur de la TVA doit être un nombre",
         "invalid_default_withholding": "La valeur de la retenue doit être un nombre",
         "invalid_discount": "La valeur de la réduction doit être un nombre",
-        "invalid_price": "La valeur du prix de base doit être un nombre"
+        "invalid_price": "La valeur du prix de base doit être un nombre",
+        "invalid_qty": "La valeur de la quantité doit être un nombre",
+        "no_customer_selected":"Vous devez sélectionner un client",
+        "editing_order": "Erreur lors de la modification de la commande",
+        "order_without_items": "Le total de la commande doit être > 0."
     },
     "languages": {
         "es": "Espagnol",
@@ -134,9 +157,34 @@
     "phones":{
         "phoneNumber": "Numéro",
         "kind": "Type",
+        "no_phones": "Il n’y a aucun téléphone pour cette entreprise",
         "add_phone": "Ajouter téléphone",
         "edit_phone": "Modifier téléphone",
         "confirm_delete" : "Vous voulez éliminer ce téléphone ?"
+    },
+    "providers": {
+        "providers": "Fournisseurs",
+        "no_providers": "Il n’y a aucun fournisseur dans cette catégorie",
+        "com_name": "Nom commercial",
+        "legal_name": "Raison sociale",
+        "vat_number": "Numéro de TVA",
+        "email": "Email",
+        "web": "Site web",
+        "language": "Langue",
+        "add_provider": "Ajouter un fournisseur",
+        "default_vat": "TVA par défaut",
+        "default_withholding": "Retenue par défaut",
+        "duedate": "Délai de paiement",
+        "europe": "Européen",
+        "enabled": "Actif",
+        "detail": "Détail du fournisseur",
+        "confirm_delete": "Voulez-vous supprimer ce fournisseur ?",
+        "vat": "TVA",
+        "withholding": "Retenue",
+        "yes": "Oui",
+        "no": "Non",
+        "contacts": "Contacts",
+        "schemes": "Schémas"
     },
     "register": {
         "title": "Inscription",
@@ -160,6 +208,20 @@
         "state": "Province",
         "country": "Pays"
     },
+    "schemes": {
+        "add_scheme": "Ajouter un schéma",
+        "select_scheme": "Choisissez un schéma",
+        "name": "Nom",
+        "price": "Prix",
+        "units": "Unités",
+        "field": "Secteur",
+        "sourceLanguage": "Langue source",
+        "targetLanguage": "Langue cible",
+        "lines": "Lignes",
+        "descrip": "Description",
+        "discount": "Remise",
+        "no_schemes": "Il n’y a aucun schéma pour cette entreprise"
+    },
     "users": {
         "admin": "Administrateur",
         "accounting": "Finances",
@@ -180,7 +242,4 @@
         "darkmode": "Mode nuit",
         "language": "Langue"
     }
-
-
-
 }

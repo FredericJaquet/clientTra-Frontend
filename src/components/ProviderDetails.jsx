@@ -8,8 +8,9 @@ import BankAccounts from "./BankAccounts";
 import ContactPersons from "./ContactPersons";
 import Schemes from "./Schemes";
 
-//TODO Afinar la creación y edición de esquemas (Al presionar ENter en la descripción de una linea por ejemplo)
-function CustomerDetails() {
+
+//TODO Afinar la creación y edición de esquemas (Al presionar Enter en la descripción de una linea por ejemplo)
+function ProviderDetails() {
     const { t } = useTranslation();
     const { id } = useParams();
     const navigate = useNavigate();
@@ -17,7 +18,7 @@ function CustomerDetails() {
     const user = JSON.parse(localStorage.getItem("user"));
     const role = user?.role || "ROLE_USER";
 
-    const [customer, setCustomer] = useState(null);
+    const [provider, setProvider] = useState(null);
     const [isEditing, setIsEditing] = useState(false);
     const [error, setError] = useState("");
     const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
@@ -28,9 +29,7 @@ function CustomerDetails() {
                                         legalName: "",
                                         email: "",
                                         web: "",
-                                        invoicingMethod: "",
                                         duedate: "",
-                                        payMethod: "",
                                         defaultLanguage: "",
                                         defaultVat: "",
                                         defaultWithholding: "",
@@ -45,24 +44,24 @@ function CustomerDetails() {
     };
 
     useEffect(() => {
-        api.get(`/customers/${id}`)
+        api.get(`/providers/${id}`)
         .then((response) => {
-            setCustomer(response.data);
+            setProvider(response.data);
             setFormData({ 
                             vatNumber: response.data.vatNumber,
                             comName: response.data.comName,
                             legalName: response.data.legalName,
                             email: response.data.email,
                             web: response.data.web,
-                            invoicingMethod: response.data.invoicingMethod,
                             duedate: response.data.duedate,
-                            payMethod: response.data.payMethod,
                             defaultLanguage: response.data.defaultLanguage,
                             defaultVat: (Number.parseFloat(response.data.defaultVat)*100).toFixed(2),
                             defaultWithholding: (Number.parseFloat(response.data.defaultWithholding)*100).toFixed(2),
                             europe: response.data.europe,
                             enabled: response.data.enabled,
                         });
+
+            console.log(response.data);
         })
         .catch(err => {
             console.error(err);
@@ -71,35 +70,35 @@ function CustomerDetails() {
     }, [id]);
 
     const handleEdit = () => {
-        if (customer) {
+        if (provider) {
             setIsEditing(!isEditing);
             setError("");
         }
     };
 
     const handleDelete = async () => {
-        if (!customer) return;
+        if (!provider) return;
 
         try {
-            await api.delete(`/customers/${id}`);
+            await api.delete(`/providers/${id}`);
 
-            navigate(`/dashboard/customers`);
+            navigate(`/dashboard/providers`);
 
             setShowDeleteConfirm(false);
-            setCustomer(null);
+            setProvider(null);
         } catch (err) {
             console.error(err);
-            setError(err.response.data.message || t('error.deleting_customer'));
+            setError(err.response.data.message || t('error.deleting_provider'));
         }
     };
 
     const handleSave = async () => {
         try {
-            const response = await api.patch(`/customers/${id}`, formData);
-            setCustomer(response.data);
+            const response = await api.patch(`/providers/${id}`, formData);
+            setProvider(response.data);
             setIsEditing(false);
         } catch (err) {
-            setError(err.response.data.message || t('error.editing_customer'));
+            setError(err.response.data.message || t('error.editing_provider'));
         }
     };
 
@@ -113,7 +112,7 @@ function CustomerDetails() {
     };
 
 
-    if (!customer) {
+    if (!provider) {
         return <div>{t("dashboard.loading")}...</div>;
     }
 
@@ -122,41 +121,41 @@ function CustomerDetails() {
             case "addresses":
                 return (
                     <Addresses
-                    addresses={customer.addresses}
-                    idCompany={customer.idCompany}
-                    onAddressChange={(newAddress) => setCustomer(prev => ({ ...prev, addresses: [newAddress] }))}
+                    addresses={provider.addresses}
+                    idCompany={provider.idCompany}
+                    onAddressChange={(newAddress) => setProvider(prev => ({ ...prev, addresses: [newAddress] }))}
                     />
                 );
             case "phones":
                 return (
                     <Phones
-                    phones={customer.phones}
-                    idCompany={customer.idCompany}
-                    onPhonesChange={(newPhone) => setCustomer(prev => ({ ...prev, phones: newPhone }))}
+                    phones={provider.phones}
+                    idCompany={provider.idCompany}
+                    onPhonesChange={(newPhone) => setProvider(prev => ({ ...prev, phones: newPhone }))}
                     />
                 );
             case "bank_accounts":
                 return (
                 <BankAccounts
-                    bankAccounts={customer.bankAccounts}
-                    idCompany={customer.idCompany}
-                    onAccountsChange={(newAccount) => setCustomer(prev => ({ ...prev, bankAccounts: newAccount }))}
+                    bankAccounts={provider.bankAccounts}
+                    idCompany={provider.idCompany}
+                    onAccountsChange={(newAccount) => setProvider(prev => ({ ...prev, bankAccounts: newAccount }))}
                     />
                 );
             case "contact_persons":
                 return (
                 <ContactPersons
-                    contacts={customer.contactPersons}
-                    idCompany={customer.idCompany}
-                    onContactsChange={(newContact) => setCustomer(prev => ({ ...prev, contactPersons: newContact }))}
+                    contacts={provider.contactPersons}
+                    idCompany={provider.idCompany}
+                    onContactsChange={(newContact) => setProvider(prev => ({ ...prev, contactPersons: newContact }))}
                 />
                 );
             case "schemes":
                 return (
                 <Schemes
-                    schemes={customer.schemes}
-                    idCompany={customer.idCompany}
-                    onSchemesChange={(newScheme) => setCustomer(prev => ({ ...prev, schemes: newScheme }))}
+                    schemes={provider.schemes}
+                    idCompany={provider.idCompany}
+                    onSchemesChange={(newScheme) => setProvider(prev => ({ ...prev, schemes: newScheme }))}
                 />
                 );
             default:
@@ -169,7 +168,7 @@ function CustomerDetails() {
         <div className="w-3/4 mx-auto p-6 bg-[color:var(--secondary)] rounded-xl shadow-lg">
             <div className="flex justify-between">
                 <h4 className="text-xl font-semibold mb-4">
-                    {t("customers.detail")}: {customer.comName}
+                    {t("providers.detail")}: {provider.comName}
                 </h4>
                 {/* Buttons */}
                 {(role === "ROLE_ADMIN" || role === "ROLE_ACCOUNTING") && (
@@ -212,7 +211,7 @@ function CustomerDetails() {
             {showDeleteConfirm && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
                     <div className="bg-[color:var(--secondary)] rounded-xl shadow-lg p-6 w-1/3">
-                        <h3 className="text-xl font-semibold mb-4">{t('customers.confirm_delete')}</h3>
+                        <h3 className="text-xl font-semibold mb-4">{t('providers.confirm_delete')}</h3>
                         
                         <div className="flex justify-end gap-2 mt-4">
                             <button
@@ -236,11 +235,11 @@ function CustomerDetails() {
 
             {error && <div className="bg-[color:var(--error)] text-white p-2 rounded mb-4">{error}</div>}
 
-            {/* Customer Detail */}
+            {/* Provider Detail */}
             <div className="flex mb-4">
-                <label className="font-semibold w-1/6">{t("customers.com_name")}</label>
+                <label className="font-semibold w-1/6">{t("providers.com_name")}</label>
                 {!isEditing ? 
-                    <label className="mr-2 w-1/3">{customer.comName}</label>
+                    <label className="mr-2 w-1/3">{provider.comName}</label>
                     :
                     <input
                     type="text"
@@ -250,9 +249,9 @@ function CustomerDetails() {
                     className="bg-[color:var(--background)] p-2 mr-2 h-8 rounded-lg border w-1/3"
                     />
                 }
-                <label className="font-semibold w-1/6">{t("customers.legal_name")}</label>
+                <label className="font-semibold w-1/6">{t("providers.legal_name")}</label>
                 {!isEditing ? 
-                    <label className="mr-2 w-1/3">{customer.legalName}</label>
+                    <label className="mr-2 w-1/3">{provider.legalName}</label>
                     :
                     <input
                     type="text"
@@ -264,9 +263,9 @@ function CustomerDetails() {
                 }
             </div>
             <div className="flex mb-4">
-                <label className="font-semibold w-1/6">{t("customers.vat_number")}</label>
+                <label className="font-semibold w-1/6">{t("providers.vat_number")}</label>
                 {!isEditing ? 
-                    <label className="mr-2 w-1/3">{customer.vatNumber}</label>
+                    <label className="mr-2 w-1/3">{provider.vatNumber}</label>
                     :
                     <input
                     type="text"
@@ -276,9 +275,9 @@ function CustomerDetails() {
                     className="bg-[color:var(--background)] p-2 mr-2 h-8 rounded-lg border w-1/3"
                     />
                 }
-                <label className="font-semibold w-1/6">{t("customers.language")}</label>
+                <label className="font-semibold w-1/6">{t("providers.language")}</label>
                 {!isEditing ? 
-                    <label className="mr-2 w-1/3">{lanToLanguage[customer.defaultLanguage]}</label>
+                    <label className="mr-2 w-1/3">{lanToLanguage[provider.defaultLanguage]}</label>
                     :
                     <select
                         name="defaultLanguage"
@@ -292,9 +291,9 @@ function CustomerDetails() {
                 }
             </div>
             <div className="flex mb-4">
-                <label className="font-semibold w-1/6">{t("customers.email")}</label>
+                <label className="font-semibold w-1/6">{t("providers.email")}</label>
                 {!isEditing ? 
-                    <label className="mr-2 w-1/3">{customer.email}</label>
+                    <label className="mr-2 w-1/3">{provider.email}</label>
                     :
                     <input
                     type="email"
@@ -304,9 +303,9 @@ function CustomerDetails() {
                     className="bg-[color:var(--background)] p-2 mr-2 h-8 rounded-lg border w-1/3"
                     />
                 }
-                <label className="font-semibold w-1/6">{t("customers.web")}</label>
+                <label className="font-semibold w-1/6">{t("providers.web")}</label>
                 {!isEditing ? 
-                    <label className="mr-2 w-1/3">{customer.web}</label>
+                    <label className="mr-2 w-1/3">{provider.web}</label>
                     :
                     <input
                     type="text"
@@ -318,9 +317,9 @@ function CustomerDetails() {
                 }
             </div>
             <div className="flex mb-4">
-                <label className="font-semibold w-1/6">{t("customers.vat")}</label>
+                <label className="font-semibold w-1/6">{t("providers.vat")}</label>
                 {!isEditing ? 
-                    <label className="mr-2 w-1/3">{(customer.defaultVat*100).toFixed(2)}%</label>
+                    <label className="mr-2 w-1/3">{(provider.defaultVat*100).toFixed(2)}%</label>
                     :
                     <input
                     type="text"
@@ -330,9 +329,9 @@ function CustomerDetails() {
                     className="bg-[color:var(--background)] p-2 mr-2 h-8 rounded-lg border w-1/3"
                     />
                 }
-                <label className="font-semibold w-1/6">{t("customers.withholding")}</label>
+                <label className="font-semibold w-1/6">{t("providers.withholding")}</label>
                 {!isEditing ? 
-                    <label className="mr-2 w-1/3">{(customer.defaultWithholding*100).toFixed(2)}%</label>
+                    <label className="mr-2 w-1/3">{(provider.defaultWithholding*100).toFixed(2)}%</label>
                     :
                     <input
                     type="text"
@@ -344,35 +343,9 @@ function CustomerDetails() {
                 }
             </div>
             <div className="flex mb-4">
-                <label className="font-semibold w-1/6">{t("customers.invocing_method")}</label>
+                <label className="font-semibold w-1/6">{t("providers.duedate")}</label>
                 {!isEditing ? 
-                    <label className="mr-2 w-1/3">{customer.invoicingMethod}</label>
-                    :
-                    <input
-                    type="text"
-                    name="invoicingMethod"
-                    value={formData.invoicingMethod}
-                    onChange={handleChange}
-                    className="bg-[color:var(--background)] p-2 mr-2 h-8 rounded-lg border w-1/3"
-                    />
-                }
-                <label className="font-semibold w-1/6">{t("customers.pay_method")}</label>
-                {!isEditing ? 
-                    <label className="mr-2 w-1/3">{customer.payMethod}</label>
-                    :
-                    <input
-                    type="text"
-                    name="payMethod"
-                    value={formData.payMethod}
-                    onChange={handleChange}
-                    className="bg-[color:var(--background)] p-2 mr-2 h-8 rounded-lg border w-1/3"
-                    />
-                }
-            </div>
-            <div className="flex mb-4">
-                <label className="font-semibold w-1/6">{t("customers.duedate")}</label>
-                {!isEditing ? 
-                    <label className="mr-2 w-1/3">{customer.duedate}</label>
+                    <label className="mr-2 w-1/3">{provider.duedate}</label>
                     :
                     <input
                     type="text"
@@ -386,9 +359,9 @@ function CustomerDetails() {
                 <div className="mr-2 w-1/2"></div>
             </div>
             <div className="flex mb-4">
-                <label className="font-semibold w-1/6">{t("customers.europe")}</label>
+                <label className="font-semibold w-1/6">{t("providers.europe")}</label>
                 {!isEditing ? 
-                    <label className="mr-2 w-1/3">{customer.europe ? t("customers.yes") : t("customers.no")}</label>
+                    <label className="mr-2 w-1/3">{provider.europe ? t("providers.yes") : t("providers.no")}</label>
                     :
                     <div className="flex items-center mr-2 w-1/3">
                     <input
@@ -400,9 +373,9 @@ function CustomerDetails() {
                     />
                     </div>
                 }
-                <label className="font-semibold w-1/6">{t("customers.enabled")}</label>
+                <label className="font-semibold w-1/6">{t("providers.enabled")}</label>
                 {!isEditing ? 
-                    <label className="mr-2 w-1/3">{customer.enabled ? t("customers.yes") : t("customers.no")}</label>
+                    <label className="mr-2 w-1/3">{provider.enabled ? t("providers.yes") : t("providers.no")}</label>
                     :
                     <div className="flex items-center mr-2 w-1/3">
                     <input
@@ -428,7 +401,7 @@ function CustomerDetails() {
                                 : "text-[color:var(--text)]"
                             }`}
                     >
-                        {tab === "addresses" ? t('companies.addresses') : tab === "phones" ? t('companies.phones') : tab === "bank_accounts" ? t('companies.bank_accounts') : tab === "contact_persons" ? t("customers.contacts") : t("customers.schemes") }
+                        {tab === "addresses" ? t('companies.addresses') : tab === "phones" ? t('companies.phones') : tab === "bank_accounts" ? t('companies.bank_accounts') : tab === "contact_persons" ? t("providers.contacts") : t("providers.schemes") }
                     </button>
                 ))}
             </div>
@@ -439,4 +412,4 @@ function CustomerDetails() {
     );
 }
 
-export default CustomerDetails;
+export default ProviderDetails;

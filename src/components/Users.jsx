@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef, useLayoutEffect } from "react";
-import api from "../api/axios";
+import axios from "../api/axios";
 import { useTranslation } from 'react-i18next';
 import { emailValidator } from "../utils/validator";
 
@@ -28,10 +28,10 @@ function Users() {
   const [editData, setEditData] = useState({ idUser:"", idRole: "", enabled: true });
 
   useEffect(() => {
-    api
+    axios
       .get("/users")
       .then(
-        (res) => {setUsers(res.data);
+        (response) => {setUsers(response.data);
         })
       .catch((err) => console.error("Error fetching users:", err));
   }, []);
@@ -107,7 +107,7 @@ function Users() {
     }
 
     try {
-      const response = await api.post("/users", formData);
+      const response = await axios.post("/users", formData);
 
       setUsers((prevUsers) => [...prevUsers, response.data]);
 
@@ -151,7 +151,7 @@ function Users() {
     // Save Edition
     const handleSaveEdit = async () => {
       try {
-        const response = await api.patch("/users", editData);
+        const response = await axios.patch("/users", editData);
         // Actualizar lista local
         setUsers((prev) =>
           prev.map((u) =>
@@ -253,7 +253,7 @@ function Users() {
 
                 </div>
             </div>
-            <hr className="border-[color:var(--primary)] mb-2" />
+
 
             {/* Tabs */}
             <div className="flex border-b border-[color:var(--primary)] mb-4">

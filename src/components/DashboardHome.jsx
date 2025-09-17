@@ -52,6 +52,7 @@ function DashboardHome() {
         }
 
         promises.push(axios.get("/orders/pending").then(res => setPendingOrders(res.data)));
+        
         promises.push(
           axios.get("/quotes/by-status", { params: { status: "PENDING" } })
             .then(res => setPendingQuotes(res.data))

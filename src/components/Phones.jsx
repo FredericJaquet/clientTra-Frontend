@@ -129,7 +129,6 @@ function Phones ({phones, idCompany, onPhonesChange}){
         }
     };
 
-
     const handleChange = (e) => {
         setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
     }

@@ -14,12 +14,14 @@ const MyCompany = lazy(() => import('./components/MyCompany'));
 const Customers = lazy(() => import('./components/Customers'));
 const CustomerDetails = lazy(() => import('./components/CustomerDetails'));
 const Providers = lazy(() => import('./components/Providers'));
+const ProviderDetails = lazy(() => import('./components/ProviderDetails'));
 const OrderForm = lazy(() => import('./components/OrderForm'));
 const CustomerInvoiceForm = lazy(() => import('./components/CustomerInvoiceForm'));
 const ProviderInvoiceForm = lazy(() => import('./components/ProviderInvoiceForm'));
 const QuoteForm = lazy(() => import('./components/QuoteForm'));
 const PoForm = lazy(() => import('./components/PoForm'));
-const OrdersList = lazy(() => import('./components/OrdersList'));
+const OrdersListForCustomers = lazy(() => import('./components/OrdersListForCustomers'));
+const OrdersListForProviders = lazy(() => import('./components/OrdersListForProviders'));
 const CustomerInvoicesList = lazy(() => import('./components/CustomerInvoicesList'));
 const ProviderInvoicesList = lazy(() => import('./components/ProviderInvoicesList'));
 const QuotesList = lazy(() => import('./components/QuotesList'));
@@ -74,7 +76,8 @@ function AppWrapper() {
             <Route path="provider-invoice/create" element={<ProviderInvoiceForm />} />
             <Route path="quote/create" element={<QuoteForm />} />
             <Route path="po/create" element={<PoForm />} />
-            <Route path="orders/list" element={<OrdersList />} />
+            <Route path="orders/customers/list" element={<OrdersListForCustomers />} />
+            <Route path="orders/providers/list" element={<OrdersListForProviders />} />
             <Route path="customer-invoice/list" element={<CustomerInvoicesList />} />
             <Route path="provider-invoice/list" element={<ProviderInvoicesList />} />
             <Route path="quote/list" element={<QuotesList />} />
@@ -86,6 +89,7 @@ function AppWrapper() {
             <Route path="graph/incomes" element={<IncomesGraph />} />
             <Route path="graph/outcomes" element={<OutcomesGraph />} />
             <Route path="customers/:id" element={<CustomerDetails />} />
+            <Route path="providers/:id" element={<ProviderDetails />} />
           </Route>
         </Routes>
       </Suspense>

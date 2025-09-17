@@ -48,7 +48,10 @@ function Customers(){
         } else {
         api.get("/customers")
             .then((res) => setCustomers(res.data))
-            .catch((err) => console.error("Error fetching customers:", err));
+            .catch((err) => {
+                console.error("Error fetching customers:", err);
+                setError(err.response.data.message || "Error");
+            });
         }
     }, [searchQuery]);
 
@@ -62,18 +65,18 @@ function Customers(){
         const bValue = b[sortConfig.key] ?? "";
 
         if (aValue < bValue) {
-        return sortConfig.direction === "asc" ? -1 : 1;
+            return sortConfig.direction === "asc" ? -1 : 1;
         }
         if (aValue > bValue) {
-        return sortConfig.direction === "asc" ? 1 : -1;
+            return sortConfig.direction === "asc" ? 1 : -1;
         }
         return 0;
     });
 
     const handleSort = (key) => {
         setSortConfig((prev) => ({
-        key,
-        direction: prev.key === key && prev.direction === "asc" ? "desc" : "asc",
+            key,
+            direction: prev.key === key && prev.direction === "asc" ? "desc" : "asc",
         }));
     };
 
@@ -141,7 +144,7 @@ function Customers(){
 
         } catch (err) {
             console.error(err);
-            setError(err.response.data.message);
+            setError(err.response.data.message || t('error.saving_customer'));
         }
     };
 
@@ -176,14 +179,14 @@ function Customers(){
                                     <input 
                                         type="text"
                                         name="comName"
-                                        placeholder={t('register.com_name')}
+                                        placeholder={t('customers.com_name')}
                                         onChange={handleChange}
                                         className="p-2 w-full rounded-lg border bg-[color:var(--background)]"
                                         />
                                     <input
                                         type="text"
                                         name="legalName"
-                                        placeholder={t('register.legal_name')}
+                                        placeholder={t('customers.legal_name')}
                                         onChange={handleChange}
                                         className="p-2 w-full rounded-lg border bg-[color:var(--background)]"
                                         required
@@ -193,7 +196,7 @@ function Customers(){
                                     <input
                                         type="text"
                                         name="vatNumber"
-                                        placeholder={t('register.cif')}
+                                        placeholder={t('customers.vat_number')}
                                         onChange={handleChange}
                                         className="p-2 w-full rounded-lg border bg-[color:var(--background)]"
                                         required
@@ -201,7 +204,7 @@ function Customers(){
                                     <input
                                         type="email"
                                         name="email"
-                                        placeholder={t('register.email')}
+                                        placeholder={t('customers.email')}
                                         onChange={handleChange}
                                         className="p-2 w-full rounded-lg border bg-[color:var(--background)]"
                                         />
@@ -210,7 +213,7 @@ function Customers(){
                                     <input
                                         type="text"
                                         name="web"
-                                        placeholder={t('register.web')}
+                                        placeholder={t('customers.web')}
                                         onChange={handleChange}
                                         className="p-2 w-full rounded-lg border bg-[color:var(--background)]"
                                         />

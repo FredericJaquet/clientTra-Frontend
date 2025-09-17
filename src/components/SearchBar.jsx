@@ -33,7 +33,7 @@ function SearchBar(){
                 navigate(`/dashboard/customers?search=${query}`);
             }
         } else if (query !== "") {
-            // si no hay clientes, buscamos proveedores
+            // If there is no customers, search for Providers
             api.get(`/providers/search?input=${query}`)
                 .then((res) => setProvidersSearchResult(res.data))
                 .catch((err) => console.error("Error fetching providers:", err));
@@ -44,11 +44,9 @@ function SearchBar(){
     useEffect(() => {
         if (providersSearchResult.length > 0) {
             if (providersSearchResult.length === 1) {
-                console.log("Ir a ficha proveedor");
-                //navigate(`/dashboard/providers/${providersSearchResult[0].idProvider}`);
+                navigate(`/dashboard/providers/${providersSearchResult[0].idProvider}`);
             } else {
-                console.log("Ir a lista  poroveedores");
-                //navigate(`/dashboard/providers?search=${query}`);
+                navigate(`/dashboard/providers?search=${query}`);
             }
         }
     }, [providersSearchResult]);
