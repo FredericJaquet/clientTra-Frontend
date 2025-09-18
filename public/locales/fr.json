@@ -164,6 +164,7 @@
     },
     "providers": {
         "providers": "Fournisseurs",
+        "provider": "Fournisseur",
         "no_providers": "Il n’y a aucun fournisseur dans cette catégorie",
         "com_name": "Nom commercial",
         "legal_name": "Raison sociale",

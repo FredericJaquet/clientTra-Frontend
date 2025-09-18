@@ -159,6 +159,7 @@
         "edit_order": "Modificar Pedido",
         "add_order": "Añadir Pedido",
         "select_customer": "Elige un cliente",
+        "select_provider": "Elige un proveedor",
         "orders_customers": "Pedidos Clientes",
         "name": "Descripción",
         "price": "Precio Unitario",
@@ -188,6 +189,7 @@
     },
     "providers": {
         "providers": "Proveedores",
+        "provider": "Proveedor",
         "no_providers": "No hay proveedores en esta categoría",
         "com_name": "Nombre comercial",
         "legal_name": "Nombre fiscal",

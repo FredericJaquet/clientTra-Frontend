@@ -165,6 +165,7 @@
     },
     "providers": {
         "providers": "Providers",
+        "provider": "Provider",
         "no_cproviders": "There are no providers in this category",
         "com_name": "Trade name",
         "legal_name": "Legal name",
