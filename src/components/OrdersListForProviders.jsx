@@ -494,10 +494,10 @@ const { t } = useTranslation();
                                 </select>
                             </div>
                             <div className="flex justify-between">
-                                    <span className="p-2 rounded-lg border">
+                                    <span className="p-2">
                                         {selectedProvider.comName}
                                     </span>
-                                    <span className="p-2 rounded-lg border">
+                                    <span className="p-2">
                                         {selectedProvider.vatNumber}
                                     </span>
                             </div>
@@ -585,8 +585,8 @@ const { t } = useTranslation();
                                         title="Double click to edit"
                                     >
                                         <label className="w-1/2 py-2">{item.descrip}</label>
-                                        <label className="w-1/6 py-2">{item.qty}</label>
                                         <label className="w-1/6 py-2">{item.discount>1 ? `${item.discount}%` : `${item.discount*100}%`}</label>
+                                        <label className="w-1/6 py-2">{item.qty}</label>
                                         <label className="w-1/6 py-2">{`${item.total.toFixed(2)}€`}</label>
                                     </div>
                                     ))}
@@ -601,7 +601,7 @@ const { t } = useTranslation();
                                         value={itemInput.descrip}
                                         onChange={handleItemChange}
                                         onKeyDown={handleAddItem}
-                                        className="border border-[color:var(--border)] rounded-lg p-2 w-1/2 focus:outline-none focus:ring-2 focus:ring-[color:var(--primary)]"
+                                        className="p-2 w-full rounded-lg border bg-[color:var(--background)]"
                                     />
                                     <input
                                         type="text"
@@ -609,7 +609,7 @@ const { t } = useTranslation();
                                         value={itemInput.discount}
                                         onChange={handleItemChange}
                                         onKeyDown={handleAddItem}
-                                        className="border border-[color:var(--border)] rounded-lg p-2 w-1/2 focus:outline-none focus:ring-2 focus:ring-[color:var(--primary)]"
+                                        className="p-2 w-full rounded-lg border bg-[color:var(--background)]"
                                     />
                                     <input
                                         type="text"
@@ -617,7 +617,7 @@ const { t } = useTranslation();
                                         value={itemInput.qty}
                                         onChange={handleItemChange}
                                         onKeyDown={handleAddItem}
-                                        className="border border-[color:var(--border)] rounded-lg p-2 w-1/2 focus:outline-none focus:ring-2 focus:ring-[color:var(--primary)]"
+                                        className="p-2 w-full rounded-lg border bg-[color:var(--background)]"
                                     />
                                     </div>)
                                     :
@@ -629,7 +629,7 @@ const { t } = useTranslation();
                                             onChange={handleItemChange}
                                             placeholder={t("orders.name")}
                                             onKeyDown={handleAddItem}
-                                            className="border border-[color:var(--border)] rounded-lg p-2 w-1/2 focus:outline-none focus:ring-2 focus:ring-[color:var(--primary)]"
+                                            className="p-2 w-full rounded-lg border bg-[color:var(--background)]"
                                         />
                                         <input
                                             type="text"
@@ -638,7 +638,7 @@ const { t } = useTranslation();
                                             onChange={handleItemChange}
                                             placeholder={t("orders.discount")}
                                             onKeyDown={handleAddItem}
-                                            className="border border-[color:var(--border)] rounded-lg p-2 w-1/2 focus:outline-none focus:ring-2 focus:ring-[color:var(--primary)]"
+                                            className="p-2 w-full rounded-lg border bg-[color:var(--background)]"
                                         />
                                         <input
                                             type="text"
@@ -647,7 +647,7 @@ const { t } = useTranslation();
                                             onChange={handleItemChange}
                                             placeholder={t("orders.quantity")}
                                             onKeyDown={handleAddItem}
-                                            className="border border-[color:var(--border)] rounded-lg p-2 w-1/2 focus:outline-none focus:ring-2 focus:ring-[color:var(--primary)]"
+                                            className="p-2 w-full rounded-lg border bg-[color:var(--background)]"
                                         />
                                         <button
                                             type="button"
@@ -780,8 +780,8 @@ const { t } = useTranslation();
                                         title="Double click to edit"
                                     >
                                         <label className="w-1/2 py-2">{item.descrip}</label>
-                                        <label className="w-1/6 py-2">{item.qty}</label>
                                         <label className="w-1/6 py-2">{item.discount>1 ? `${item.discount}%` : `${item.discount*100}%`}</label>
+                                        <label className="w-1/6 py-2">{item.qty}</label>
                                         <label className="w-1/6 py-2">{`${item.total.toFixed(2)}€`}</label>
                                     </div>
                                     ))}
@@ -796,7 +796,7 @@ const { t } = useTranslation();
                                         value={itemInput.descrip}
                                         onChange={handleItemChange}
                                         onKeyDown={handleAddItem}
-                                        className="border border-[color:var(--border)] rounded-lg p-2 w-1/2 focus:outline-none focus:ring-2 focus:ring-[color:var(--primary)]"
+                                        className="p-2 w-full rounded-lg border bg-[color:var(--background)]"
                                     />
                                     <input
                                         type="text"
@@ -804,7 +804,7 @@ const { t } = useTranslation();
                                         value={itemInput.discount}
                                         onChange={handleItemChange}
                                         onKeyDown={handleAddItem}
-                                        className="border border-[color:var(--border)] rounded-lg p-2 w-1/2 focus:outline-none focus:ring-2 focus:ring-[color:var(--primary)]"
+                                        className="p-2 w-full rounded-lg border bg-[color:var(--background)]"
                                     />
                                     <input
                                         type="text"
@@ -812,7 +812,7 @@ const { t } = useTranslation();
                                         value={itemInput.qty}
                                         onChange={handleItemChange}
                                         onKeyDown={handleAddItem}
-                                        className="border border-[color:var(--border)] rounded-lg p-2 w-1/2 focus:outline-none focus:ring-2 focus:ring-[color:var(--primary)]"
+                                        className="p-2 w-full rounded-lg border bg-[color:var(--background)]"
                                     />
                                     </div>
                                 )}

@@ -103,6 +103,35 @@
         "loading": "Cargando...",
         "no_results": "No hay resultados..."
     },
+    "documents": {
+        "confirm_delete": "¿Quieres eliminar este document?",
+        "cant_modify_if_paid": "No se puede editar una factura ya pagada.",
+        "edit_invoice": "Modificar Factura",
+        "select_change_rate": "Elige un tipo de cambio",
+        "bank_account": "Cuenta bancaria",
+        "total_net": "Total neto",
+        "total_gross": "Total factura",
+        "vat_rate": "IVA",
+        "withholding": "Retención",
+        "total_vat": "Total IVA",
+        "total_withholding": "Total retención",
+        "total_to_pay": "Total a pagar",
+        "invoices_customers": "Facturas Clientes",
+        "all_invoices": "Todas",
+        "pending": "No pagadas",
+        "paid": "Pagadas",
+        "is_paid": "Pagada",
+        "no_documents": "No hay documentos en esta categoría",
+        "number": "Número",
+        "date": "Fecha",
+        "total": "Total",
+        "note_delivery": "Nota entrega",
+        "note_payment": "Nota Pago",
+        "note_comment": "Comentario",
+        "add_invoice": "Añadir Factura",
+        "select_customer": "Elige un cliente",
+        "last_number": "Última factura"
+    },
     "error": {
         "all_fields_required": "Todos los campos son obligatorios",
         "iban_required": "El IBAN es obligatorio",
@@ -134,7 +163,9 @@
         "invalid_qty": "El valor de la cantidad debe ser un número",
         "invalid_price": "El valor del precio debe ser un número",
         "no_customer_selected": "Tiene que seleccionar un cliente",
-        "order_without_items": "El total del pedido debe ser > 0."
+        "order_without_items": "El total del pedido debe ser > 0.",
+        "document_without_Order": "El total del document debe ser > 0.",
+        "no_orders": "Debes incluir al menos un pedido."
     },
     "languages": {
         "es": "Español",
@@ -156,8 +187,10 @@
         "register": "Registro"
     },
     "orders": {
+        "orders": "Pedidos",
         "edit_order": "Modificar Pedido",
         "add_order": "Añadir Pedido",
+        "confirm_delete": "¿Quieres eliminar este pedido?",
         "select_customer": "Elige un cliente",
         "select_provider": "Elige un proveedor",
         "orders_customers": "Pedidos Clientes",
@@ -173,7 +206,6 @@
         "date": "Fecha",
         "total": "Total",
         "no_orders": "No hay pedidos en esta categoría",
-        "confirm_delete": "Quieres eliminar este pedido?",
         "all": "Todos",
         "pending": "Sin facturar",
         "billed": "Facturados",

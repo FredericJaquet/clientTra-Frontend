@@ -134,7 +134,9 @@
         "invalid_price": "The price value must be a number",
         "invalid_qty": "The quantity value must be a number",
         "no_customer_selected":"You must select a customer",
-        "order_without_items": "The order total must be > 0."
+        "order_without_items": "The order total must be > 0.",
+        "document_without_Order": "The document total must be > 0.",
+        "no_orders": "You must include al least one order."
     },
     "languages": {
         "es": "Spanish",

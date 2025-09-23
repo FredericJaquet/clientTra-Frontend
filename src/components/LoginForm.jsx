@@ -42,6 +42,7 @@ function LoginForm() {
       localStorage.setItem("token", token);
       localStorage.setItem("user", JSON.stringify(user));
       setTheme(user.preferredTheme);
+      console.log(user.preferredMode);
       setDarkMode(user.preferredMode);
       i18n.changeLanguage(user.preferredLanguage).then(() => {
         setError("");

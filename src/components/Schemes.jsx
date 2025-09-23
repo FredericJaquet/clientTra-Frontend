@@ -318,7 +318,7 @@ function Schemes({schemes, idCompany, onSchemesChange}){
                                         value={lineInput.descrip}
                                         onChange={handleLineChange}
                                         onKeyDown={handleAddLine}
-                                        className="border border-[color:var(--border)] rounded-lg p-2 w-1/2 focus:outline-none focus:ring-2 focus:ring-[color:var(--primary)]"
+                                        className="p-2 w-1/2 rounded-lg border bg-[color:var(--background)]"
                                     />
                                     <input
                                         type="text"
@@ -327,7 +327,7 @@ function Schemes({schemes, idCompany, onSchemesChange}){
                                         value={lineInput.discount}
                                         onChange={handleLineChange}
                                         onKeyDown={handleAddLine}
-                                        className="border border-[color:var(--border)] rounded-lg p-2 w-1/2 focus:outline-none focus:ring-2 focus:ring-[color:var(--primary)]"
+                                        className="p-2 w-1/2 rounded-lg border bg-[color:var(--background)]"
                                     />
                                     <button
                                         type="button"
@@ -467,7 +467,7 @@ function Schemes({schemes, idCompany, onSchemesChange}){
                                 value={lineInput.descrip}
                                 onChange={handleLineChange}
                                 onKeyDown={handleAddLine}
-                                className="border border-[color:var(--border)] rounded-lg p-2 w-1/2 focus:outline-none focus:ring-2 focus:ring-[color:var(--primary)]"
+                                className="p-2 w-1/2 rounded-lg border bg-[color:var(--background)]"
                             />
                             <input
                                 type="text"
@@ -475,7 +475,7 @@ function Schemes({schemes, idCompany, onSchemesChange}){
                                 value={lineInput.discount}
                                 onChange={handleLineChange}
                                 onKeyDown={handleAddLine}
-                                className="border border-[color:var(--border)] rounded-lg p-2 w-1/2 focus:outline-none focus:ring-2 focus:ring-[color:var(--primary)]"
+                                className="p-2 w-1/2 rounded-lg border bg-[color:var(--background)]"
                             />
                             </div>
                         )}

@@ -4,6 +4,7 @@ import { ThemeContext } from "../contexts/ThemeContext";
 import { useTranslation } from 'react-i18next';
 import { emailValidator } from "../utils/validator";
 
+//TODO: Change Password
 function MyAccount() {
 
   const { t, i18n } = useTranslation();
@@ -50,6 +51,8 @@ function MyAccount() {
     setFormData(prev => ({...prev, preferredTheme: newTheme}));
     try {
       const response = await api.patch("/users/me", { ...formData, preferredTheme: newTheme });
+      const updatedUser = { ...JSON.parse(localStorage.getItem("user")), preferredTheme: newTheme };
+      localStorage.setItem("user", JSON.stringify(updatedUser));
       console.log(response);
     } catch (err) {
       console.error(err);
@@ -60,9 +63,11 @@ function MyAccount() {
     const newLang=e.target.value;
     i18n.changeLanguage(newLang);
     setFormData(prev => ({...prev, preferredLanguage: newLang}));
-    console.log(formData);
+    
     try {
       const response = await api.patch("/users/me", {...formData,preferredLanguage: newLang});
+      const updatedUser = { ...JSON.parse(localStorage.getItem("user")), preferredLanguage: newLang };
+      localStorage.setItem("user", JSON.stringify(updatedUser));
       console.log(response);
     } catch (err) {
       console.error(err);
@@ -72,11 +77,13 @@ function MyAccount() {
   const toggleDarkMode = async () => {
     const newMode = darkMode === "dark" ? "light" : "dark";
     setDarkMode(newMode);
-    const isDarkMode = newMode === "dark";
-    setFormData(prev => ({ ...prev, darkMode: isDarkMode }));
+
     try {
-      const response = await api.patch("/users/me", { ...formData, darkMode: isDarkMode });
-      console.log(response);
+      const response = await api.patch("/users/me", { ...formData, darkMode: newMode === "dark" });
+      const updatedUser = { ...JSON.parse(localStorage.getItem("user")), preferredMode: newMode };
+      localStorage.setItem("user", JSON.stringify(updatedUser));
+      console.log("Updated in backend and localStorage:", response.data);
+      console.log(localStorage);
     } catch (err) {
       console.error(err);
     }

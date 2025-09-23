@@ -348,7 +348,7 @@ function Users() {
                         onChange={(e) =>
                           setEditData((prev) => ({ ...prev, idRole: e.target.value }))
                         }
-                        className="p-2 rounded-lg border text-[color:var(--text)]"
+                        className="p-2 rounded-lg border bg-[color:var(--background)] text-[color:var(--text)]"
                       >
                         <option value={1}>{t('users.admin')}</option>
                         <option value={2}>{t('users.accounting')}</option>

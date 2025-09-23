@@ -133,7 +133,9 @@
         "invalid_qty": "La valeur de la quantité doit être un nombre",
         "no_customer_selected":"Vous devez sélectionner un client",
         "editing_order": "Erreur lors de la modification de la commande",
-        "order_without_items": "Le total de la commande doit être > 0."
+        "order_without_items": "Le total de la commande doit être > 0.",
+        "document_without_Order": "Le total du document doit être > 0.",
+        "no_orders": "Voud devez inclure ua moins une commande."
     },
     "languages": {
         "es": "Espagnol",

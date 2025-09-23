@@ -11,7 +11,7 @@ function Navbar() {
   return (
     <nav >
       <div className="max-w-7xl mx-auto px-4 py-3 flex space-x-8">
-        <Link to="/" className="text-[color:var(--primary)] font-bold hover:text-[color:var(--primary-hover)] hover:underline">{t('navbar.login')}</Link>
+        <Link to="/" className="text-[color:var(--text)] font-bold hover:text-[color:var(--primary-hover)] hover:underline">{t('navbar.login')}</Link>
         <a href="#" className="text-[color:var(--text)] hover:text-[color:var(--primary-hover)] hover:underline">{t('navbar.project')}</a>
         <Link to="/dashboard" className="text-[color:var(--text)] hover:text-[color:var(--primary-hover)] hover:underline">{t('navbar.dashboard')}</Link>
         <Link to="/Register" className="text-[color:var(--text)] hover:text-[color:var(--primary-hover)] hover:underline">{t('navbar.register')}</Link>

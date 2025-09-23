@@ -139,7 +139,6 @@ function OrdersListForCustomers(){
 
     const handleAddSubmit = async (e) => {
         e.preventDefault();
-        console.log(formData);
         if (!formData.descrip || !formData.pricePerUnit || !formData.dateOrder ) {
             setError(t('error.all_fields_required'));
             return;
@@ -160,7 +159,6 @@ function OrdersListForCustomers(){
         try {
             const response = await axios.post(`/companies/${selectedCustomer.idCompany}/orders`, formData);
             const newOrder = mapOrder(response.data);
-
 
             setOrders(prevOrders => {
                 const updatedOrders = [...prevOrders, newOrder];
@@ -298,7 +296,6 @@ function OrdersListForCustomers(){
 
         try {
             const response = await axios.patch(`/companies/${selectedOrder.company.idCompany}/orders/${selectedOrder.idOrder}`, formData);
-
             const updatedOrder = mapOrder(response.data);
 
             setOrders(prevOrders =>
@@ -378,7 +375,7 @@ function OrdersListForCustomers(){
         setError("");
     };
 
-    //Inputs hanges for Add or Edit
+    //Inputs changes for Add or Edit
     const handleChange = (e) => {
         setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
     }
@@ -494,10 +491,10 @@ function OrdersListForCustomers(){
                                 </select>
                             </div>
                             <div className="flex justify-between">
-                                    <span className="p-2 rounded-lg border">
+                                    <span className="p-2">
                                         {selectedCustomer.comName}
                                     </span>
-                                    <span className="p-2 rounded-lg border">
+                                    <span className="p-2">
                                         {selectedCustomer.vatNumber}
                                     </span>
                             </div>
@@ -585,8 +582,8 @@ function OrdersListForCustomers(){
                                         title="Double click to edit"
                                     >
                                         <label className="w-1/2 py-2">{item.descrip}</label>
-                                        <label className="w-1/6 py-2">{item.qty}</label>
                                         <label className="w-1/6 py-2">{item.discount>1 ? `${item.discount}%` : `${item.discount*100}%`}</label>
+                                        <label className="w-1/6 py-2">{item.qty}</label>
                                         <label className="w-1/6 py-2">{`${item.total.toFixed(2)}€`}</label>
                                     </div>
                                     ))}
@@ -601,7 +598,7 @@ function OrdersListForCustomers(){
                                         value={itemInput.descrip}
                                         onChange={handleItemChange}
                                         onKeyDown={handleAddItem}
-                                        className="border border-[color:var(--border)] rounded-lg p-2 w-1/2 focus:outline-none focus:ring-2 focus:ring-[color:var(--primary)]"
+                                        className="p-2 w-full rounded-lg border bg-[color:var(--background)]"
                                     />
                                     <input
                                         type="text"
@@ -609,7 +606,7 @@ function OrdersListForCustomers(){
                                         value={itemInput.discount}
                                         onChange={handleItemChange}
                                         onKeyDown={handleAddItem}
-                                        className="border border-[color:var(--border)] rounded-lg p-2 w-1/2 focus:outline-none focus:ring-2 focus:ring-[color:var(--primary)]"
+                                        className="p-2 w-full rounded-lg border bg-[color:var(--background)]"
                                     />
                                     <input
                                         type="text"
@@ -617,7 +614,7 @@ function OrdersListForCustomers(){
                                         value={itemInput.qty}
                                         onChange={handleItemChange}
                                         onKeyDown={handleAddItem}
-                                        className="border border-[color:var(--border)] rounded-lg p-2 w-1/2 focus:outline-none focus:ring-2 focus:ring-[color:var(--primary)]"
+                                        className="p-2 w-full rounded-lg border bg-[color:var(--background)]"
                                     />
                                     </div>)
                                     :
@@ -629,7 +626,7 @@ function OrdersListForCustomers(){
                                             onChange={handleItemChange}
                                             placeholder={t("orders.name")}
                                             onKeyDown={handleAddItem}
-                                            className="border border-[color:var(--border)] rounded-lg p-2 w-1/2 focus:outline-none focus:ring-2 focus:ring-[color:var(--primary)]"
+                                            className="p-2 w-full rounded-lg border bg-[color:var(--background)]"
                                         />
                                         <input
                                             type="text"
@@ -638,7 +635,7 @@ function OrdersListForCustomers(){
                                             onChange={handleItemChange}
                                             placeholder={t("orders.discount")}
                                             onKeyDown={handleAddItem}
-                                            className="border border-[color:var(--border)] rounded-lg p-2 w-1/2 focus:outline-none focus:ring-2 focus:ring-[color:var(--primary)]"
+                                            className="p-2 w-full rounded-lg border bg-[color:var(--background)]"
                                         />
                                         <input
                                             type="text"
@@ -647,7 +644,7 @@ function OrdersListForCustomers(){
                                             onChange={handleItemChange}
                                             placeholder={t("orders.quantity")}
                                             onKeyDown={handleAddItem}
-                                            className="border border-[color:var(--border)] rounded-lg p-2 w-1/2 focus:outline-none focus:ring-2 focus:ring-[color:var(--primary)]"
+                                            className="p-2 w-full rounded-lg border bg-[color:var(--background)]"
                                         />
                                         <button
                                             type="button"
@@ -780,8 +777,8 @@ function OrdersListForCustomers(){
                                         title="Double click to edit"
                                     >
                                         <label className="w-1/2 py-2">{item.descrip}</label>
+                                        <label className="w-1/6 py-2">{item.discount > 1 ? `${item.discount}%` : `${item.discount*100}%`}</label>
                                         <label className="w-1/6 py-2">{item.qty}</label>
-                                        <label className="w-1/6 py-2">{item.discount>1 ? `${item.discount}%` : `${item.discount*100}%`}</label>
                                         <label className="w-1/6 py-2">{`${item.total.toFixed(2)}€`}</label>
                                     </div>
                                     ))}
@@ -796,7 +793,7 @@ function OrdersListForCustomers(){
                                         value={itemInput.descrip}
                                         onChange={handleItemChange}
                                         onKeyDown={handleAddItem}
-                                        className="border border-[color:var(--border)] rounded-lg p-2 w-1/2 focus:outline-none focus:ring-2 focus:ring-[color:var(--primary)]"
+                                        className="p-2 w-full rounded-lg border bg-[color:var(--background)]"
                                     />
                                     <input
                                         type="text"
@@ -804,7 +801,7 @@ function OrdersListForCustomers(){
                                         value={itemInput.discount}
                                         onChange={handleItemChange}
                                         onKeyDown={handleAddItem}
-                                        className="border border-[color:var(--border)] rounded-lg p-2 w-1/2 focus:outline-none focus:ring-2 focus:ring-[color:var(--primary)]"
+                                        className="p-2 w-full rounded-lg border bg-[color:var(--background)]"
                                     />
                                     <input
                                         type="text"
@@ -812,7 +809,7 @@ function OrdersListForCustomers(){
                                         value={itemInput.qty}
                                         onChange={handleItemChange}
                                         onKeyDown={handleAddItem}
-                                        className="border border-[color:var(--border)] rounded-lg p-2 w-1/2 focus:outline-none focus:ring-2 focus:ring-[color:var(--primary)]"
+                                        className="p-2 w-full rounded-lg border bg-[color:var(--background)]"
                                     />
                                     </div>
                                 )}
@@ -975,10 +972,8 @@ function OrdersListForCustomers(){
                         ))}
                         </tbody>
                     </table>
-                    </div>
-
+                </div>
             )}
-            
             </div>
         </div>
     );

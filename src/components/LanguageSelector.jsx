@@ -11,7 +11,7 @@ function LanguageSelector() {
     <select
       value={i18n.language}
       onChange={(e) => changeLanguage(e.target.value)}
-      className="ml-4 border rounded-full px-2"
+      className=" ml-4 w-1/3 bg-[color:var(--background)] border rounded-full px-2 justify-start"
     >
       <option value="es">ES</option>
       <option value="fr">FR</option>

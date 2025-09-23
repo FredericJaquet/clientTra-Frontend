@@ -65,7 +65,7 @@ function SearchBar(){
                     onKeyDown={search}
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
-                    className="border rounded-full w-11/12 ps-5" 
+                    className="border bg-[color:var(--background)] rounded-full w-11/12 ps-5" 
                     type="text"
                     placeholder={t('dashboard.search_bar')}/>
         </div>

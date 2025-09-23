@@ -9,7 +9,7 @@ export function ThemeProvider({ children }) {
     const storedUser = JSON.parse(localStorage.getItem("user"));
     if (storedUser) {
       setTheme(storedUser.preferredTheme || "blue");
-      setDarkMode(storedUser.darkMode === "dark");
+      setDarkMode(storedUser.preferredMode || "light");
     }
   }, []);
 
