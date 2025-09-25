@@ -343,7 +343,6 @@ function ContactPersons ({contacts, idCompany, onContactsChange}){
                     </div>
                 </div>
             )}
-
             {sortedContacts.length === 0 ? (
                 <div className="py-6 text-center text-[color:var(--text)]">
                     {t('contacts.no_contacts')}

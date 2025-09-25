@@ -130,7 +130,14 @@
         "note_comment": "Comentario",
         "add_invoice": "Añadir Factura",
         "select_customer": "Elige un cliente",
-        "last_number": "Última factura"
+        "last_number": "Última factura",
+        "new_change_rate": "Nuevo cambio",
+        "currency1": "Divisa 1",
+        "currency2": "Divisa 2",
+        "rate": "Cambio",
+        "invoice": "Factura",
+        "bank_accounts": "Detalles bancarios",
+        "pay_method": "Método de pago"
     },
     "error": {
         "all_fields_required": "Todos los campos son obligatorios",
@@ -255,6 +262,7 @@
         "company_data": "Datos de tu empresa",
         "legal_name": "Nombre fiscal",
         "com_name": "Nombre comercial",
+        "name": "Nombre",
         "cif": "CIF",
         "email": "Email",
         "web": "Web",

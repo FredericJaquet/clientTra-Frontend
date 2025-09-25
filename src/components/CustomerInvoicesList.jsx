@@ -1,42 +1,74 @@
 import React, { useState, useEffect } from "react";
 import axios from "../api/axios";
 import { useTranslation } from 'react-i18next';
+import i18n from "i18next";
+import en from "../../public/locales/en.json";
+import es from "../../public/locales/es.json";
+import fr from "../../public/locales/fr.json";
 
 function CustomerInvoicesList(){
+
     const { t } = useTranslation();
+    i18n
+        .use(useTranslation)
+        .init({
+            resources: {
+            en: { translation: en },
+            es: { translation: es },
+            fr: { translation: fr },
+            },
+            lng: "es", // idioma activo del usuario
+            fallbackLng: "es",
+            interpolation: { escapeValue: false },
+        });
+    const tDocument = i18n.getFixedT("en");
     
     const user = JSON.parse(localStorage.getItem("user"));
     const role = user?.role || "ROLE_USER";
 
-    const [formData, setFormData] = useState({ 
-                                        docNumber:"",
-                                        docDate: "",
-                                        status: "",
-                                        docType: "INV_CUST",
-                                        language: "",
-                                        vatRate: 0.0,
-                                        withholding: 0.0,
-                                        currency: "",
-                                        noteDelivery: "",
-                                        notePayment: "",
-                                        noteComment: "",
-                                        deadline: "",
-                                        idChangeRate: 1,
-                                        idBankAccount: "",
-                                        idCompany: "",
-                                        idDocumentParent: "",
-                                        orderIds: []
-                                    });
+    const today = new Date().toISOString().split("T")[0];
+
+    const initialFormData = { 
+                            docNumber:"", docDate:"", status:"PENDING", docType:"INV_CUST",
+                            language:"", vatRate:0.0, withholding:0.0, currency:"€",
+                            noteDelivery:"", notePayment:"", noteComment:"", deadline:"",
+                            idChangeRate:1, idBankAccount:"", idCompany:"",
+                            idDocumentParent:"", orderIds:[]
+                        };
+    const currencies = [
+                        "EUR","GBP","USD","AED","AFN","ALL","AMD","ANG","AOA","ARS","AUD","AWG","AZN",
+                        "BAM","BBD","BDT","BGN","BHD","BIF","BMD","BND","BOB","BRL",
+                        "BSD","BTN","BWP","BYN","BZD","CAD","CDF","CHF","CLP","CNY",
+                        "COP","CRC","CUP","CVE","CZK","DJF","DKK","DOP","DZD","EGP",
+                        "ERN","ETB","FJD","FKP","FOK","GEL","GGP","GHS",
+                        "GIP","GMD","GNF","GTQ","GYD","HKD","HNL","HRK","HTG","HUF",
+                        "IDR","ILS","IMP","INR","IQD","IRR","ISK","JEP","JMD","JOD",
+                        "JPY","KES","KGS","KHR","KID","KMF","KRW","KWD","KYD","KZT",
+                        "LAK","LBP","LKR","LRD","LSL","LYD","MAD","MDL","MGA","MKD",
+                        "MMK","MNT","MOP","MRU","MUR","MVR","MWK","MXN","MYR","MZN",
+                        "NAD","NGN","NIO","NOK","NPR","NZD","OMR","PAB","PEN","PGK",
+                        "PHP","PKR","PLN","PYG","QAR","RON","RSD","RUB","RWF","SAR",
+                        "SBD","SCR","SDG","SEK","SGD","SHP","SLE","SLL","SOS","SRD",
+                        "SSP","STN","SYP","SZL","THB","TJS","TMT","TND","TOP","TRY",
+                        "TTD","TVD","TWD","TZS","UAH","UGX","UYU","UZS","VES",
+                        "VND","VUV","WST","XAF","XCD","XCG","XDR","XOF","XPF","YER",
+                        "ZAR","ZMW","ZWL"
+                        ];
+    //const [tDocument, setTDocument] = useState(() => i18n.getFixedT("en", "translation"));
+    const [formData, setFormData] = useState(initialFormData);
     const [error, setError] = useState("");
     const [invoices, setInvoices] = useState([]);
     const [filteredInvoices, setFilteredInvoices] = useState([]);
     const [selectedInvoice, setSelectedInvoice] = useState({});
     const [invoiceToDelete, setInvoiceToDelete] = useState({});
+    const [ownerInfo, setOwnerInfo] = useState({});
+    const [logo, setLogo] = useState(null);
     const [customers, setCustomers] = useState([]);
     const [selectedCustomer, setSelectedCustomer] = useState({});
     const [orders, setOrders] = useState([]);
     const [changeRates, setChangeRates] = useState([]);
     const [selectedChangeRate, setSelectedChangeRate] = useState({});
+    const [newChangeRate, setNewChangeRate] = useState({currency1:"", currency2:"", rate:1, date:today});
     const [bankAccounts, setBankAccounts] = useState([]);
     const [lastInvoiceNumber, setLastInvoiceNumber] = useState("");
     const [totals, setTotals] = useState({  
@@ -46,12 +78,16 @@ function CustomerInvoicesList(){
                                         totalGross:0,
                                         totalGross2: 0,
                                         totalToPay:0,
-                                        totalToPay2: 0});
+                                        totalToPay2: 0
+                                    });
     const [selectedTab, setSelectedTab] = useState("all");
-    const [sortConfig, setSortConfig] = useState({ key: "dateOrder", direction: "desc" });
+    const [sortConfig, setSortConfig] = useState({ key: "docDate", direction: "desc" });
     const [showAddForm, setShowAddForm] = useState(false);
     const [showEditForm, setShowEditForm] = useState(false);
     const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+    const [showChangeRateForm, setShowChangeRateForm] = useState(false);
+    const [showDetailedInvoice, setShowDetailedInvoice] = useState(false);
+    const [viewDetailedInvoice, setViewDetailedInvoice] = useState(false);
 
 
     //Getting invoices for list and customers for select
@@ -114,10 +150,10 @@ function CustomerInvoicesList(){
             const totalVat = totalNet *  vatRate;
             const totalWithholding = totalNet * withholding;
             const totalGross = totalNet + totalVat;
-            const totalGross2 = totalGross * selectedChangeRate?.rate || 1; 
+            const rate = selectedChangeRate?.rate || 1;
+            const totalGross2 = totalGross * rate;
             const totalToPay = totalGross - totalWithholding;
-            const totalTopay2 = totalToPay * selectedChangeRate?.rate || 1;
-
+            const totalTopay2 = totalToPay * rate;
 
             setTotals({
                 totalNet: totalNet.toFixed(2),
@@ -125,7 +161,7 @@ function CustomerInvoicesList(){
                 totalWithholding: totalWithholding.toFixed(2),
                 totalGross: totalGross.toFixed(2),
                 totalGross2: totalGross2.toFixed(2),
-                totalToPay:  totalToPay.toFixed(2),
+                totalToPay: totalToPay.toFixed(2),
                 totalToPay2: totalTopay2.toFixed(2)
             })
         }
@@ -156,25 +192,7 @@ function CustomerInvoicesList(){
     const handleAddInvoice = async () => {
         setShowAddForm(true);
         
-        setFormData({ 
-                    docNumber:"",
-                    docDate: "",
-                    status: "PENDING",
-                    docType: "INV_CUST",
-                    language: "",
-                    vatRate: 0.0,
-                    withholding: 0.0,
-                    currency: "€",
-                    noteDelivery: "",
-                    notePayment: "",
-                    noteComment: "",
-                    deadline: "",
-                    idChangeRate: 1,
-                    idBankAccount: "",
-                    idCompany: "",
-                    idDocumentParent: "",
-                    orderIds: []
-                    });
+        setFormData(initialFormData);
 
         try{
             const response = await axios.get("/customer-invoices/last-number");
@@ -183,31 +201,14 @@ function CustomerInvoicesList(){
             console.error(err);
             setError(err.response?.data?.message || "Error");
         }
-
     }
 
     const handleAddCancel = () =>{
         setShowAddForm(false);
         setSelectedCustomer({});
-        setFormData({ 
-                    docNumber:"",
-                    docDate: "",
-                    status: "",
-                    docType: "INV_CUST",
-                    language: "",
-                    vatRate: 0.0,
-                    withholding: 0.0,
-                    currency: "",
-                    noteDelivery: "",
-                    notePayment: "",
-                    noteComment: "",
-                    deadline: "",
-                    idChangeRate: 1,
-                    idBankAccount: "",
-                    idCompany: "",
-                    idDocumentParent: "",
-                    orderIds: []
-                    });
+        setFormData(initialFormData);
+        setSelectedChangeRate({});
+        setError("");
     }
 
     const handleAddSubmit = async (e) => {
@@ -237,25 +238,9 @@ function CustomerInvoicesList(){
             setShowAddForm(false);
             setSelectedCustomer({});
             setOrders([]);
-            setFormData({ 
-                        docNumber:"",
-                        docDate: "",
-                        status: "PENDING",
-                        docType: "INV_CUST",
-                        language: "",
-                        vatRate: 0.0,
-                        withholding: 0.0,
-                        currency: "",
-                        noteDelivery: "",
-                        notePayment: "",
-                        noteComment: "",
-                        deadline: "",
-                        idChangeRate: 1,
-                        idBankAccount: "",
-                        idCompany: "",
-                        idDocumentParent: "",
-                        orderIds: []
-                        });
+            setFormData(initialFormData);
+            setSelectedChangeRate({});
+            setError("");
 
         }catch(err){
             console.error(err);
@@ -285,9 +270,35 @@ function CustomerInvoicesList(){
         }
     }
 
+    // Handle View Details
+    const handleViewDetails = async (invoice) => {
+        try{
+            const invoiceResponse = await axios.get(`/customer-invoices/by-id/${invoice.idDocument}`);
+            const invoiceData = invoiceResponse.data;
+            setSelectedInvoice(invoiceData);
+            //setTDocument(() => i18next.getFixedT(invoiceData.language));
+
+            const ownerResponse = await axios.get("/owner");
+            const ownerData = ownerResponse.data;
+            setOwnerInfo(ownerData);
+            setLogo(`${axios.defaults.baseURL.replace("/api", "")}/${ownerData.logoPath}`)
+
+            const customerResponse = await axios.get(`/customers/${invoiceData.company.idCompany}`);
+            const customerData = customerResponse.data;
+            setSelectedCustomer(customerData);
+console.log(i18n.hasResourceBundle("en", "translation")); // ¿true o false?
+console.log(i18n.hasResourceBundle("es", "translation"));
+            setShowDetailedInvoice(true);
+        } catch (err) {
+            console.error(err.response?.data?.message || "Error");
+        }
+    }
+
     // Handle Edit
     const handleEditInvoice = async (invoice) => {
         try{
+            setViewDetailedInvoice(showDetailedInvoice);
+            setShowDetailedInvoice(false);
             const invoiceResponse = await axios.get(`/customer-invoices/by-id/${invoice.idDocument}`);
             const invoiceData = invoiceResponse.data;
       
@@ -352,25 +363,8 @@ function CustomerInvoicesList(){
 
             setShowEditForm(false);
             setError("");
-            setFormData({ 
-                        docNumber:"",
-                        docDate: "",
-                        status: "",
-                        docType: "INV_CUST",
-                        language: "",
-                        vatRate: 0.0,
-                        withholding: 0.0,
-                        currency: "",
-                        noteDelivery: "",
-                        notePayment: "",
-                        noteComment: "",
-                        deadline: "",
-                        idChangeRate: 1,
-                        idBankAccount: "",
-                        idCompany: "",
-                        idDocumentParent: "",
-                        orderIds: []
-                        });
+            setFormData(initialFormData);
+            setShowDetailedInvoice(viewDetailedInvoice);
         }catch (err) {
             console.error(err);
             setError(err.response?.data?.message || "Error");
@@ -379,26 +373,8 @@ function CustomerInvoicesList(){
 
     const handleEditCancel = () => {
         setShowEditForm(false);
-        setFormData({ 
-                    docNumber:"",
-                    docDate: "",
-                    status: "",
-                    docType: "INV_CUST",
-                    language: "",
-                    vatRate: 0.0,
-                    withholding: 0.0,
-                    currency: "",
-                    noteDelivery: "",
-                    notePayment: "",
-                    noteComment: "",
-                    deadline: "",
-                    idChangeRate: 1,
-                    idBankAccount: "",
-                    idCompany: "",
-                    idDocumentParent: "",
-                    orderIds: []
-                    });
-        setSelectedInvoice({});
+        setFormData(initialFormData);
+        setShowDetailedInvoice(viewDetailedInvoice);
         setError("");
     }
 
@@ -418,6 +394,50 @@ function CustomerInvoicesList(){
         const newStatus = e.target.checked ? "PAID" : "PENDING";
 
         setFormData(prev => ({...prev, status: newStatus}));
+    }
+
+    const handleCurrencySelection = (e) => {
+        setNewChangeRate(prev => ({...prev, [e.target.name]: e.target.value}));
+    }
+
+    useEffect (() => {
+        async function fetchChangeRate() {
+            if(newChangeRate.currency1 !== "" && newChangeRate.currency2 !== ""){
+                
+                    try{
+                        const response = await fetch(`https://v6.exchangerate-api.com/v6/daefd7493198ef912fd9cf6d/latest/${newChangeRate.currency1}`);
+                        const data = await response.json();
+                        const rate = data.conversion_rates[newChangeRate.currency2];
+                        setNewChangeRate(prev => ({...prev, rate: rate}));
+                    }catch(error){
+                        console.error("error : " + error);
+                    }
+                }
+            }
+        fetchChangeRate()
+    }, [newChangeRate.currency1, newChangeRate.currency2]);
+
+    const handleNewChangeRateCancel = () => {
+        setShowChangeRateForm(false);
+        setNewChangeRate({currency1:"", currency2:"", rate:1, date:today});
+    }
+
+    const handleNewChangeRateSubmit = async () => {
+        try{
+            const response = await axios.post("/change-rates", newChangeRate);
+            const data = response.data;
+
+            setChangeRates(prevChangeRates => {
+                const updateChangeRates =[...prevChangeRates, data];
+                return updateChangeRates;
+            })
+
+            setShowChangeRateForm(false);
+            setNewChangeRate({currency1:"", currency2:"", rate:1, date:today});
+            setSelectedChangeRate(data);
+        }catch(err){
+            console.error(err);
+        }
     }
 
     //Orders selection
@@ -472,6 +492,7 @@ function CustomerInvoicesList(){
 
             setShowDeleteConfirm(false);
             setInvoiceToDelete(null);
+            setError("");
         } catch (err) {
             console.error(err);
             setError(err.response?.data?.message || t('error.deleting_order'));
@@ -483,6 +504,13 @@ function CustomerInvoicesList(){
         setShowDeleteConfirm(false);
         setError("");
     };
+
+    const handleBackToList = () => {
+        setShowDetailedInvoice(false);
+        setSelectedInvoice({});
+        setSelectedCustomer({});
+    }
+
 
     //Used to normalize the response of the backend for Update request
     const mapDocument = (document) => ({
@@ -498,6 +526,171 @@ function CustomerInvoicesList(){
 
     return(
         <div className="flex w-full flex-col items-center gap-5 py-10">
+            {showDetailedInvoice && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+                    <div className="modal-scroll bg-[color:var(--secondary)] rounded-xl shadow-lg p-6 sm:p-16 lg:p-32 flex flex-col overflow-y-auto max-h-[90vh]">
+                        <div className="flex justify-end mb-4 gap-2">
+                            <button
+                                className="mb-4 px-4 py-2 rounded-xl bg-[color:var(--primary)] text-[color:var(--text-light)] w-max flex items-center gap-2 hover:bg-[color:var(--primary-hover)] transition-colors duration-300"
+                                onClick={handleBackToList}
+                            >
+                                {t('button.back')}
+                            </button>
+                            {(role === "ROLE_ADMIN" || role === "ROLE_ACCOUNTING") &&(
+                            <>
+                            <button
+                                className="mb-4 px-4 py-2 rounded-xl bg-[color:var(--primary)] text-[color:var(--text-light)] w-max flex items-center gap-2 hover:bg-[color:var(--primary-hover)] transition-colors duration-300"
+                                onClick={() => handleEditInvoice(selectedInvoice)}
+                            >
+                                {t('button.edit')}
+                            </button>
+                            <button
+                                className="mb-4 px-4 py-2 rounded-xl bg-[color:var(--primary)] text-[color:var(--text-light)] w-max flex items-center gap-2 hover:bg-[color:var(--primary-hover)] transition-colors duration-300"
+                                onClick={() => handleDelete(selectedInvoice)}
+                            >
+                                {t('button.delete')}
+                            </button>
+                            </>
+                            )}
+
+                        </div>
+                        <div className="w-[794px] bg-white shadow-lg p-10 flex flex-col h-full">
+                        {/* contenido */}
+                            <div className="flex w-full justify-between gap-6">
+                                {/* HEADER */}
+                                <div className="flex flex-col items-center gap-1">
+                                    <div className="flex items-center gap-4">
+                                        <img
+                                            src={logo}
+                                            alt="Company Logo"
+                                            className="w-32 h-32 object-contain rounded-lg"
+                                        />
+                                        <div className="grid grid-cols-[2fr_3fr] gap-1 " >
+                                            <label className="font-semibold text-black">{tDocument('register.name')}:</label>
+                                            <label className="text-black">{ownerInfo.legalName}</label>
+                                            <label className="font-semibold text-black">{tDocument('register.cif')}:</label>
+                                            <label className="text-black">{ownerInfo.vatNumber}</label>
+                                            <label className="font-semibold text-black">{tDocument('register.street')}:</label>
+                                            <label className="text-black">{ownerInfo.addresses[0].street}</label>
+                                            <label className="font-semibold text-black">{tDocument('register.st_number')}:</label>
+                                            <label className="text-black">{ownerInfo.addresses[0].stNumber}</label>
+                                            <label className="font-semibold text-black">{tDocument('register.cp')+"/"+t('register.city')}:</label>
+                                            <label className="text-black">{ownerInfo.addresses[0].cp}/{ownerInfo.addresses[0].city}</label>
+                                            <label className="font-semibold text-black">{tDocument('register.country')}:</label>
+                                            <label className="text-black">{ownerInfo.addresses[0].country}</label>
+                                            <label className="font-semibold text-black">{tDocument('register.email')}:</label>
+                                            <label className="text-black">{ownerInfo.email}</label>
+                                            <label className="font-semibold text-black">{tDocument('register.web')}:</label>
+                                            <label className="text-black">{ownerInfo.web}</label>
+                                        </div>
+                                    </div>
+                                    <div className="flex border w-full gap-y-2 rounded-full mt-3 p-2 justify-center border-[#1d4ed8]" >
+                                        <label className="font-semibold text-black text-2xl">{t('documents.invoice')}</label>
+                                    </div>
+                                </div>
+                                <div className="flex flex-col border gap-y-2 rounded-lg p-3 border-[#1d4ed8]" >
+                                    <label className="font-semibold text-black">{selectedCustomer.comName}</label>
+                                    <label className="font-semibold text-black">{selectedCustomer.legalName}</label>
+                                    <label className="font-semibold text-black">{selectedCustomer.vatNumber}</label>
+                                    <label className="font-semibold text-black">{selectedCustomer.addresses[0].street} {selectedCustomer.addresses[0].stNumber} {selectedCustomer.addresses[0].apt}</label>
+                                    <label className="font-semibold text-black">{selectedCustomer.addresses[0].cp}/{selectedCustomer.addresses[0].city}</label>
+                                    <label className="font-semibold text-black">{selectedCustomer.addresses[0].country}</label>
+                                    <label className="font-semibold text-black">{selectedCustomer.email}</label>
+                                    <label className="font-semibold text-black">{selectedCustomer.web}</label>
+                                </div>
+                            </div>
+                            <div className="flex justify-between my-6">
+                                <div className="flex gap-1 w-1/3">
+                                <label className="font-semibold text-black">{tDocument('documents.number')}:</label>
+                                <label className="text-black">{selectedInvoice.docNumber}</label>
+                                </div>
+                                <div className="flex gap-1 w-1/3">
+                                <label className="font-semibold text-black">{tDocument('documents.date')}:</label>
+                                <label className="text-black">{selectedInvoice.docDate}</label>
+                                </div>
+                                <div className="flex gap-1 w-1/3">
+                                {/* Here goes pages section */}
+                                </div>
+                            </div>
+                            <hr className="border border-gray-200 mb-4"/>
+                            {/* Orders */}
+                            <div className="modal-scroll flex-1 overflow-y-auto ">
+                                {selectedInvoice.orders.map((order) => (
+                                    <div key={order.idOrder} className="px-4 py-2">
+                                    {/* Order details */}
+                                    <div className="bg-gray-200 px-4 rounded-full grid grid-cols-[3fr_1fr_1fr_1fr] gap-2 text-black font-semibold">
+                                        <div>{order.descrip}</div>
+                                        <div>{order.dateOrder}</div>
+                                        <div>{order.quantity} {order.units}</div>
+                                        <div>{order.total.toFixed(2)}{selectedInvoice.changeRate?.currency1 || "€"}</div>
+                                    </div>
+                                    <hr className="border-gray-200 mb-2"/>
+                                    {/* Items details */}
+                                    <div className="ml-6">
+                                        {order.items.map((item) => (
+                                        <div key={item.idItem} className="grid grid-cols-[3fr_1fr_1fr_1fr_1fr] gap-2 mb-1 text-black">
+                                            <div>{item.descrip}</div>
+                                            <div>{item.quantity}</div>
+                                            <div>{order.pricePerUnit.toFixed(2)}{selectedInvoice.changeRate?.currency1 || "€"}</div>
+                                            <div>{(item.discount*100).toFixed(2)}%</div>
+                                            <div>{item.total.toFixed(2)}{selectedInvoice.changeRate?.currency1 || "€"}</div>
+                                        </div>
+                                        ))}
+                                    </div>
+                                    </div>
+                                ))}
+                            </div>
+                            <hr className="border border-gray-200 mb-4"/>
+                            {/* Footer with totals and bank account */}
+                            <div className="h-1/6 mt-auto w-full flex justify-between">
+                                <div className="flex flex-col w-1/3">
+                                    <label className="font-semibold text-black">{tDocument('documents.bank_accounts')}:</label>
+                                    <label className="text-black">{selectedInvoice.bankAccount?.iban}</label>
+                                    <label className="text-black">{selectedInvoice.bankAccount?.holder}</label>
+                                    <label className="text-black">{selectedInvoice.bankAccount?.branch}</label>
+                                    <label className="font-semibold text-black">{tDocument('documents.pay_method')}:</label>
+                                    <label className="text-black">{selectedInvoice.notePayment}</label>
+                                </div>
+                                <div className="flex flex-col w-1/3">
+                                    <div className="flex justify-between">
+                                        <label className="font-semibold text-black">{tDocument('documents.total_net')}</label>
+                                        <label className="font-semibold text-black">{tDocument('documents.vat_rate')}</label>
+                                        <label className="font-semibold text-black">{tDocument('documents.total_vat')}</label>
+                                    </div>
+                                    <div className="flex justify-between">
+                                        <label className="text-black">{selectedInvoice.totalNet.toFixed(2)}{selectedInvoice.changeRate?.currency1 || "€"}</label>
+                                        <label className="text-black">{selectedInvoice.vatRate.toFixed(2)}%</label>
+                                        <label className="text-black">{selectedInvoice.totalVat.toFixed(2)}{selectedInvoice.changeRate?.currency1 || "€"}</label>
+                                    </div>
+                                    <div className="flex justify-between">
+                                        <label className="font-semibold text-black">{tDocument('documents.withholding')}</label>
+                                        <label className="font-semibold text-black">{tDocument('documents.total_withholding')}</label>
+                                    </div>
+                                    <div className="flex justify-between">
+                                        <label className="text-black">{selectedInvoice.withholding.toFixed(2)}%</label>
+                                        <label className="text-black">{selectedInvoice.totalWithholding.toFixed(2)}{selectedInvoice.changeRate?.currency1 || "€"}</label>
+                                    </div>
+                                    <div className="flex justify-between">
+                                        <label className="font-semibold text-black">{tDocument('documents.total_gross')}</label>
+                                        <label className="font-semibold text-black">{tDocument('documents.total_to_pay')}</label>
+                                    </div>
+                                    <div className="flex justify-between">
+                                        <label className="text-black">{selectedInvoice.totalGross.toFixed(2)}{selectedInvoice.changeRate?.currency1 || "€"}</label>
+                                        <label className="text-black">{selectedInvoice.totalToPay.toFixed(2)}{selectedInvoice.changeRate?.currency1 || "€"}</label>
+                                    </div>
+                                    {(selectedInvoice.changeRate?.rate || 1) !== 1 && (
+                                    <div className="flex justify-between">
+                                        <label className="text-black">{selectedInvoice.totalGrossInCurrency2.toFixed(2)}{selectedInvoice.changeRate?.currency2 || "€"}</label>
+                                        <label className="text-black">{selectedInvoice.totalToPayInCurrency2.toFixed(2)}{selectedInvoice.changeRate?.currency2 || "€"}</label>
+                                    </div>
+                                    )}
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            )}
             {showDeleteConfirm && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
                     <div className="bg-[color:var(--secondary)] rounded-xl shadow-lg p-6 w-1/3">
@@ -527,14 +720,13 @@ function CustomerInvoicesList(){
                     </div>
                 </div>
             )}
-            {/* Card Add Order */}
+            {/* Card Add Invoice */}
             {showAddForm && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
                     <div className="bg-[color:var(--secondary)] rounded-xl shadow-lg p-6 w-2/3 max-h-[90vh] flex flex-col">
                     <h3 className="text-xl font-semibold mb-4">{t('documents.add_invoice')}</h3>
-                    <div className="p-6 overflow-y-auto">
-                        <div className="flex p-6 overflow-y-auto justify-end">
-                            
+                    <div className="p-6  overflow-y-auto">
+                        <div className="flex p-6  overflow-y-auto justify-end">
                         </div>
                         <div className="flex gap-4 mb-4">
                             <select
@@ -580,6 +772,13 @@ function CustomerInvoicesList(){
                                     </option>
                                 ))}
                             </select>
+                            <button
+                                type="button"
+                                onClick={() => setShowChangeRateForm(true)}
+                                className="px-2 py-1 rounded-xl bg-[color:var(--primary)] text-[color:var(--text-light)] hover:bg-[color:var(--primary-hover)]"
+                            >
+                                +
+                            </button>
                             <select
                                 className="p-2 w-1/3 rounded-full border bg-[color:var(--background)]"
                                 value={formData.idBankAccount || ""}
@@ -658,10 +857,10 @@ function CustomerInvoicesList(){
                                 {`${t("documents.total_net")}: ${totals.totalNet}${formData.currency}`}
                             </span>
                             <span className="p-2 w-1/4">
-                                {t("documents.vat_rate") + ": " + (selectedCustomer?.vatRate || 0 > 1 
-                                ? formData.vatRate + "%" 
-                                : formData.vatRate * 100 + "%"
-                                )}
+                                {(selectedCustomer?.vatRate ?? 0) > 1
+                                ? t("documents.vat_rate") + ": " + formData.vatRate + "%" 
+                                : t("documents.vat_rate") + ": " + formData.vatRate * 100 + "%"
+                                }
                             </span>
                             <span className="p-2 w-1/4">
                                 {`${t("documents.total_vat")}: ${totals.totalVat}${formData.currency}`}
@@ -669,10 +868,10 @@ function CustomerInvoicesList(){
                         </div>
                         <div className="flex gap-4 mb-1 w-full">
                             <span className="p-2 w-1/4">
-                                {t("documents.withholding") + ": " + (selectedCustomer?.withholding || 0 > 1 
-                                ? formData.withholding + "%" 
-                                : formData.withholding * 100 + "%"
-                                )}
+                                {(selectedCustomer?.withholding ?? 0) > 1
+                                ? t("documents.withholding") + ": " + formData.withholding + "%" 
+                                : t("documents.withholding") + ": " + formData.withholding * 100 + "%"
+                                }
                             </span>
                             <span className="p-2 w-1/2">
                                 {`${t("documents.withholding")}: ${totals.totalWithholding}${formData.currency}`}
@@ -686,16 +885,21 @@ function CustomerInvoicesList(){
                                 {`${t("documents.total_to_pay")}: ${totals.totalToPay}${formData.currency}`}
                             </span>
                         </div>
-                        {!selectedChangeRate.rate === 1 && 
+                        {(selectedChangeRate?.rate || 1) !== 1 && 
                         <div className="flex gap-4 mb-2 w-full">
                             <span className="p-2 w-1/4">
-                                {`${t("documents.total_gross")}: ${totals.totalGross}${formData.currency}`}
+                                {`${t("documents.total_gross")}: ${totals.totalGross2}${selectedChangeRate.currency2}`}
                             </span>
                             <span className="p-2 w-1/2">
-                                {`${t("documents.total_to_pay")}: ${totals.totalToPay}${formData.currency}`}
+                                {`${t("documents.total_to_pay")}: ${totals.totalToPay2}${selectedChangeRate.currency2}`}
                             </span>
                         </div>
                         }
+                        {error && (
+                            <div className="text-white text-center rounded-lg px-6 py-2 bg-[color:var(--error)]">
+                                {error}
+                            </div>
+                        )}
                         <div className="flex justify-end gap-2 my-5">
                             <button
                                 type="button"
@@ -768,7 +972,7 @@ function CustomerInvoicesList(){
                 ) : (
                 <div className="bg-[color:var(--secondary)] rounded-xl shadow-lg p-6 w-2/3 max-h-[90vh] flex flex-col">
                     <h3 className="text-xl font-semibold mb-4">{t('documents.edit_invoice')}</h3>
-                    <div className="p-6 overflow-y-auto">
+                    <div className="p-6 modal-scroll overflow-y-auto">
                         <div className="flex p-6 overflow-y-auto justify-end">
                             <label className="w-1/6 py-2">{t('documents.is_paid')}</label>
                             <input
@@ -905,16 +1109,21 @@ function CustomerInvoicesList(){
                                 {`${t("documents.total_to_pay")}: ${totals.totalToPay}${selectedChangeRate.currency1}`}
                             </span>
                         </div>
-                        {!selectedChangeRate.rate === 1 && 
+                        {selectedChangeRate?.rate !== 1 && 
                         <div className="flex gap-4 mb-2 w-full">
                             <span className="p-2 w-1/4">
-                                {`${t("documents.total_gross")}: ${totals.totalGross}${selectedChangeRate.currency1}`}
+                                {`${t("documents.total_gross")}: ${totals.totalGross2}${selectedChangeRate.currency2}`}
                             </span>
                             <span className="p-2 w-1/2">
-                                {`${t("documents.total_to_pay")}: ${totals.totalToPay}${selectedChangeRate.currency1}`}
+                                {`${t("documents.total_to_pay")}: ${totals.totalToPay2}${selectedChangeRate.currency2}`}
                             </span>
                         </div>
                         }
+                        {error && (
+                            <div className="text-white text-center rounded-lg px-6 py-2 bg-[color:var(--error)]">
+                                {error}
+                            </div>
+                        )}
                         <div className="flex justify-end gap-2 my-5">
                             <button
                                 type="button"
@@ -969,6 +1178,63 @@ function CustomerInvoicesList(){
                 )}
                 </div>
             )}
+            {/* Card New Change Rate */}
+            {showChangeRateForm && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+                    <div className="bg-[color:var(--secondary)] rounded-xl shadow-lg p-6 w-1/2 max-h-[90vh] flex flex-col">
+                    <h4 className="text-lg font-semibold mb-2 w-1/8">{t('documents.new_change_rate')}</h4>
+                        <div className="flex gap-4 mb-4">
+                            <select
+                                className="h-8 w-1/3 ml-4 bg-[color:var(--background)] border rounded-full px-2 justify-start"
+                                name="currency1"
+                                value={newChangeRate.currency1 || ""}
+                                onChange={handleCurrencySelection}
+                                >
+                                <option value="">{t("documents.currency1")}</option>
+                                {currencies.map(c => (
+                                    <option key={c} value={c}>
+                                    {c}
+                                    </option>
+                                ))}
+                            </select>
+                            <select
+                                className="h-8 w-1/3 ml-4 bg-[color:var(--background)] border rounded-full px-2 justify-start"
+                                name="currency2"
+                                value={newChangeRate.currency2 || ""}
+                                onChange={handleCurrencySelection}
+                                >
+                                <option value="">{t("documents.currency2")}</option>
+                                {currencies.map(c => (
+                                    <option key={c} value={c}>
+                                    {c}
+                                    </option>
+                                ))}
+                            </select>
+                            <span className="p-2 w-1/3">
+                                    {newChangeRate.rate}
+                            </span>
+                        </div>
+                        <div className="flex justify-end gap-2 my-5">
+                            <button
+                                type="button"
+                                className="mb-4 px-4 py-2 rounded-xl bg-[color:var(--primary)] text-[color:var(--text-light)] w-max flex items-center gap-2 hover:bg-[color:var(--primary-hover)] transition-colors duration-300"
+                                onClick={handleNewChangeRateCancel}
+                            >
+                                {t('button.cancel')}
+                            </button>
+                            <button
+                                type="submit"
+                                className="mb-4 px-4 py-2 rounded-xl bg-[color:var(--primary)] text-[color:var(--text-light)] w-max flex items-center gap-2 hover:bg-[color:var(--primary-hover)] transition-colors duration-300"
+                                onClick={handleNewChangeRateSubmit}    
+                            >
+                                {t('button.save')}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            )}
+            {/* List */}
             <div className="rounded-xl shadow-lg w-3/4 p-4 bg-[color:var(--secondary)]">
                 <div className="w-full flex flex-row">
                     <div className="w-full flex justify-between items-center mb-2">
@@ -1045,12 +1311,12 @@ function CustomerInvoicesList(){
                         <tbody className="divide-y divide-[color:var(--divide)]">
                         {sortedInvoices.map(invoice => (
                             <tr key={invoice.idDocument} className="cursor-pointer bg-[color:var(--secondary)] text-[color:var(--text)] hover:bg-[color:var(--primary)] hover:text-[color:var(--text-light-hover)] transition-colors">
-                            <td className="w-1/3 py-2" onClick={() => handleEditInvoice(invoice)}>{invoice.comName}</td>
-                            <td className="w-1/3 py-2" onClick={() => handleEditInvoice(invoice)}>{invoice.docNumber}</td>
-                            <td className="w-1/6 py-2" onClick={() => handleEditInvoice(invoice)}>
+                            <td className="w-1/3 py-2" onClick={() => handleViewDetails(invoice)}>{invoice.comName}</td>
+                            <td className="w-1/3 py-2" onClick={() => handleViewDetails(invoice)}>{invoice.docNumber}</td>
+                            <td className="w-1/6 py-2" onClick={() => handleViewDetails(invoice)}>
                                 {new Date(invoice.docDate).toLocaleDateString("es-ES", { day:"2-digit", month:"2-digit", year:"numeric" })}
                             </td>
-                            <td className="w-1/6 py-2" onClick={() => handleEditInvoice(invoice)}>{`${invoice.totalNet.toFixed(2)}€`}</td>
+                            <td className="w-1/6 py-2" onClick={() => handleViewDetails(invoice)}>{`${invoice.totalNet.toFixed(2)}€`}</td>
                             {(role === "ROLE_ADMIN" || role === "ROLE_ACCOUNTING") && (
                                 <td className="w-1/6 py-2 text-center">
                                 <button className="text-red-500 hover:text-red-700" onClick={() => handleDelete(invoice)}>🗑️</button>

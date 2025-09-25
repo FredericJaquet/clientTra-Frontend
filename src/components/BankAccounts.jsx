@@ -166,7 +166,7 @@ function BankAccounts ({bankAccounts, idCompany, onAccountsChange}){
                             value={formData.swift}
                             placeholder={t('bank_accounts.swift')}
                             onChange={handleChange}
-                            className="p-2 rounded-lg border"
+                            className="p-2 rounded-lg border bg-[color:var(--background)]"
                             />
                         <input
                             type="text"
@@ -174,7 +174,7 @@ function BankAccounts ({bankAccounts, idCompany, onAccountsChange}){
                             value={formData.iban}
                             placeholder={t('bank_accounts.iban')}
                             onChange={handleChange}
-                            className="p-2 rounded-lg border"
+                            className="p-2 rounded-lg border bg-[color:var(--background)]"
                             />
                         <input
                             type="text"
@@ -182,7 +182,7 @@ function BankAccounts ({bankAccounts, idCompany, onAccountsChange}){
                             value={formData.branch}
                             placeholder={t('bank_accounts.branch')}
                             onChange={handleChange}
-                            className="p-2 rounded-lg border"
+                            className="p-2 rounded-lg border bg-[color:var(--background)]"
                             />
                         <input
                             type="text"
@@ -190,7 +190,7 @@ function BankAccounts ({bankAccounts, idCompany, onAccountsChange}){
                             value={formData.holder}
                             placeholder={t('bank_accounts.holder')}
                             onChange={handleChange}
-                            className="p-2 rounded-lg border"
+                            className="p-2 rounded-lg border bg-[color:var(--background)]"
                             />
                         {error && (
                             <div className="text-white text-center rounded-lg px-6 py-2 bg-[color:var(--error)]">

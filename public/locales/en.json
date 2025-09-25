@@ -225,6 +225,7 @@
         "company_data": "Your company data",
         "legal_name": "Legal name",
         "com_name": "Commercial name",
+        "name": "Name",
         "cif": "CIF",
         "email": "Email",
         "web": "Website",

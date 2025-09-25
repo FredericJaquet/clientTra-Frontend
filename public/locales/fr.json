@@ -224,6 +224,7 @@
         "company_data": "Données de votre entreprise",
         "legal_name": "Nom fiscal",
         "com_name": "Nom commercial",
+        "name": "Nom",
         "cif": "CIF",
         "email": "Email",
         "web": "Site web",

@@ -456,7 +456,7 @@ function OrdersListForCustomers(){
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
                     <div className="bg-[color:var(--secondary)] rounded-xl shadow-lg p-6 w-1/2 max-h-[90vh] flex flex-col">
                         <h3 className="text-xl font-semibold mb-4">{t('orders.add_order')}</h3>
-                        <div className="p-6 overflow-y-auto">
+                        <div className="p-6 modal-scroll overflow-y-auto">
                             <div className="flex gap-4 mb-4">
                                 <select
                                     className="h-8 ml-4 bg-[color:var(--background)] border rounded-full px-2 justify-start"
@@ -685,7 +685,7 @@ function OrdersListForCustomers(){
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
                     <div className="bg-[color:var(--secondary)] rounded-xl shadow-lg p-6 w-1/2 max-h-[90vh] flex flex-col">
                         <h3 className="text-xl font-semibold mb-4">{t('orders.edit_order')}</h3>
-                        <div className="p-6 overflow-y-auto">
+                        <div className="p-6 modal-scroll overflow-y-auto">
                             <form className="flex flex-col gap-4" onSubmit={handleEditSubmit}>
                                 <div className="flex gap-2">
                                     <input 

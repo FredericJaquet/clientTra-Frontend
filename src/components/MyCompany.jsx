@@ -186,7 +186,7 @@ function MyCompany(){
                     }
                 </div>
                 <hr className="border-[color:var(--primary)] mb-2" />
-                <div className="grid grid-cols-[1fr_2fr_1fr_2fr] sd:grid-cols-2 gap-4">
+                <div className="grid grid-cols sd:grid-cols-2 gap-4">
                     <label className="mr-2 font-semibold">{t('register.com_name')}:</label>
                     {!isEditing ? 
                         <label className="mr-2">{company.comName}</label>

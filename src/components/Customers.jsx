@@ -42,17 +42,24 @@ function Customers(){
     useEffect(() => {
         if (searchQuery) {
             api.get(`/customers/search?input=${searchQuery}`)
-                .then(res => setCustomers(res.data))
+                .then((res) => {
+                    setCustomers(res.data);
+                    console.log(res.data);
+                })
                 .catch(err => console.error(err));
             
         } else {
         api.get("/customers")
-            .then((res) => setCustomers(res.data))
+            .then((res) => {
+                    setCustomers(res.data);
+                    console.log(res.data);
+                })
             .catch((err) => {
                 console.error("Error fetching customers:", err);
                 setError(err.response.data.message || "Error");
             });
         }
+        
     }, [searchQuery]);
 
     const filteredCustomers = customers
@@ -437,7 +444,7 @@ function Customers(){
                         <tr
                             key={customer.idCustomer}
                             className="cursor-pointer text-[color:var(--text)] hover:bg-[color:var(--primary)] hover:text-[color:var(--text-light-hover)] transition-colors"
-                            onClick={() => navigate(`/dashboard/customers/${customer.idCustomer}`)}
+                            onClick={() => navigate(`/dashboard/customers/${customer.idCompany}`)}
                         >
                             <td className="w-1/6 py-2">{customer.comName}</td>
                             <td className=" w-1/6 py-2">{customer.vatNumber}</td>
