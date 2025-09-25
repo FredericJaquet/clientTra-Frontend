@@ -18,7 +18,8 @@
         "edit": "Edit",
         "blue": "Blue",
         "red": "Red",
-        "next": "Next"
+        "next": "Next",
+        "print": "Print"
     },
     "companies": {
         "phones": "Phones",

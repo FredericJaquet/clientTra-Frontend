@@ -18,7 +18,8 @@
         "edit": "Modifier",
         "blue": "Bleu",
         "red": "Rouge",
-        "next": "Suivant"
+        "next": "Suivant",
+        "print": "Imprimer"
     },
     "companies": {
         "phones": "Téléphones",

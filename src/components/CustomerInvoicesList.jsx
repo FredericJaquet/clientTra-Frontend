@@ -1,27 +1,13 @@
 import React, { useState, useEffect } from "react";
 import axios from "../api/axios";
 import { useTranslation } from 'react-i18next';
-import i18n from "i18next";
-import en from "../../public/locales/en.json";
-import es from "../../public/locales/es.json";
-import fr from "../../public/locales/fr.json";
+import { pdf } from "@react-pdf/renderer";
+import InvoicePDF from "./InvoicePDF";
 
 function CustomerInvoicesList(){
 
     const { t } = useTranslation();
-    i18n
-        .use(useTranslation)
-        .init({
-            resources: {
-            en: { translation: en },
-            es: { translation: es },
-            fr: { translation: fr },
-            },
-            lng: "es", // idioma activo del usuario
-            fallbackLng: "es",
-            interpolation: { escapeValue: false },
-        });
-    const tDocument = i18n.getFixedT("en");
+    
     
     const user = JSON.parse(localStorage.getItem("user"));
     const role = user?.role || "ROLE_USER";
@@ -54,7 +40,11 @@ function CustomerInvoicesList(){
                         "VND","VUV","WST","XAF","XCD","XCG","XDR","XOF","XPF","YER",
                         "ZAR","ZMW","ZWL"
                         ];
-    //const [tDocument, setTDocument] = useState(() => i18n.getFixedT("en", "translation"));
+    //Translation for document (to be able to change language when viewing the document)
+    const en={name:"Name", cif:"VAT Number", street:"Street", st_number:"St. Number", cp_city:"ZIP/City", country:"Country", email:"Email", web:"Web", title:"Invoice", number:"Number", date:"Date", page:"Page", of: "of", bank_details:"Bank Details", pay_method:"Payment Method", total_net:"Total Net", vat_rate:"VAT", total_vat:"Total VAT", withholding:"Withholding", total_withholding:"Total Withholding", total_gross:"Total Invoice", total_to_pay:"Total to Pay"};
+    const es={name:"Nombre", cif:"CIF/NIF", street:"Calle", st_number:"Nº", cp_city:"CP/Ciudad", country:"País", email:"Email", web:"Web", title:"Factura", number:"Número", date:"Fecha", page:"Página", of: "de", bank_details:"Detalles bancarios", pay_method:"Forma de Pago", total_net:"Total Neto", vat_rate:"IVA", total_vat:"Total IVA", withholding:"Retención", total_withholding:"Total Retención", total_gross:"Total Factura", total_to_pay:"Total a Pagar"};
+    const fr={name:"Nom", cif:"Numéro de TVA", street:"Rue", st_number:"N°", cp_city:"CP/Ville", country:"Pays", email:"Email", web:"Web", title:"Facture", number:"Numéro", date:"Date", page:"Page", of: "de", bank_details:"Détails Bancaires", pay_method:"Méthode de Paiement", total_net:"Total Net", vat_rate: "TVA", total_vat:"Total TVA", withholding:"Retenue", total_withholding:"Total Retenue", total_gross:"Total Facture", total_to_pay:"Total à Payer"};
+    const [translations, setTranslations] = useState(es);
     const [formData, setFormData] = useState(initialFormData);
     const [error, setError] = useState("");
     const [invoices, setInvoices] = useState([]);
@@ -165,7 +155,7 @@ function CustomerInvoicesList(){
                 totalToPay2: totalTopay2.toFixed(2)
             })
         }
-    }, [formData.orderIds, formData.vatRate, formData.withholding, orders, selectedChangeRate])
+    }, [formData.orderIds, formData.vatRate, formData.withholding, orders, selectedChangeRate]);
 
     //Sorting columns
     const sortedInvoices = [...filteredInvoices].sort((a, b) => {
@@ -193,6 +183,7 @@ function CustomerInvoicesList(){
         setShowAddForm(true);
         
         setFormData(initialFormData);
+        setFormData(prev => ({...prev, idBankAccount: bankAccounts[0]?.idBankAccount || ""}));
 
         try{
             const response = await axios.get("/customer-invoices/last-number");
@@ -201,7 +192,7 @@ function CustomerInvoicesList(){
             console.error(err);
             setError(err.response?.data?.message || "Error");
         }
-    }
+    };
 
     const handleAddCancel = () =>{
         setShowAddForm(false);
@@ -209,7 +200,7 @@ function CustomerInvoicesList(){
         setFormData(initialFormData);
         setSelectedChangeRate({});
         setError("");
-    }
+    };
 
     const handleAddSubmit = async (e) => {
         e.preventDefault();
@@ -246,7 +237,7 @@ function CustomerInvoicesList(){
             console.error(err);
             setError(err.response?.data?.message || t('error.editing_order'));
         }
-    }
+    };
 
     const handleCustomerSelection = async (e) => {
         const customer = customers.find(c => c.idCompany === Number(e.target.value));
@@ -268,7 +259,7 @@ function CustomerInvoicesList(){
             console.error(err);
             setError(err.response?.data?.message || "Error");
         }
-    }
+    };
 
     // Handle View Details
     const handleViewDetails = async (invoice) => {
@@ -276,7 +267,19 @@ function CustomerInvoicesList(){
             const invoiceResponse = await axios.get(`/customer-invoices/by-id/${invoice.idDocument}`);
             const invoiceData = invoiceResponse.data;
             setSelectedInvoice(invoiceData);
-            //setTDocument(() => i18next.getFixedT(invoiceData.language));
+            switch(invoiceData.language){
+                case "en":
+                    setTranslations(en);
+                    break;
+                case "es":
+                    setTranslations(es);
+                    break;
+                case "fr":
+                    setTranslations(fr);
+                    break;
+                default:
+                    setTranslations(es);
+            };
 
             const ownerResponse = await axios.get("/owner");
             const ownerData = ownerResponse.data;
@@ -286,13 +289,12 @@ function CustomerInvoicesList(){
             const customerResponse = await axios.get(`/customers/${invoiceData.company.idCompany}`);
             const customerData = customerResponse.data;
             setSelectedCustomer(customerData);
-console.log(i18n.hasResourceBundle("en", "translation")); // ¿true o false?
-console.log(i18n.hasResourceBundle("es", "translation"));
+
             setShowDetailedInvoice(true);
         } catch (err) {
             console.error(err.response?.data?.message || "Error");
         }
-    }
+    };
 
     // Handle Edit
     const handleEditInvoice = async (invoice) => {
@@ -337,7 +339,7 @@ console.log(i18n.hasResourceBundle("es", "translation"));
         } catch (err) {
             console.error(err.response?.data?.message || "Error al cargar factura");
         }
-    }
+    };
 
     const handleEditSubmit = async (e) => {
         e.preventDefault();
@@ -361,6 +363,8 @@ console.log(i18n.hasResourceBundle("es", "translation"));
                 )
             );
 
+            setSelectedInvoice(response.data);
+            
             setShowEditForm(false);
             setError("");
             setFormData(initialFormData);
@@ -369,36 +373,36 @@ console.log(i18n.hasResourceBundle("es", "translation"));
             console.error(err);
             setError(err.response?.data?.message || "Error");
         }
-    }
+    };
 
     const handleEditCancel = () => {
         setShowEditForm(false);
         setFormData(initialFormData);
         setShowDetailedInvoice(viewDetailedInvoice);
         setError("");
-    }
+    };
 
     //Handle Changes for Edit/Add
     const handleChange = (e) => {
         setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
-    }
+    };
 
     const handleChangeRateSelection = (e) => {
         const changeRate = changeRates.find(c => c.idChangeRate === Number(e.target.value));
         setSelectedChangeRate(changeRate || {});
         setFormData(prev => ({ ...prev, idChangeRate: changeRate.idChangeRate}))
         setFormData(prev => ({ ...prev, currency: changeRate.currency1}))
-    }
+    };
 
     const handlePaidChange = (e) => {
         const newStatus = e.target.checked ? "PAID" : "PENDING";
 
         setFormData(prev => ({...prev, status: newStatus}));
-    }
+    };
 
     const handleCurrencySelection = (e) => {
         setNewChangeRate(prev => ({...prev, [e.target.name]: e.target.value}));
-    }
+    };
 
     useEffect (() => {
         async function fetchChangeRate() {
@@ -420,7 +424,7 @@ console.log(i18n.hasResourceBundle("es", "translation"));
     const handleNewChangeRateCancel = () => {
         setShowChangeRateForm(false);
         setNewChangeRate({currency1:"", currency2:"", rate:1, date:today});
-    }
+    };
 
     const handleNewChangeRateSubmit = async () => {
         try{
@@ -438,7 +442,7 @@ console.log(i18n.hasResourceBundle("es", "translation"));
         }catch(err){
             console.error(err);
         }
-    }
+    };
 
     //Orders selection
     const handleOrderChange = (e, order) => {
@@ -455,7 +459,7 @@ console.log(i18n.hasResourceBundle("es", "translation"));
               orderIds: prev.orderIds.filter(id => id !== order.idOrder)
             }));
         }
-    }
+    };
 
     const handleSelectAllOrders = (e) => {
         if (e.target.checked) {
@@ -471,13 +475,13 @@ console.log(i18n.hasResourceBundle("es", "translation"));
                 orderIds: []
             }));
         }
-    }
+    };
 
     //Handle Delete
     const handleDelete = (invoice) => {
         setInvoiceToDelete(invoice);
         setShowDeleteConfirm(true);
-    }
+    };
 
     const handleDeleteSubmit = async () => {
         if (!invoiceToDelete) return;
@@ -509,8 +513,25 @@ console.log(i18n.hasResourceBundle("es", "translation"));
         setShowDetailedInvoice(false);
         setSelectedInvoice({});
         setSelectedCustomer({});
-    }
+    };
 
+    const handlePrint = async () => {
+        const blob = await pdf(
+            <InvoicePDF
+            invoice={selectedInvoice}
+            owner={ownerInfo}
+            customer={selectedCustomer}
+            translations={translations}
+            logo={logo}
+            />
+        ).toBlob();
+
+        const url = URL.createObjectURL(blob);
+        const newWindow = window.open(url);
+        newWindow.onload = () => {
+            newWindow.print();
+        };
+    };
 
     //Used to normalize the response of the backend for Update request
     const mapDocument = (document) => ({
@@ -550,6 +571,12 @@ console.log(i18n.hasResourceBundle("es", "translation"));
                             >
                                 {t('button.delete')}
                             </button>
+                            <button
+                                className="mb-4 px-4 py-2 rounded-xl bg-[color:var(--primary)] text-[color:var(--text-light)] w-max flex items-center gap-2 hover:bg-[color:var(--primary-hover)] transition-colors duration-300"
+                                onClick={() => handlePrint()}
+                            >
+                                {t('button.print')}
+                            </button>
                             </>
                             )}
 
@@ -566,26 +593,26 @@ console.log(i18n.hasResourceBundle("es", "translation"));
                                             className="w-32 h-32 object-contain rounded-lg"
                                         />
                                         <div className="grid grid-cols-[2fr_3fr] gap-1 " >
-                                            <label className="font-semibold text-black">{tDocument('register.name')}:</label>
+                                            <label className="font-semibold text-black">{translations.name}:</label>
                                             <label className="text-black">{ownerInfo.legalName}</label>
-                                            <label className="font-semibold text-black">{tDocument('register.cif')}:</label>
+                                            <label className="font-semibold text-black">{translations.cif}:</label>
                                             <label className="text-black">{ownerInfo.vatNumber}</label>
-                                            <label className="font-semibold text-black">{tDocument('register.street')}:</label>
+                                            <label className="font-semibold text-black">{translations.street}:</label>
                                             <label className="text-black">{ownerInfo.addresses[0].street}</label>
-                                            <label className="font-semibold text-black">{tDocument('register.st_number')}:</label>
-                                            <label className="text-black">{ownerInfo.addresses[0].stNumber}</label>
-                                            <label className="font-semibold text-black">{tDocument('register.cp')+"/"+t('register.city')}:</label>
+                                            <label className="font-semibold text-black">{translations.st_number}:</label>
+                                            <label className="text-black">{ownerInfo.addresses[0].stNumber} {ownerInfo.addresses[0].apt}</label>
+                                            <label className="font-semibold text-black">{translations.cp_city}:</label>
                                             <label className="text-black">{ownerInfo.addresses[0].cp}/{ownerInfo.addresses[0].city}</label>
-                                            <label className="font-semibold text-black">{tDocument('register.country')}:</label>
+                                            <label className="font-semibold text-black">{translations.country}:</label>
                                             <label className="text-black">{ownerInfo.addresses[0].country}</label>
-                                            <label className="font-semibold text-black">{tDocument('register.email')}:</label>
+                                            <label className="font-semibold text-black">{translations.email}:</label>
                                             <label className="text-black">{ownerInfo.email}</label>
-                                            <label className="font-semibold text-black">{tDocument('register.web')}:</label>
+                                            <label className="font-semibold text-black">{translations.web}:</label>
                                             <label className="text-black">{ownerInfo.web}</label>
                                         </div>
                                     </div>
                                     <div className="flex border w-full gap-y-2 rounded-full mt-3 p-2 justify-center border-[#1d4ed8]" >
-                                        <label className="font-semibold text-black text-2xl">{t('documents.invoice')}</label>
+                                        <label className="font-semibold text-black text-2xl">{translations.title}</label>
                                     </div>
                                 </div>
                                 <div className="flex flex-col border gap-y-2 rounded-lg p-3 border-[#1d4ed8]" >
@@ -601,15 +628,15 @@ console.log(i18n.hasResourceBundle("es", "translation"));
                             </div>
                             <div className="flex justify-between my-6">
                                 <div className="flex gap-1 w-1/3">
-                                <label className="font-semibold text-black">{tDocument('documents.number')}:</label>
+                                <label className="font-semibold text-black">{translations.number}:</label>
                                 <label className="text-black">{selectedInvoice.docNumber}</label>
                                 </div>
                                 <div className="flex gap-1 w-1/3">
-                                <label className="font-semibold text-black">{tDocument('documents.date')}:</label>
+                                <label className="font-semibold text-black">{translations.date}:</label>
                                 <label className="text-black">{selectedInvoice.docDate}</label>
                                 </div>
                                 <div className="flex gap-1 w-1/3">
-                                {/* Here goes pages section */}
+                                {/* Here goes pages section in PDF*/}
                                 </div>
                             </div>
                             <hr className="border border-gray-200 mb-4"/>
@@ -644,18 +671,18 @@ console.log(i18n.hasResourceBundle("es", "translation"));
                             {/* Footer with totals and bank account */}
                             <div className="h-1/6 mt-auto w-full flex justify-between">
                                 <div className="flex flex-col w-1/3">
-                                    <label className="font-semibold text-black">{tDocument('documents.bank_accounts')}:</label>
+                                    <label className="font-semibold text-black">{translations.bank_details}:</label>
                                     <label className="text-black">{selectedInvoice.bankAccount?.iban}</label>
                                     <label className="text-black">{selectedInvoice.bankAccount?.holder}</label>
                                     <label className="text-black">{selectedInvoice.bankAccount?.branch}</label>
-                                    <label className="font-semibold text-black">{tDocument('documents.pay_method')}:</label>
+                                    <label className="font-semibold text-black">{translations.pay_method}:</label>
                                     <label className="text-black">{selectedInvoice.notePayment}</label>
                                 </div>
                                 <div className="flex flex-col w-1/3">
                                     <div className="flex justify-between">
-                                        <label className="font-semibold text-black">{tDocument('documents.total_net')}</label>
-                                        <label className="font-semibold text-black">{tDocument('documents.vat_rate')}</label>
-                                        <label className="font-semibold text-black">{tDocument('documents.total_vat')}</label>
+                                        <label className="font-semibold text-black">{translations.total_net}</label>
+                                        <label className="font-semibold text-black">{translations.vat_rate}</label>
+                                        <label className="font-semibold text-black">{translations.total_vat}</label>
                                     </div>
                                     <div className="flex justify-between">
                                         <label className="text-black">{selectedInvoice.totalNet.toFixed(2)}{selectedInvoice.changeRate?.currency1 || "€"}</label>
@@ -663,16 +690,16 @@ console.log(i18n.hasResourceBundle("es", "translation"));
                                         <label className="text-black">{selectedInvoice.totalVat.toFixed(2)}{selectedInvoice.changeRate?.currency1 || "€"}</label>
                                     </div>
                                     <div className="flex justify-between">
-                                        <label className="font-semibold text-black">{tDocument('documents.withholding')}</label>
-                                        <label className="font-semibold text-black">{tDocument('documents.total_withholding')}</label>
+                                        <label className="font-semibold text-black">{translations.withholding}</label>
+                                        <label className="font-semibold text-black">{translations.total_withholding}</label>
                                     </div>
                                     <div className="flex justify-between">
                                         <label className="text-black">{selectedInvoice.withholding.toFixed(2)}%</label>
                                         <label className="text-black">{selectedInvoice.totalWithholding.toFixed(2)}{selectedInvoice.changeRate?.currency1 || "€"}</label>
                                     </div>
                                     <div className="flex justify-between">
-                                        <label className="font-semibold text-black">{tDocument('documents.total_gross')}</label>
-                                        <label className="font-semibold text-black">{tDocument('documents.total_to_pay')}</label>
+                                        <label className="font-semibold text-black">{translations.total_gross}</label>
+                                        <label className="font-semibold text-black">{translations.total_to_pay}</label>
                                     </div>
                                     <div className="flex justify-between">
                                         <label className="text-black">{selectedInvoice.totalGross.toFixed(2)}{selectedInvoice.changeRate?.currency1 || "€"}</label>
