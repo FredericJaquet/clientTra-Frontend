@@ -119,6 +119,7 @@
         "total_to_pay": "Total a pagar",
         "invoices_customers": "Facturas Clientes",
         "all_invoices": "Todas",
+        "all_quotes": "Todos",
         "pending": "No pagadas",
         "paid": "Pagadas",
         "is_paid": "Pagada",
@@ -138,7 +139,11 @@
         "rate": "Cambio",
         "invoice": "Factura",
         "bank_accounts": "Detalles bancarios",
-        "pay_method": "Método de pago"
+        "pay_method": "Método de pago",
+        "status": "Estado",
+        "accepted": "Aceptado",
+        "rejected": "Rechazado",
+        "pending_quote": "Pendiente"
     },
     "error": {
         "all_fields_required": "Todos los campos son obligatorios",

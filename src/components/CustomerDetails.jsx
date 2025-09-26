@@ -8,7 +8,7 @@ import BankAccounts from "./BankAccounts";
 import ContactPersons from "./ContactPersons";
 import Schemes from "./Schemes";
 
-//TODO Afinar la creación y edición de esquemas (Al presionar ENter en la descripción de una linea por ejemplo)
+//TODO Afinar la creación y edición de esquemas (Al presionar Enter en la descripción de una linea por ejemplo)
 function CustomerDetails() {
     const { t } = useTranslation();
     const { id } = useParams();

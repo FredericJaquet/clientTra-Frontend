@@ -8,7 +8,6 @@ function CustomerInvoicesList(){
 
     const { t } = useTranslation();
     
-    
     const user = JSON.parse(localStorage.getItem("user"));
     const role = user?.role || "ROLE_USER";
 
@@ -183,6 +182,7 @@ function CustomerInvoicesList(){
         setShowAddForm(true);
         
         setFormData(initialFormData);
+        setSelectedChangeRate(changeRates[0].idChangeRate);
         setFormData(prev => ({...prev, idBankAccount: bankAccounts[0]?.idBankAccount || ""}));
 
         try{
@@ -199,6 +199,7 @@ function CustomerInvoicesList(){
         setSelectedCustomer({});
         setFormData(initialFormData);
         setSelectedChangeRate({});
+        setOrders([]);
         setError("");
     };
 
@@ -235,7 +236,7 @@ function CustomerInvoicesList(){
 
         }catch(err){
             console.error(err);
-            setError(err.response?.data?.message || t('error.editing_order'));
+            setError(err.response?.data?.message || "Error");
         }
     };
 
@@ -337,7 +338,7 @@ function CustomerInvoicesList(){
                         });
             setShowEditForm(true);
         } catch (err) {
-            console.error(err.response?.data?.message || "Error al cargar factura");
+            console.error(err.response?.data?.message || "Error");
         }
     };
 
@@ -499,7 +500,7 @@ function CustomerInvoicesList(){
             setError("");
         } catch (err) {
             console.error(err);
-            setError(err.response?.data?.message || t('error.deleting_order'));
+            setError(err.response?.data?.message || "Error");
         }
     };
 
@@ -713,7 +714,6 @@ function CustomerInvoicesList(){
                                     )}
                                 </div>
                             </div>
-                            
                         </div>
                     </div>
                 </div>

@@ -182,7 +182,7 @@ const styles = StyleSheet.create({
     },
 });
 
-const InvoicePDF = ({ invoice, owner, customer, translations, logo }) => (
+const QuotePDF = ({ invoice: quote, owner, customer, translations, logo }) => (
   <Document>
     <Page size="A4" style={styles.page}>
         <View style={styles.container}>
@@ -259,13 +259,13 @@ const InvoicePDF = ({ invoice, owner, customer, translations, logo }) => (
                     <View style={{ width: "33%" }}>
                     <View style={styles.metaItem}>
                         <Text style={styles.metaLabel}>{translations.number}:</Text>
-                        <Text style={styles.metaValue}>{invoice.docNumber}</Text>
+                        <Text style={styles.metaValue}>{quote.docNumber}</Text>
                     </View>
                     </View>
                     <View style={{ width: "33%" }}>
                     <View style={styles.metaItem}>
                         <Text style={styles.metaLabel}>{translations.date}:</Text>
-                        <Text style={styles.metaValue}>{invoice.docDate}</Text>
+                        <Text style={styles.metaValue}>{quote.docDate}</Text>
                     </View>
                     </View>
                     <View style={{ width: "33%", alignItems: "flex-end" }}>
@@ -282,7 +282,7 @@ const InvoicePDF = ({ invoice, owner, customer, translations, logo }) => (
                 <View style={styles.hr} fixed/>
 
                 {/* ORDERS */}
-                {invoice.orders.map((order, idx) => (
+                {quote.orders.map((order, idx) => (
                 <View key={idx} wrap={false} style={styles.orderContainer}>
                     <View>
                         <View style={styles.orderRow}>
@@ -293,7 +293,7 @@ const InvoicePDF = ({ invoice, owner, customer, translations, logo }) => (
                             </Text>
                             <Text style={styles.orderCellSmall}>
                                 {order.total.toFixed(2)}
-                                {invoice.changeRate?.currency1 || "€"}
+                                {quote.changeRate?.currency1 || "€"}
                             </Text>
                         </View>
                         {order.items.map((item, idy) => (
@@ -302,12 +302,12 @@ const InvoicePDF = ({ invoice, owner, customer, translations, logo }) => (
                             <Text style={styles.itemCellSmall}>{item.quantity}</Text>
                             <Text style={styles.itemCellSmall}>
                                 {order.pricePerUnit.toFixed(2)}
-                                {invoice.changeRate?.currency1 || "€"}
+                                {quote.changeRate?.currency1 || "€"}
                             </Text>
                             <Text style={styles.itemCellSmall}>{(item.discount * 100).toFixed(2)}%</Text>
                             <Text style={styles.itemCellSmall}>
                                 {item.total.toFixed(2)}
-                                {invoice.changeRate?.currency1 || "€"}
+                                {quote.changeRate?.currency1 || "€"}
                             </Text>
                         </View>
                         ))}
@@ -319,81 +319,29 @@ const InvoicePDF = ({ invoice, owner, customer, translations, logo }) => (
             {/* FOOTER */}
             <View style={styles.footer} fixed>
                 <View style={styles.bankDetails}>
-                    <Text style={styles.label}>{translations.bank_details}:</Text>
-                    <Text>{invoice.bankAccount?.iban}</Text>
-                    <Text>{invoice.bankAccount?.holder}</Text>
-                    <Text>{invoice.bankAccount?.branch}</Text>
                     <Text style={styles.label}>{translations.pay_method}:</Text>
-                    <Text>{invoice.notePayment}</Text>
+                    <Text>{quote.notePayment}</Text>
                 </View>
-
                 <View style={styles.totals}>
-                    {/* Bloque 1 */}
+                    {/* Bloc 1 */}
                     <View style={styles.totalBlock}>
                         <View style={{ flexDirection: "row", justifyContent: "space-between", marginBottom: 5 }}>
                             <Text style={styles.label}>{translations.total_net}</Text>
                             <Text style={styles.label}>{translations.vat_rate}</Text>
-                            <Text style={styles.label}>{translations.total_vat}</Text>
-                        </View>
-                        <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-                            <Text>
-                                {invoice.totalNet.toFixed(2)}
-                                {invoice.changeRate?.currency1 || "€"}
-                            </Text>
-                            <Text>{invoice.vatRate.toFixed(2)}%</Text>
-                            <Text>
-                                {invoice.totalVat.toFixed(2)}
-                                {invoice.changeRate?.currency1 || "€"}
-                            </Text>
-                        </View>
-                    </View>
-                    {/* Bloque 2 */}
-                    <View style={styles.totalBlock}>
-                        <View style={{ flexDirection: "row", justifyContent: "space-between", marginBottom: 5 }}>
-                            <Text style={styles.label}>{translations.withholding}</Text>
-                            <Text style={styles.label}>{translations.total_withholding}</Text>
-                        </View>
-                        <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-                            <Text>{invoice.withholding.toFixed(2)}%</Text>
-                            <Text>
-                                {invoice.totalWithholding.toFixed(2)}
-                                {invoice.changeRate?.currency1 || "€"}
-                            </Text>
-                        </View>
-                    </View>
-                    {/* Bloque 3 */}
-                    <View style={styles.totalBlock}>
-                        <View style={{ flexDirection: "row", justifyContent: "space-between", marginBottom: 5 }}>
                             <Text style={styles.label}>{translations.total_gross}</Text>
-                            <Text style={styles.label}>{translations.total_to_pay}</Text>
                         </View>
                         <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
                             <Text>
-                                {invoice.totalGross.toFixed(2)}
-                                {invoice.changeRate?.currency1 || "€"}
+                                {quote.totalNet.toFixed(2)}
+                                {quote.currency || "€"}
                             </Text>
+                            <Text>{quote.vatRate.toFixed(2)}%</Text>
                             <Text>
-                                {invoice.totalToPay.toFixed(2)}
-                                {invoice.changeRate?.currency1 || "€"}
+                                {quote.totalGross.toFixed(2)}
+                                {quote.currency || "€"}
                             </Text>
                         </View>
                     </View>
-                    
-                    {/* Cambio divisa */}
-                    {(invoice.changeRate?.rate || 1) !== 1 && (
-                    <View style={styles.totalBlock}>
-                        <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-                        <Text>
-                            {invoice.totalGrossInCurrency2.toFixed(2)}
-                            {invoice.changeRate?.currency2 || "€"}
-                        </Text>
-                        <Text>
-                            {invoice.totalToPayInCurrency2.toFixed(2)}
-                            {invoice.changeRate?.currency2 || "€"}
-                        </Text>
-                        </View>
-                    </View>
-                    )}
                 </View>
             </View>
         </View>
@@ -401,4 +349,4 @@ const InvoicePDF = ({ invoice, owner, customer, translations, logo }) => (
   </Document>
 );
 
-export default InvoicePDF;
+export default QuotePDF;
