@@ -102,7 +102,10 @@
         "month": "Month",
         "total": "Total",
         "loading": "Loading...",
-        "no_results": "No results..."
+        "no_results": "No results...",
+        "demo_banner1": "You are in demo mode.",
+        "demo_banner2": "Your data will be lost when you create your company.",
+        "demo_banner_link": "Register your company."
     },
     "error": {
         "all_fields_required": "All fields are required",
@@ -164,6 +167,7 @@
         "select_customer": "Select a customer",
         "select_provider": "Select a provider",
         "orders_customers": "Customer Orders",
+        "orders_providers": "Provider Orders",
         "name": "Description",
         "price": "Unit Price",
         "units": "Units",
@@ -193,7 +197,8 @@
     "providers": {
         "providers": "Providers",
         "provider": "Provider",
-        "no_cproviders": "There are no providers in this category",
+        "no_providers": "There are no providers in this category",
+        "all_providers": "All providers",
         "com_name": "Trade name",
         "legal_name": "Legal name",
         "vat_number": "VAT number",

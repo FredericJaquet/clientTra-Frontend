@@ -17,7 +17,7 @@ function CustomerInvoicesList(){
                             docNumber:"", docDate:"", status:"PENDING", docType:"INV_CUST",
                             language:"", vatRate:0.0, withholding:0.0, currency:"€",
                             noteDelivery:"", notePayment:"", noteComment:"", deadline:"",
-                            idChangeRate:1, idBankAccount:"", idCompany:"",
+                            idChangeRate:"", idBankAccount:"", idCompany:"",
                             idDocumentParent:"", orderIds:[]
                         };
     const currencies = [
@@ -90,13 +90,13 @@ function CustomerInvoicesList(){
             .get("/customers/minimal-list")
             .then(
                 (response) => {
-                    setCustomers(response.data);
-                })
+                    setCustomers(response.data);})
             .catch((err) => console.error(err.response.data.message || "Error"));
         axios
             .get("/change-rates")
             .then(
-                (response) => {setChangeRates(response.data);})
+                (response) => { setChangeRates(response.data);
+                            })
             .catch((err) => console.error(err.response.data.message || "Error"));
         axios
             .get("/owner/bank-accounts")
@@ -183,6 +183,8 @@ function CustomerInvoicesList(){
         
         setFormData(initialFormData);
         setSelectedChangeRate(changeRates[0].idChangeRate);
+        setFormData(prev => ({...prev, idChangeRate: changeRates[0].idChangeRate || ""}));
+
         setFormData(prev => ({...prev, idBankAccount: bankAccounts[0]?.idBankAccount || ""}));
 
         try{
@@ -209,7 +211,7 @@ function CustomerInvoicesList(){
             setError(t('error.all_fields_required'));
             return;
         }
-        if(totals.totalNet === 0){
+        if(formData.orderIds.length < 1){
             setError(t('error.document_without_Order'));
             return;
         }
@@ -349,7 +351,7 @@ function CustomerInvoicesList(){
             setError(t('error.all_fields_required'));
             return;
         }
-        if (formData.orderIds < 1){
+        if (formData.orderIds.length < 1){
             setError(t('error.no_orders'));
             return;
         }
@@ -943,7 +945,7 @@ function CustomerInvoicesList(){
                                 {t('button.save')}
                             </button>
                         </div>
-                        <hr></hr>
+                        <hr/>
                         <h3 className="text-xl font-semibold my-4 mb-4">{t("orders.orders")}</h3>
                         <div className="flex cursor-pointer text-[color:var(--text)] hover:bg-[color:var(--primary)] hover:text-[color:var(--text-light-hover)] transition-colors">
                             <label className="w-1/2 py-2">{t("orders.name")}</label>

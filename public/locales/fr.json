@@ -102,7 +102,10 @@
         "month": "Mois",
         "total": "Total",
         "loading": "Chargement...",
-        "no_results": "Sans résultats..."
+        "no_results": "Sans résultats...",
+        "demo_banner1": "Vous êtes en mode démo.",
+        "demo_banner2": "Vos données seront perdues lorsque vous créerez votre entreprise.",
+        "demo_banner_link": "Enregistrez votre entreprise."
     },
     "error": {
         "all_fields_required": "Tous les champs sont obligatoires",
@@ -163,6 +166,7 @@
         "select_customer": "Choisissez un client",
         "select_provider": "Choisissez un fournisseur",
         "orders_customers": "Commandes clients",
+        "orders_providers": "Commandes fournisseurs",
         "name": "Description",
         "price": "Prix unitaire",
         "units": "Unités",
@@ -193,6 +197,7 @@
         "providers": "Fournisseurs",
         "provider": "Fournisseur",
         "no_providers": "Il n’y a aucun fournisseur dans cette catégorie",
+        "all_providers": "Tous les fournisseurs",
         "com_name": "Nom commercial",
         "legal_name": "Raison sociale",
         "vat_number": "Numéro de TVA",

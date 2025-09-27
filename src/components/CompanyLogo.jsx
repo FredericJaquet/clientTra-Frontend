@@ -25,10 +25,9 @@ function CompanyLogo({ logoPath, onLogoChange }) {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
-      console.log("✅ Logo subido:", res.data);
       onLogoChange(res.data);
     } catch (err) {
-      console.error("❌ Error subiendo logo:", err);
+      console.error("Error subiendo logo:", err);
     }
   };
 

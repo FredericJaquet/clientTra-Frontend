@@ -28,7 +28,7 @@ function SearchBar(){
     useEffect(() => {
         if (customersSearchResult.length > 0) {
             if (customersSearchResult.length === 1) {
-                navigate(`/dashboard/customers/${customersSearchResult[0].idCustomer}`);
+                navigate(`/dashboard/customers/${customersSearchResult[0].idCompany}`);
             } else {
                 navigate(`/dashboard/customers?search=${query}`);
             }

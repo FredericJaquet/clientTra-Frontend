@@ -44,7 +44,6 @@ function Customers(){
             api.get(`/customers/search?input=${searchQuery}`)
                 .then((res) => {
                     setCustomers(res.data);
-                    console.log(res.data);
                 })
                 .catch(err => console.error(err));
             
@@ -52,7 +51,6 @@ function Customers(){
         api.get("/customers")
             .then((res) => {
                     setCustomers(res.data);
-                    console.log(res.data);
                 })
             .catch((err) => {
                 console.error("Error fetching customers:", err);

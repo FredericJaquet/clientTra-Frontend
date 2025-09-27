@@ -102,7 +102,10 @@
         "month": "Mes",
         "total": "Total",
         "loading": "Cargando...",
-        "no_results": "No hay resultados..."
+        "no_results": "No hay resultados...",
+        "demo_banner1": "Estás en modo demo.",
+        "demo_banner2": "Tus datos se perderán al crear tu empresa.",
+        "demo_banner_link": "Registra tu empresa."
     },
     "documents": {
         "confirm_delete": "¿Quieres eliminar este document?",
@@ -207,6 +210,7 @@
         "select_customer": "Elige un cliente",
         "select_provider": "Elige un proveedor",
         "orders_customers": "Pedidos Clientes",
+        "orders_providers": "Pedidos Proveedores",
         "name": "Descripción",
         "price": "Precio Unitario",
         "units": "Unidades",
@@ -235,6 +239,7 @@
     "providers": {
         "providers": "Proveedores",
         "provider": "Proveedor",
+        "all_providers": "Todos los proveedores",
         "no_providers": "No hay proveedores en esta categoría",
         "com_name": "Nombre comercial",
         "legal_name": "Nombre fiscal",

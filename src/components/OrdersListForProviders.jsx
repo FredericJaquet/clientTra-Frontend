@@ -119,7 +119,7 @@ const { t } = useTranslation();
 
     const handleAddCancel = () => {
         setShowAddForm(false);
-        setError(t(''));
+        setError("");
         setSelectedProvider({});
         setSelectedScheme({});
         setFormData({ 
@@ -135,6 +135,8 @@ const { t } = useTranslation();
                      items: []
                     });
         setItemInput({ descrip: "", qty: "", discount: "" });
+        setSchemes([]);
+        setSchemeLineIndex(0);
     };
 
     const handleAddSubmit = async (e) => {
@@ -185,6 +187,8 @@ const { t } = useTranslation();
             setError(t(''));
             setSelectedProvider({});
             setSelectedScheme({});
+            setSchemes([]);
+            setSchemeLineIndex(0);
         } catch (err) {
             console.error(err);
             setError(err.response?.data?.message || "Error");
@@ -253,7 +257,6 @@ const { t } = useTranslation();
 
     //Handle Edit
     const handleEditOrder = (order) => {
-        
         axios
             .get(`/orders/${order.idOrder}`)
             .then(
@@ -887,7 +890,7 @@ const { t } = useTranslation();
             <div className="rounded-xl shadow-lg w-3/4 p-4 bg-[color:var(--secondary)]">
                 <div className="w-full flex flex-row">
                     <div className="w-full flex justify-between items-center mb-2">
-                        <h4 className="text-lg font-semibold mb-2 w-1/8">{t('orders.orders_customers')}</h4>
+                        <h4 className="text-lg font-semibold mb-2 w-1/8">{t('orders.orders_providers')}</h4>
                         <select
                             className="h-8 w-1/4 ml-4 bg-[color:var(--background)] border rounded-full px-2 justify-start"
                             value={selectedProvider?.idCompany || ""}
@@ -896,7 +899,7 @@ const { t } = useTranslation();
                                 setSelectedProvider(provider || {});
                             }}
                             >
-                            <option value="">{t("customers.all_customers")}</option>
+                            <option value="">{t("providers.all_providers")}</option>
                             {providers.map(p => (
                                 <option key={p.idCompany} value={p.idCompany}>
                                     {p.comName}

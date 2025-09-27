@@ -49,7 +49,6 @@ function MyCompany(){
                 users: response.data.users,
                 logoPath: response.data.logoPath
             });
-            console.log(response.data);
         })
         .catch((err) => console.error("Error fetching My Company:", err));
     }, []);

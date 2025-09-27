@@ -1,91 +1,85 @@
 import { useState } from "react";
-import { useNavigate  } from "react-router-dom";
 import api from "../api/axios";
 import { useTranslation } from 'react-i18next';
 import { emailValidator, urlValidator } from "../utils/validator";
 
-function RegisterStep2({ formData, setFormData }) {
-  
+function RegisterFromDemo({ onClose }) {
     const { t } = useTranslation();
+
     const [error, setError] = useState('');
-    const navigate = useNavigate();
+    const [formData, setFormData] = useState({
+        legalName: '',
+        comName: '',
+        vatNumber: '',
+        email:'',
+        web:'',
+        address: {
+            street:'',
+            stNumber:'',
+            apt:'',
+            cp:'',
+            city:'',
+            state:'',
+            country:''
+        }
+    });
 
     const handleChange = (e) => {
         const { name, value } = e.target;
 
         // If field for Address
         if (['street','stNumber','apt','cp','city','state','country'].includes(name)) {
-            setFormData(prev => ({
-                ...prev,
-                Address: { ...prev.Address, [name]: value }
+            setFormData(prev => ({...prev, address: { ...prev.address, [name]: value }
             }));
         } else {
             setFormData(prev => ({ ...prev, [name]: value }));
         }
     }
 
-  const handleSave = async (e) => {
-    e.preventDefault();
+    const handleSave = async (e) => {
+        e.preventDefault();
 
-    if( !formData.vatNumber || 
-        !formData.comName ||
-        !formData.legalName ||
-        !formData.Address.street ||
-        !formData.Address.stNumber ||
-        !formData.Address.cp ||
-        !formData.Address.city ||
-        !formData.Address.country ){
-        setError(t('error.all_fields_required'));
-        return;
+        if( !formData.vatNumber || 
+            !formData.comName ||
+            !formData.legalName ||
+            !formData.address.street ||
+            !formData.address.stNumber ||
+            !formData.address.cp ||
+            !formData.address.city ||
+            !formData.address.country ){
+            setError(t('error.all_fields_required'));
+            return;
+        }
+
+        if(!emailValidator(formData.email)){
+            setError(t('error.email_invalid'));
+            return;
+        }
+
+        if(!urlValidator(formData.web)){
+            setError(t('error.url_invalid'));
+            return;
+        }
+
+        setError('');
+
+        console.log(formData);
+        
+        try {
+            await api.post("/demo-data-deleting/register-company", formData);
+            await api.delete("/demo-data-deleting/demo-data");
+            onClose();
+        } catch (err) {
+            console.log(err);
+            setError(err.response.data.message);
+        }
+
+        
     }
 
-    if(!emailValidator(formData.emailCompany)){
-        setError(t('error.email_invalid'));
-        return;
-    }
-
-    if(!urlValidator(formData.web)){
-        setError(t('error.url_invalid'));
-        return;
-    }
-
-    setError('');
-    try {
-      await api.post("/registration/actual-data", {
-        adminUsername: formData.username,
-        adminPassword: formData.password,
-        adminEmail: formData.emailAdmin,
-        preferredLanguage: formData.preferredLanguage,
-        vatNumber: formData.vatNumber,
-        comName: formData.comName,
-        legalName: formData.legalName,
-        email: formData.emailCompany,
-        web: formData.web,
-        address:{
-            street: formData.Address.street,
-            stNumber: formData.Address.stNumber,
-            apt: formData.Address.apt,
-            cp: formData.Address.cp,
-            city: formData.Address.city,
-            state: formData.Address.state,
-            country: formData.Address.country
-        },
-        preferredTheme: "blue",
-        darkMode: false
-      });
-            
-      navigate("/");
-    } catch (err) {
-        console.log(err);
-        setError(err.response.data.message);
-    }
-    
-  }
-
-  return (
-    <div className="min-h-screen flex items-center justify-center w-full">
-        <div className="relative w-2/3 aspect-square bg-[color:var(--primary)] rounded-full flex items-center justify-center ">
-            <div  className="bg-[color:var(--secondary)] rounded-2xl border text-[color:var(--text)] border-[color:var(--border)] drop-shadow-xl hover:drop-shadow-2xl p-8 w-2/3">
+    return(
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+            <div className="bg-[color:var(--secondary)] rounded-xl shadow-lg p-6 w-1/2 max-h-[90vh] flex flex-col">
                 <h3 className="fw-bold text-center mb-4">{t('register.company_data')}</h3>
                 <form >
                     <div className="flex flex-col gap-4 ">
@@ -95,7 +89,7 @@ function RegisterStep2({ formData, setFormData }) {
                                 type="text"
                                 value={formData.legalName}
                                 onChange={handleChange}
-                                className="border border-[color:var(--border)] rounded-lg p-2 w-1/2 focus:outline-none focus:ring-2 focus:ring-[color:var(--primary)]"
+                                className="p-2 w-1/2 rounded-lg border bg-[color:var(--background)]"
                                 required
                                 placeholder={t('register.legal_name')}
                             />
@@ -104,7 +98,7 @@ function RegisterStep2({ formData, setFormData }) {
                                 type="text"
                                 value={formData.comName}
                                 onChange={handleChange}
-                                className="border border-[color:var(--border)] rounded-lg p-2 w-1/2 focus:outline-none focus:ring-2 focus:ring-[color:var(--primary)]"
+                                className="p-2 w-1/2 rounded-lg border bg-[color:var(--background)]"
                                 placeholder={t('register.com_name')}
                             />
                         </div>
@@ -114,16 +108,16 @@ function RegisterStep2({ formData, setFormData }) {
                                 type="text"
                                 value={formData.vatNumber}
                                 onChange={handleChange}
-                                className="border border-[color:var(--border)] rounded-lg p-2 w-1/2 focus:outline-none focus:ring-2 focus:ring-[color:var(--primary)]"
+                                className="p-2 w-1/2 rounded-lg border bg-[color:var(--background)]"
                                 placeholder={t('register.cif')}
                                 required
                             />
                             <input
-                            name="emailCompany"
+                            name="email"
                             type="email"
-                            value={formData.emailCompany}
+                            value={formData.email}
                             onChange={handleChange}
-                            className="border border-[color:var(--border)] rounded-lg p-2 w-1/2 focus:outline-none focus:ring-2 focus:ring-[color:var(--primary)]"
+                            className="p-2 w-1/2 rounded-lg border bg-[color:var(--background)]"
                             placeholder={t('register.email')} />
                         </div>
                         <div className="flex gap-2 ">
@@ -131,25 +125,25 @@ function RegisterStep2({ formData, setFormData }) {
                                 name="web"
                                 value={formData.web}
                                 onChange={handleChange}
-                                className="border border-[color:var(--border)] rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-[color:var(--primary)]"
+                                className="p-2 w-1/2 rounded-lg border bg-[color:var(--background)]"
                                 type="url"
                                 placeholder={t('register.web')} />
                         </div>
-                        <hr className="border-primary"/>
+                        <hr/>
                         <div className="flex gap-2">
                             <input
                                 name="street"
                                 type="text"
-                                value={formData.Address.street}
+                                value={formData.address.street}
                                 onChange={handleChange}
-                                className="border border-[color:var(--border)] rounded-lg p-2 w-1/2 focus:outline-none focus:ring-2 focus:ring-[color:var(--primary)]"
+                                className="p-2 w-1/2 rounded-lg border bg-[color:var(--background)]"
                                 placeholder={t('register.street')}
                                 required />
                             <input
                                 name="stNumber"
-                                value={formData.Address.StNumber}
+                                value={formData.address.stNumber}
                                 onChange={handleChange}
-                                className="border border-[color:var(--border)] rounded-lg p-2 w-1/2 focus:outline-none focus:ring-2 focus:ring-[color:var(--primary)]"
+                                className="p-2 w-1/2 rounded-lg border bg-[color:var(--background)]"
                                 type="text"
                                 placeholder={t('register.st_number')}
                                 required
@@ -159,17 +153,17 @@ function RegisterStep2({ formData, setFormData }) {
                             <input
                                 name="apt"
                                 type="text"
-                                value={formData.Address.apt}
+                                value={formData.address.apt}
                                 onChange={handleChange}
-                                className="border border-[color:var(--border)] rounded-lg p-2 w-1/2 focus:outline-none focus:ring-2 focus:ring-[color:var(--primary)]"
+                                className="p-2 w-1/2 rounded-lg border bg-[color:var(--background)]"
                                 placeholder={t('register.apt')}
                             />
                             <input
                                 name="cp"
                                 type="text"
-                                value={formData.Address.cp}
+                                value={formData.address.cp}
                                 onChange={handleChange}
-                                className="border border-[color:var(--border)] rounded-lg p-2 w-1/2 focus:outline-none focus:ring-2 focus:ring-[color:var(--primary)]"
+                                className="p-2 w-1/2 rounded-lg border bg-[color:var(--background)]"
                                 placeholder={t('register.cp')}
                                 required
                             />
@@ -178,18 +172,18 @@ function RegisterStep2({ formData, setFormData }) {
                             <input
                                 name="city"
                                 type="text"
-                                value={formData.Address.city}
+                                value={formData.address.city}
                                 onChange={handleChange}
-                                className="border border-[color:var(--border)] rounded-lg p-2 w-1/2 focus:outline-none focus:ring-2 focus:ring-[color:var(--primary)]"
+                                className="p-2 w-1/2 rounded-lg border bg-[color:var(--background)]"
                                 placeholder={t('register.city')}
                                 required
                             />
                             <input
                                 name="state"
                                 type="text"
-                                value={formData.Address.state}
+                                value={formData.address.state}
                                 onChange={handleChange}
-                                className="border border-[color:var(--border)] rounded-lg p-2 w-1/2 focus:outline-none focus:ring-2 focus:ring-[color:var(--primary)]"
+                                className="p-2 w-1/2 rounded-lg border bg-[color:var(--background)]"
                                 placeholder={t('register.state')}
                             />
                         </div>
@@ -197,9 +191,9 @@ function RegisterStep2({ formData, setFormData }) {
                             <input
                                 name="country"
                                 type="text"
-                                value={formData.Address.country}
+                                value={formData.address.country}
                                 onChange={handleChange}
-                                className="border border-[color:var(--border)] rounded-lg p-2 w-1/2 focus:outline-none focus:ring-2 focus:ring-[color:var(--primary)]"
+                                className="p-2 w-1/2 rounded-lg border bg-[color:var(--background)]"
                                 placeholder={t('register.country')}
                                 required
                             />
@@ -209,9 +203,16 @@ function RegisterStep2({ formData, setFormData }) {
                                 {error}
                             </div>
                         )}
-                        <div className="text-end col-12">
+                        <div className="flex justify-end gap-2 my-5">
                             <button
-                                className="bg-[color:var(--primary)] text-white drop-shadow-2xl rounded-lg px-6 py-2 hover:bg-[color:var(--primary-hover)] transition"
+                                className="mb-4 px-4 py-2 rounded-xl bg-[color:var(--primary)] text-[color:var(--text-light)] w-max flex items-center gap-2 hover:bg-[color:var(--primary-hover)] transition-colors duration-300"
+                                type="button"
+                                onClick={() => onClose()}
+                            >
+                                {t('button.cancel')}
+                            </button>
+                            <button
+                                className="mb-4 px-4 py-2 rounded-xl bg-[color:var(--primary)] text-[color:var(--text-light)] w-max flex items-center gap-2 hover:bg-[color:var(--primary-hover)] transition-colors duration-300"
                                 type="button"
                                 onClick={handleSave}
                             >
@@ -222,9 +223,10 @@ function RegisterStep2({ formData, setFormData }) {
                 </form>
             </div>
         </div>
-    </div>
-  );
+    );
+
+
+
 }
 
-export default RegisterStep2;
-
+export default RegisterFromDemo;

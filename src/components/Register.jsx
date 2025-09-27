@@ -10,7 +10,7 @@ import { useTranslation } from 'react-i18next';
 
 function Register(){
 
-  const {i18n } = useTranslation();
+  const { i18n } = useTranslation();
 
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({

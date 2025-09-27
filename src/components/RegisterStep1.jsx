@@ -21,7 +21,6 @@ function RegisterStep1({ formData, setFormData, nextStep }) {
 
   const handleChange = (e) => {
     setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
-    console.log(formData);
   }
 
   const handleActualRegister = (e) => {

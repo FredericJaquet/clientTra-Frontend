@@ -135,6 +135,8 @@ function OrdersListForCustomers(){
                      items: []
                     });
         setItemInput({ descrip: "", qty: "", discount: "" });
+        setSchemes([]);
+        setSchemeLineIndex(0);
     };
 
     const handleAddSubmit = async (e) => {
@@ -183,6 +185,8 @@ function OrdersListForCustomers(){
             setError(t(''));
             setSelectedCustomer({});
             setSelectedScheme({});
+            setSchemes([]);
+            setSchemeLineIndex(0);
         } catch (err) {
             console.error(err);
             setError(err.response?.data?.message || "Error");
