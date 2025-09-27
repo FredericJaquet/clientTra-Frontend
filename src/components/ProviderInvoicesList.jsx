@@ -15,8 +15,7 @@ function ProviderInvoicesList(){
                             docNumber:"", docDate:"", status:"PENDING", docType:"INV_PROV",
                             language:"", vatRate:0.0, withholding:0.0, currency:"€",
                             noteDelivery:"", notePayment:"", noteComment:"", deadline:"",
-                            idChangeRate:"", idBankAccount:"", idCompany:"",
-                            idDocumentParent:"", orderIds:[]
+                            idChangeRate:"", idCompany:"", idDocumentParent:"", orderIds:[]
                         };
     const currencies = [
                         "EUR","GBP","USD","AED","AFN","ALL","AMD","ANG","AOA","ARS","AUD","AWG","AZN",
@@ -68,7 +67,7 @@ function ProviderInvoicesList(){
     const [showDetailedInvoice, setShowDetailedInvoice] = useState(false);
     const [viewDetailedInvoice, setViewDetailedInvoice] = useState(false);
 
-    //Getting invoices for list and customers for select
+    //Getting invoices for list and providers for select
     useEffect(() => {
         axios
             .get("/provider-invoices")
@@ -89,7 +88,7 @@ function ProviderInvoicesList(){
             .catch((err) => console.error(err.response.data.message || "Error"));
     }, []);
 
-    //Filtering invoices by customer/state
+    //Filtering invoices by provider/state
     useEffect(() => {
         let result = invoices;
     
@@ -541,7 +540,6 @@ function ProviderInvoicesList(){
                                             <label className="text-black">{selectedProvider.email}</label>
                                             <label className="font-semibold text-black">{t("register.web")}:</label>
                                             <label className="text-black">{selectedProvider.web}</label>
-                                            
                                         </div>
                                     </div>
                                     <div className="flex border w-full gap-y-2 rounded-full mt-3 p-2 justify-center border-[#1d4ed8]" >
@@ -684,7 +682,7 @@ function ProviderInvoicesList(){
                                 value={selectedProvider?.idCompany || ""}
                                 onChange={handleProviderSelection}
                                 >
-                                <option value="">{t("documents.select_customer")}</option>
+                                <option value="">{t("documents.select_provider")}</option>
                                 {providers.map(c => (
                                     <option key={c.idCompany} value={c.idCompany}>
                                         {c.comName}
@@ -1142,19 +1140,19 @@ function ProviderInvoicesList(){
             <div className="rounded-xl shadow-lg w-3/4 p-4 bg-[color:var(--secondary)]">
                 <div className="w-full flex flex-row">
                     <div className="w-full flex justify-between items-center mb-2">
-                        <h4 className="text-lg font-semibold mb-2 w-1/8">{t('documents.invoices_customers')}</h4>
+                        <h4 className="text-lg font-semibold mb-2 w-1/8">{t('documents.invoices_providers')}</h4>
                         <select
                             className="h-8 w-1/4 ml-4 bg-[color:var(--background)] border rounded-full px-2 justify-start"
                             value={selectedProvider?.idCompany || ""}
                             onChange={(e) => {
-                                const customer = providers.find(c => c.idCompany === Number(e.target.value));
-                                setSelectedProvider(customer || {});
+                                const provider = providers.find(p => p.idCompany === Number(e.target.value));
+                                setSelectedProvider(provider || {});
                             }}
                             >
                             <option value="">{t("providers.all_providers")}</option>
-                            {providers.map(c => (
-                                <option key={c.idCompany} value={c.idCompany}>
-                                    {c.comName}
+                            {providers.map(p => (
+                                <option key={p.idCompany} value={p.idCompany}>
+                                    {p.comName}
                                 </option>
                             ))}
                         </select>

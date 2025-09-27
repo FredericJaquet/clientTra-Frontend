@@ -13,7 +13,7 @@ function QuotesList(){
 
     const initialFormData = { 
                             docNumber:"", docDate:"", status:"PENDING", docType:"QUOTE",
-                            language:"", vatRate:0.0, withholding:0.0, currency:"€",
+                            language:"", vatRate:0.0, currency:"€",
                             noteDelivery:"", notePayment:"", noteComment:"", deadline:"",
                             idCompany:"", idDocumentParent:"", orderIds:[]
                         };
@@ -62,11 +62,6 @@ function QuotesList(){
                     setCustomers(response.data);
                 })
             .catch((err) => console.error(err.response.data.message || "Error"));
-        /*axios
-            .get("/change-rates")
-            .then(
-                (response) => {setChangeRates(response.data);})
-            .catch((err) => console.error(err.response.data.message || "Error"));*/
     }, []);
 
     //Filtering quotes by customer/state
@@ -319,10 +314,6 @@ function QuotesList(){
     const handleChange = (e) => {
         setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
     };
-
-    /*const handleStatusChange = (e) => {
-        setFormData(prev => ({...prev, status: e.target.value}));
-    };*/
 
     //Orders selection
     const handleOrderChange = (e, order) => {
@@ -604,7 +595,7 @@ function QuotesList(){
             {showAddForm && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
                     <div className="bg-[color:var(--secondary)] rounded-xl shadow-lg p-6 w-2/3 max-h-[90vh] flex flex-col">
-                    <h3 className="text-xl font-semibold mb-4">{t('documents.add_invoice')}</h3>
+                    <h3 className="text-xl font-semibold mb-4">{t('documents.add_quote')}</h3>
                     <div className="p-6  overflow-y-auto">
                         <div className="flex p-6  overflow-y-auto justify-end">
                         </div>
@@ -937,7 +928,7 @@ function QuotesList(){
             <div className="rounded-xl shadow-lg w-3/4 p-4 bg-[color:var(--secondary)]">
                 <div className="w-full flex flex-row">
                     <div className="w-full flex justify-between items-center mb-2">
-                        <h4 className="text-lg font-semibold mb-2 w-1/8">{t('documents.invoices_customers')}</h4>
+                        <h4 className="text-lg font-semibold mb-2 w-1/8">{t('documents.quotes')}</h4>
                         <select
                             className="h-8 w-1/4 ml-4 bg-[color:var(--background)] border rounded-full px-2 justify-start"
                             value={selectedCustomer?.idCompany || ""}

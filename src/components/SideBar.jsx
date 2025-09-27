@@ -67,15 +67,6 @@ function Sidebar() {
                     <li><Link to="/dashboard/po/list" className="text-[color:var(--text-light)] hover:text-[color:var(--text-light-hover)] hover:underline pl-3 py-1 block ">{t('dashboard.pos')}</Link></li>
                 </ul>
 
-                <h6 className="text-lg mt-4 font-semibold text-[color:var(--text-light)]">{t('dashboard.create')}</h6>
-                <ul className="flex flex-col gap-1">
-                    <li><Link to="/dashboard/orders/create" className="text-[color:var(--text-light)] hover:text-[color:var(--text-light-hover)] hover:underline pl-3 py-1 block">{t('dashboard.orders')}</Link></li>
-                    <li><Link to="/dashboard/customer-invoice/create" className="text-[color:var(--text-light)] hover:text-[color:var(--text-light-hover)] hover:underline pl-3 py-1 block ">{t('dashboard.customer_invoices')}</Link></li>
-                    <li><Link to="/dashboard/provider-invoice/create" className="text-[color:var(--text-light)] hover:text-[color:var(--text-light-hover)] hover:underline pl-3 py-1 block ">{t('dashboard.provider_invoices')}</Link></li>
-                    <li><Link to="/dashboard/quote/create" className="text-[color:var(--text-light)] hover:text-[color:var(--text-light-hover)] hover:underline pl-3 py-1 block ">{t('dashboard.quotes')}</Link></li>
-                    <li><Link to="/dashboard/po/create" className="text-[color:var(--text-light)] hover:text-[color:var(--text-light-hover)] hover:underline pl-3 py-1 block ">{t('dashboard.pos')}</Link></li>
-                </ul>
-
                 <h6 className="text-lg mt-4 font-semibold text-[color:var(--text-light)]">{t('dashboard.reports')}</h6>
                 <ul className="flex flex-col gap-1">
                     <li><Link to="/dashboard/report/incomes" className="text-[color:var(--text-light)] hover:text-[color:var(--text-light-hover)] hover:underline pl-3 py-1 block ">{t('dashboard.incomes')}</Link></li>
