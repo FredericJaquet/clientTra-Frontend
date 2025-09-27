@@ -414,9 +414,9 @@ function Providers(){
                     <tbody className="divide-y [color:var(--divide)]">
                         {sortedProviders.map((provider) => (
                         <tr
-                            key={provider.idProvider}
+                            key={provider.idCompany}
                             className="cursor-pointer text-[color:var(--text)] hover:bg-[color:var(--primary)] hover:text-[color:var(--text-light-hover)] transition-colors"
-                            onClick={() => navigate(`/dashboard/providers/${provider.idProvider}`)}
+                            onClick={() => navigate(`/dashboard/providers/${provider.idCompany}`)}
                         >
                             <td className="w-1/6 py-2">{provider.comName}</td>
                             <td className=" w-1/6 py-2">{provider.vatNumber}</td>

@@ -179,6 +179,7 @@
         "invalid_qty": "El valor de la cantidad debe ser un número",
         "invalid_price": "El valor del precio debe ser un número",
         "no_customer_selected": "Tiene que seleccionar un cliente",
+        "no_provider_selected": "Tiene que seleccionar un proveedor",
         "order_without_items": "El total del pedido debe ser > 0.",
         "document_without_Order": "El total del document debe ser > 0.",
         "no_orders": "Debes incluir al menos un pedido."
@@ -241,6 +242,7 @@
         "provider": "Proveedor",
         "all_providers": "Todos los proveedores",
         "no_providers": "No hay proveedores en esta categoría",
+        "name": "Nombre",
         "com_name": "Nombre comercial",
         "legal_name": "Nombre fiscal",
         "vat_number": "CIF",

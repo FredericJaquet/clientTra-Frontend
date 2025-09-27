@@ -138,6 +138,7 @@
         "invalid_price": "The price value must be a number",
         "invalid_qty": "The quantity value must be a number",
         "no_customer_selected":"You must select a customer",
+        "no_provider_selected":"You must select a provider",
         "order_without_items": "The order total must be > 0.",
         "document_without_Order": "The document total must be > 0.",
         "no_orders": "You must include al least one order."
@@ -201,6 +202,7 @@
         "all_providers": "All providers",
         "com_name": "Trade name",
         "legal_name": "Legal name",
+        "name": "Name",
         "vat_number": "VAT number",
         "email": "Email",
         "web": "Website",

@@ -287,7 +287,7 @@ function CustomerInvoicesList(){
             const ownerResponse = await axios.get("/owner");
             const ownerData = ownerResponse.data;
             setOwnerInfo(ownerData);
-            setLogo(`${axios.defaults.baseURL.replace("/api", "")}/${ownerData.logoPath}`)
+            setLogo(`${axios.defaults.baseURL.replace("/api", "")}/${ownerData.logoPath}`);
 
             const customerResponse = await axios.get(`/customers/${invoiceData.company.idCompany}`);
             const customerData = customerResponse.data;
@@ -982,7 +982,7 @@ function CustomerInvoicesList(){
                 </div>
                 </div>
             )}
-            {/* Card Edit Order */}
+            {/* Card Edit Invoice */}
             {showEditForm && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
                 {selectedInvoice.status === "PAID" ? (
