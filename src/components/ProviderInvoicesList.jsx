@@ -673,8 +673,8 @@ function ProviderInvoicesList(){
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
                     <div className="bg-[color:var(--secondary)] rounded-xl shadow-lg p-6 w-2/3 max-h-[90vh] flex flex-col">
                     <h3 className="text-xl font-semibold mb-4">{t('documents.add_invoice')}</h3>
-                    <div className="p-6  overflow-y-auto">
-                        <div className="flex p-6  overflow-y-auto justify-end">
+                    <div className="p-6 modal-scroll overflow-y-auto">
+                        <div className="flex p-6 modal-scroll overflow-y-auto justify-end">
                         </div>
                         <div className="flex gap-4 mb-4">
                             <select
@@ -897,7 +897,7 @@ function ProviderInvoicesList(){
                 <div className="bg-[color:var(--secondary)] rounded-xl shadow-lg p-6 w-2/3 max-h-[90vh] flex flex-col">
                     <h3 className="text-xl font-semibold mb-4">{t('documents.edit_invoice')}</h3>
                     <div className="p-6 modal-scroll overflow-y-auto">
-                        <div className="flex p-6 overflow-y-auto justify-end">
+                        <div className="flex p-6 modal-scroll overflow-y-auto justify-end">
                             <label className="w-1/6 py-2">{t('documents.is_paid')}</label>
                             <input
                                 type="checkbox"
@@ -1189,7 +1189,7 @@ function ProviderInvoicesList(){
                     {t('documents.no_documents')}
                 </div>
                 ) : (
-                <div className="overflow-auto max-h-80 w-full">
+                <div className="modal-scroll overflow-auto max-h-80 w-full">
                     <table className="min-w-full divide-y divide-[color:var(--divide)] table-fixed">
                         <thead className="bg-[color:var(--secondary)] sticky top-0 z-10">
                         <tr>

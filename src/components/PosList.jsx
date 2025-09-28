@@ -483,7 +483,7 @@ const { t } = useTranslation();
                             </div>
                             <hr className="border border-gray-200 mb-4"/>
                             {/* Footer with totals and bank account */}
-                            <div className="h-1/6 mt-auto w-full flex justify-between">
+                            <div className="modal-scroll h-1/6 mt-auto w-full flex justify-between">
                                 <div className="flex flex-col w-1/3">
                                     <label className="font-semibold text-black">{t("documents.pay_method")}:</label>
                                     <label className="text-black">{selectedPo.notePayment}</label>
@@ -538,8 +538,8 @@ const { t } = useTranslation();
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
                     <div className="bg-[color:var(--secondary)] rounded-xl shadow-lg p-6 w-2/3 max-h-[90vh] flex flex-col">
                     <h3 className="text-xl font-semibold mb-4">{t('documents.add_po')}</h3>
-                    <div className="p-6  overflow-y-auto">
-                        <div className="flex p-6  overflow-y-auto justify-end">
+                    <div className="p-6 modal-scroll overflow-y-auto">
+                        <div className="flex p-6 modal-scroll overflow-y-auto justify-end">
                         </div>
                         <div className="flex gap-4 mb-4">
                             <select
@@ -702,7 +702,7 @@ const { t } = useTranslation();
                 <div className="bg-[color:var(--secondary)] rounded-xl shadow-lg p-6 w-2/3 max-h-[90vh] flex flex-col">
                     <h3 className="text-xl font-semibold mb-4">{t('documents.edit_invoice')}</h3>
                     <div className="p-6 modal-scroll overflow-y-auto">
-                        <div className="flex p-6 overflow-y-auto justify-end">
+                        <div className="modal-scroll flex p-6 overflow-y-auto justify-end">
                             <label className="w-1/6 py-2">{t('documents.is_paid')}</label>
                             <select
                                 className="p-2 w-1/3 rounded-full border bg-[color:var(--background)]"
@@ -900,7 +900,7 @@ const { t } = useTranslation();
                     {t('documents.no_documents')}
                 </div>
                 ) : (
-                <div className="overflow-auto max-h-80 w-full">
+                <div className="modal-scroll overflow-auto max-h-80 w-full">
                     <table className="min-w-full divide-y divide-[color:var(--divide)] table-fixed">
                         <thead className="bg-[color:var(--secondary)] sticky top-0 z-10">
                         <tr>

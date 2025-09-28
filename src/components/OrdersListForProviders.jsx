@@ -462,7 +462,7 @@ const { t } = useTranslation();
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
                     <div className="bg-[color:var(--secondary)] rounded-xl shadow-lg p-6 w-1/2 max-h-[90vh] flex flex-col">
                         <h3 className="text-xl font-semibold mb-4">{t('orders.add_order')}</h3>
-                        <div className="p-6 overflow-y-auto">
+                        <div className="modal-scroll p-6 overflow-y-auto">
                             <div className="flex gap-4 mb-4">
                                 <select
                                     className="h-8 ml-4 bg-[color:var(--background)] border rounded-full px-2 justify-start"
@@ -691,7 +691,7 @@ const { t } = useTranslation();
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
                     <div className="bg-[color:var(--secondary)] rounded-xl shadow-lg p-6 w-1/2 max-h-[90vh] flex flex-col">
                         <h3 className="text-xl font-semibold mb-4">{t('orders.edit_order')}</h3>
-                        <div className="p-6 overflow-y-auto">
+                        <div className="modal-scroll p-6 overflow-y-auto">
                             <form className="flex flex-col gap-4" onSubmit={handleEditSubmit}>
                                 <div className="flex gap-2">
                                     <input 
@@ -939,7 +939,7 @@ const { t } = useTranslation();
                     {t('orders.no_orders')}
                 </div>
                 ) : (
-                <div className="overflow-auto max-h-80 w-full">
+                <div className="modal-scroll overflow-auto max-h-80 w-full">
                     <table className="min-w-full divide-y divide-[color:var(--divide)] table-fixed">
                         <thead className="bg-[color:var(--secondary)] sticky top-0 z-10">
                         <tr>

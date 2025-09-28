@@ -2,6 +2,10 @@ import api from "../api/axios";
 import { useEffect, useState } from "react";
 
 function CompanyLogo({ logoPath, onLogoChange }) {
+
+  const user = JSON.parse(localStorage.getItem("user"));
+  const role = user?.role || "ROLE_USER";
+
   const [preview, setPreview] = useState(null);
 
   useEffect(() => {
@@ -44,7 +48,7 @@ function CompanyLogo({ logoPath, onLogoChange }) {
           No Logo
         </div>
       )}
-
+      {role === "ROLE_ADMIN" && (
       <label className="px-4 py-2 bg-[color:var(--primary)] text-[color:var(--text-light)] rounded-lg cursor-pointer hover:bg-[color:var(--primary-hover)] transition">
         Cambiar logo
         <input
@@ -55,6 +59,7 @@ function CompanyLogo({ logoPath, onLogoChange }) {
           onChange={handleFileChange}
         />
       </label>
+      )}
     </div>
   );
 }

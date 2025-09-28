@@ -51,7 +51,8 @@ function Sidebar() {
                 <h6 className="text-lg font-semibold text-[color:var(--text-light)] mt-4">{t('dashboard.companies')}</h6>
                 <ul className="flex flex-col gap-1">
                     {role === "ROLE_ADMIN" && (
-                        <li><Link to="/dashboard/users" className="text-[color:var(--text-light)] hover:text-[color:var(--text-light-hover)] pl-3 py-1 block">{t('dashboard.users')}</Link></li>)}
+                        <li><Link to="/dashboard/users" className="text-[color:var(--text-light)] hover:text-[color:var(--text-light-hover)] pl-3 py-1 block">{t('dashboard.users')}</Link></li>
+                    )}
                         <li><Link to="/dashboard/my-company" className="text-[color:var(--text-light)] hover:text-[color:var(--text-light-hover)] pl-3 py-1 block">{t('dashboard.my_company')}</Link></li>
                         <li><Link to="/dashboard/customers" className="text-[color:var(--text-light)] hover:text-[color:var(--text-light-hover)] pl-3 py-1 block">{t('dashboard.customers')}</Link></li>
                         <li><Link to="/dashboard/providers" className="text-[color:var(--text-light)] hover:text-[color:var(--text-light-hover)] pl-3 py-1 block">{t('dashboard.providers')}</Link></li>
@@ -66,7 +67,8 @@ function Sidebar() {
                     <li><Link to="/dashboard/quote/list" className="text-[color:var(--text-light)] hover:text-[color:var(--text-light-hover)] hover:underline pl-3 py-1 block ">{t('dashboard.quotes')}</Link></li>
                     <li><Link to="/dashboard/po/list" className="text-[color:var(--text-light)] hover:text-[color:var(--text-light-hover)] hover:underline pl-3 py-1 block ">{t('dashboard.pos')}</Link></li>
                 </ul>
-
+            {(role === "ROLE_ADMIN" || role === "ROLE_ACCOUNTING") && (
+                <>
                 <h6 className="text-lg mt-4 font-semibold text-[color:var(--text-light)]">{t('dashboard.reports')}</h6>
                 <ul className="flex flex-col gap-1">
                     <li><Link to="/dashboard/report/incomes" className="text-[color:var(--text-light)] hover:text-[color:var(--text-light-hover)] hover:underline pl-3 py-1 block ">{t('dashboard.incomes')}</Link></li>
@@ -80,6 +82,8 @@ function Sidebar() {
                     <li><Link to="/dashboard/graph/incomes" className="text-[color:var(--text-light)] hover:text-[color:var(--text-light-hover)] hover:underline pl-3 py-1 block ">{t('dashboard.incomes')}</Link></li>
                     <li><Link to="/dashboard/graph/outcomes" className="text-[color:var(--text-light)] hover:text-[color:var(--text-light-hover)] hover:underline pl-3 py-1 block ">{t('dashboard.outcomes')}</Link></li>
                 </ul>
+                </>
+            )}
             </div>
         </div>
     );

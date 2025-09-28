@@ -293,6 +293,23 @@
         "state": "Provincia",
         "country": "País"
     },
+    "reports": {
+        "report_incomes": "Informes de Ingresos",
+        "report_outcomes": "Informes de Gastos",
+        "loading": "Cargando...",
+        "date_from": "Desde",
+        "date_to": "Hasta",
+        "month": "Mes",
+        "quarter": "Trimestre",
+        "year": "Año",
+        "total": "Total",
+        "customer": "Cliente",
+        "provider": "Proveedor",
+        "total_net": "Total Neto",
+        "total_vat": "Total IVA",
+        "total_withholding": "Total Retención",
+        "no_invoices": "No hay facturas en este periodo"
+    },
     "schemes": {
         "add_scheme": "Añadir Esquema",
         "select_scheme": "Elige un esquema",

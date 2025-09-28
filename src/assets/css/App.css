@@ -61,6 +61,8 @@
   --error: #ef4444;
   --info: #2563eb;
   --divide: #bae6fd;
+  --alt-even: #f0f9ff;
+  --alt-uneven: #dbeafe;
 }
 
 /* ===== Paleta Azul Dark ===== */
@@ -78,6 +80,8 @@
   --error: #ef4444;
   --info: #60a5fa;
   --divide: #bae6fd;
+  --alt-even: #1e293b;
+  --alt-uneven: #334155;
 }
 
 /* ===== Paleta Roja Light ===== */
@@ -95,6 +99,8 @@
   --error: #ef4444;
   --info: #2563eb;
   --divide: #ffcdd2;
+  --alt-even: #ffe4e6;
+  --alt-uneven: #fecdd3;
 }
 
 /* ===== Paleta Roja Dark ===== */
@@ -112,6 +118,8 @@
   --error: #ef4444;
   --info: #60a5fa;
   --divide: #ffcdd2;
+  --alt-even: #2f1b1b;
+  --alt-uneven: #4a1c1c;
 }
 
 #sidebar::-webkit-scrollbar {

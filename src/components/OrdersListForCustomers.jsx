@@ -937,7 +937,7 @@ function OrdersListForCustomers(){
                     {t('orders.no_orders')}
                 </div>
                 ) : (
-                <div className="overflow-auto max-h-80 w-full">
+                <div className="modal-scroll overflow-auto max-h-80 w-full">
                     <table className="min-w-full divide-y divide-[color:var(--divide)] table-fixed">
                         <thead className="bg-[color:var(--secondary)] sticky top-0 z-10">
                         <tr>
