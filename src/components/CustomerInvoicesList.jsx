@@ -95,8 +95,7 @@ function CustomerInvoicesList(){
         axios
             .get("/change-rates")
             .then(
-                (response) => { setChangeRates(response.data);
-                            })
+                (response) => {setChangeRates(response.data);})
             .catch((err) => console.error(err.response.data.message || "Error"));
         axios
             .get("/owner/bank-accounts")
@@ -182,7 +181,8 @@ function CustomerInvoicesList(){
         setShowAddForm(true);
         
         setFormData(initialFormData);
-        setSelectedChangeRate(changeRates[0].idChangeRate);
+        console.log(changeRates[0])
+        setSelectedChangeRate(changeRates[0]);
         setFormData(prev => ({...prev, idChangeRate: changeRates[0].idChangeRate || ""}));
 
         setFormData(prev => ({...prev, idBankAccount: bankAccounts[0]?.idBankAccount || ""}));
@@ -243,6 +243,10 @@ function CustomerInvoicesList(){
     };
 
     const handleCustomerSelection = async (e) => {
+        if(!e.target.value){
+            setSelectedCustomer(e.target.value);
+            return;
+        }
         const customer = customers.find(c => c.idCompany === Number(e.target.value));
         setSelectedCustomer(customer);
         setFormData(prev => ({...prev, idCompany: customer.idCompany}));
@@ -883,7 +887,7 @@ function CustomerInvoicesList(){
                         </div>
                         <div className="flex gap-4 mt-4 mb-1 w-full">
                             <span className="p-2 w-1/4">
-                                {`${t("documents.total_net")}: ${totals.totalNet}${formData.currency}`}
+                                {`${t("documents.total_net")}: ${totals.totalNet}${selectedChangeRate.currency1}`}
                             </span>
                             <span className="p-2 w-1/4">
                                 {(selectedCustomer?.vatRate ?? 0) > 1
@@ -892,7 +896,7 @@ function CustomerInvoicesList(){
                                 }
                             </span>
                             <span className="p-2 w-1/4">
-                                {`${t("documents.total_vat")}: ${totals.totalVat}${formData.currency}`}
+                                {`${t("documents.total_vat")}: ${totals.totalVat}${selectedChangeRate.currency1}`}
                             </span>
                         </div>
                         <div className="flex gap-4 mb-1 w-full">
@@ -903,15 +907,15 @@ function CustomerInvoicesList(){
                                 }
                             </span>
                             <span className="p-2 w-1/2">
-                                {`${t("documents.withholding")}: ${totals.totalWithholding}${formData.currency}`}
+                                {`${t("documents.withholding")}: ${totals.totalWithholding}${selectedChangeRate.currency1}`}
                             </span>
                         </div>
                         <div className="flex gap-4 mb-2 w-full">
                             <span className="p-2 w-1/4">
-                                {`${t("documents.total_gross")}: ${totals.totalGross}${formData.currency}`}
+                                {`${t("documents.total_gross")}: ${totals.totalGross}${selectedChangeRate.currency1}`}
                             </span>
                             <span className="p-2 w-1/2">
-                                {`${t("documents.total_to_pay")}: ${totals.totalToPay}${formData.currency}`}
+                                {`${t("documents.total_to_pay")}: ${totals.totalToPay}${selectedChangeRate.currency1}`}
                             </span>
                         </div>
                         {(selectedChangeRate?.rate || 1) !== 1 && 

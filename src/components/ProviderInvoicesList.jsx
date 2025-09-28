@@ -163,7 +163,7 @@ function ProviderInvoicesList(){
         setShowAddForm(true);
         
         setFormData(initialFormData);
-        setSelectedChangeRate(changeRates[0].idChangeRate);
+        setSelectedChangeRate(changeRates[0]);
         setFormData(prev => ({...prev, idChangeRate: changeRates[0].idChangeRate || ""}));
     };
 

@@ -15,11 +15,6 @@ const Customers = lazy(() => import('./components/Customers'));
 const CustomerDetails = lazy(() => import('./components/CustomerDetails'));
 const Providers = lazy(() => import('./components/Providers'));
 const ProviderDetails = lazy(() => import('./components/ProviderDetails'));
-const OrderForm = lazy(() => import('./components/OrderForm'));
-const CustomerInvoiceForm = lazy(() => import('./components/CustomerInvoiceForm'));
-const ProviderInvoiceForm = lazy(() => import('./components/ProviderInvoiceForm'));
-const QuoteForm = lazy(() => import('./components/QuoteForm'));
-const PoForm = lazy(() => import('./components/PoForm'));
 const OrdersListForCustomers = lazy(() => import('./components/OrdersListForCustomers'));
 const OrdersListForProviders = lazy(() => import('./components/OrdersListForProviders'));
 const CustomerInvoicesList = lazy(() => import('./components/CustomerInvoicesList'));
@@ -71,11 +66,6 @@ function AppWrapper() {
             <Route path="my-company" element={<MyCompany />} />
             <Route path="customers" element={<Customers />} />
             <Route path="providers" element={<Providers />} />
-            <Route path="orders/create" element={<OrderForm />} />
-            <Route path="customer-invoice/create" element={<CustomerInvoiceForm />} />
-            <Route path="provider-invoice/create" element={<ProviderInvoiceForm />} />
-            <Route path="quote/create" element={<QuoteForm />} />
-            <Route path="po/create" element={<PoForm />} />
             <Route path="orders/customers/list" element={<OrdersListForCustomers />} />
             <Route path="orders/providers/list" element={<OrdersListForProviders />} />
             <Route path="customer-invoice/list" element={<CustomerInvoicesList />} />
