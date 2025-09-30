@@ -39,7 +39,7 @@ function DemoBanner({ onCreateRealAccount }){
                     <div className="flex sm:justify-end sm:items-center">
                         <button
                         onClick={onCreateRealAccount}
-                        className="py-2 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-full bg-[color:var(--secondary)] text-[color:var(--text)] hover:bg-[color:var(--primary-hover)] focus:outline-none"
+                        className="py-2 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-full bg-[color:var(--secondary)] text-[color:var(--text)] hover:bg-[color:var(--secondary-light-hover)] focus:outline-none"
                         >
                         {t("dashboard.demo_banner_link")}
                         </button>

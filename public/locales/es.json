@@ -295,6 +295,7 @@
     },
     "reports": {
         "report_incomes": "Informes de Ingresos",
+        "report_incomes_graph": "Gráfico de Ingresos",
         "report_outcomes": "Informes de Gastos",
         "loading": "Cargando...",
         "date_from": "Desde",
@@ -308,7 +309,12 @@
         "total_net": "Total Neto",
         "total_vat": "Total IVA",
         "total_withholding": "Total Retención",
-        "no_invoices": "No hay facturas en este periodo"
+        "no_invoices": "No hay facturas en este periodo",
+        "no_data": "No hay datos que mostrar",
+        "report_pending_cashing": "Informe de cobros pendientes",
+        "report_pending_payment": "Informe de pagos pendientes",
+        "paid": "Pagada",
+        "average": "Media"
     },
     "schemes": {
         "add_scheme": "Añadir Esquema",

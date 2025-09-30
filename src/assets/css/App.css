@@ -86,40 +86,40 @@
 
 /* ===== Paleta Roja Light ===== */
 :root[data-theme="red"] {
-  --background: #fff5f5;
+  --background: #fef4f2;
   --text: #1f2937;
   --text-light:#fff2f1;
   --text-light-hover:#ffcdd2;
-  --primary: #ef4444;
+  --primary: #c53030;
   --primary-hover: #b91c1c;
-  --secondary: #fff2f1;
-  --secondary-light-hover:#ffcdd2;
+  --secondary: #fee4de;
+  --secondary-light-hover:#fdc4b8;
   --border: #e5e7eb;
   --success: #059669;
   --error: #ef4444;
   --info: #2563eb;
-  --divide: #ffcdd2;
+  --divide: #fbb6b6;
   --alt-even: #ffe4e6;
   --alt-uneven: #fecdd3;
 }
 
-/* ===== Paleta Roja Dark ===== */
+/* ===== Paleta Roja Dark Suave ===== */
 :root[data-theme="red"].dark {
   --background: #1e1e26;
   --text: #f8fafc;
-  --text-light:#fff2f1;
-  --text-light-hover:#ffcdd2;
+  --text-light: #ffdcdc;
+  --text-light-hover: #ffc4c4;
   --primary: #2b2d30;
-  --primary-hover: #ef4444;
-  --secondary: #7f1d1d;
-  --secondary-light-hover:#ffcdd2;
+  --primary-hover: #e06b6b;
+  --secondary: #b85a5a;
+  --secondary-light-hover: #d68a8a;
   --border: #4b5563;
-  --success: #059669;
-  --error: #ef4444;
+  --success: #10b981;
+  --error: #e06b6b;
   --info: #60a5fa;
-  --divide: #ffcdd2;
-  --alt-even: #2f1b1b;
-  --alt-uneven: #4a1c1c;
+  --divide: #d68a8a;
+  --alt-even: #7f3f3f;
+  --alt-uneven: #9f4d4d;
 }
 
 #sidebar::-webkit-scrollbar {

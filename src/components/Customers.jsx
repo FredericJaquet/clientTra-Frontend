@@ -231,7 +231,7 @@ function Customers(){
                                         <option value="en">{t("languages.en")}</option>
                                     </select>
                                 </div>
-                                <hr className="border-primary"/>
+                                <hr className="border-[color:var(--primary)] mb-2" />
                                 <div className="flex gap-2">
                                     <input
                                         type="text"

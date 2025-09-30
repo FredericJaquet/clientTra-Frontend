@@ -25,7 +25,6 @@ function IncomesReport(){
         })
         .then((response) => {
             setReport(response.data);
-            console.log(response.data);
             setLoading(false);
         })
         .catch((error) => {
@@ -128,30 +127,29 @@ function IncomesReport(){
                             required    
                             />
                     </div>
-                </div>
-                <div className="flex justify-center items-center mb-4 gap-2">
                     <button
                         name="month"
-                        className="mb-4 px-4 py-2 rounded-xl bg-[color:var(--primary)] text-[color:var(--text-light)] w-max flex items-center gap-2 hover:bg-[color:var(--primary-hover)] transition-colors duration-300"
+                        className="px-4 py-2 rounded-xl bg-[color:var(--primary)] text-[color:var(--text-light)] w-max flex items-center gap-2 hover:bg-[color:var(--primary-hover)] transition-colors duration-300"
                         onClick={handleDateRange}
                     >
                         {t('reports.month')}
                     </button>
                     <button
                         name="quarter"
-                        className="mb-4 px-4 py-2 rounded-xl bg-[color:var(--primary)] text-[color:var(--text-light)] w-max flex items-center gap-2 hover:bg-[color:var(--primary-hover)] transition-colors duration-300"
+                        className="px-4 py-2 rounded-xl bg-[color:var(--primary)] text-[color:var(--text-light)] w-max flex items-center gap-2 hover:bg-[color:var(--primary-hover)] transition-colors duration-300"
                         onClick={handleDateRange}
                     >
                         {t('reports.quarter')}
                     </button>
                     <button
                         name="year"
-                        className="mb-4 px-4 py-2 rounded-xl bg-[color:var(--primary)] text-[color:var(--text-light)] w-max flex items-center gap-2 hover:bg-[color:var(--primary-hover)] transition-colors duration-300"
+                        className="px-4 py-2 rounded-xl bg-[color:var(--primary)] text-[color:var(--text-light)] w-max flex items-center gap-2 hover:bg-[color:var(--primary-hover)] transition-colors duration-300"
                         onClick={handleDateRange}
                     >
                         {t('reports.year')}
                     </button>
                 </div>
+                <hr className="border-[color:var(--primary)] mb-2" />
                 {startDate && endDate && (
                     <>
                         <label className="modal-scroll flex justify-center w-full border border-[color:var(--primary)] rounded-full mb-2 p-2 font-semibold overflow-auto">
@@ -178,35 +176,36 @@ function IncomesReport(){
                                 </label>
                                 <div className="flex">
                                     <label className="w-2/5 font-semibold">{t('reports.customer')}</label>
-                                    <label className="w-1/5 font-semibold">{t('reports.total_net')}</label>
-                                    <label className="w-1/5 font-semibold">{t('reports.total_vat')}</label>
-                                    <label className="w-1/5 font-semibold">{t('reports.total_withholding')}</label>
-                                </div>{/* -> Header hasta aquí*/}
+                                    <label className="w-1/5 font-semibold text-right">{t('reports.total_net')}</label>
+                                    <label className="w-1/5 font-semibold text-right">{t('reports.total_vat')}</label>
+                                    <label className="w-1/5 font-semibold text-right">{t('reports.total_withholding')}</label>
+                                </div>
                                 <div className="flex flex-col gap-2">
                                     {report.parties?.map((customer) => (
                                         <div key={customer.idCompany} className="w-full">
-                                        <div className="flex w-full border border-[color:var(--primary)] bg-[color:var(--background)] rounded-full p-2 font-semibold">
-                                            <span className="w-2/5">{customer.legalName}</span>
-                                            <span className="w-1/5 text-right">{customer.totalNet?.toFixed(2)}€</span>
-                                            <span className="w-1/5 text-right">{customer.totalVat?.toFixed(2)}€</span>
-                                            <span className="w-1/5 text-right">{customer.totalWithholding?.toFixed(2)}€</span>
-                                        </div>
-                                        <div className="ml-4 flex flex-col gap-1 mt-2">
-                                            {customer.invoices?.map((invoice, index) => (
-                                            <div
-                                                key={invoice.invoiceNumber}
-                                                className={`flex w-full p-2 text-sm rounded-full shadow ${
-                                                    index % 2 === 0 ? "bg-[color:var(--alt-even)]" : "bg-[color:var(--alt-uneven)]"
-                                                    }`}
-                                            >
-                                                <span className="w-1/5">{invoice.invoiceNumber}</span>
-                                                <span className="w-1/5">{new Date(invoice.docDate).toLocaleDateString("es-ES")}</span>
-                                                <span className="w-1/5 text-right">{invoice.totalNet?.toFixed(2)}€</span>
-                                                <span className="w-1/5 text-right">{invoice.totalVat?.toFixed(2)}€</span>
-                                                <span className="w-1/5 text-right">{invoice.totalWithholding?.toFixed(2)}€</span>
+                                            <div className="flex w-full border border-[color:var(--primary)] bg-[color:var(--background)] rounded-full p-2 font-semibold">
+                                                <span className="w-1/5">{customer.legalName}</span>
+                                                <span className="w-1/5">{customer.vatNumber}</span>
+                                                <span className="w-1/5 text-right">{customer.totalNet?.toFixed(2)}€</span>
+                                                <span className="w-1/5 text-right">{customer.totalVat?.toFixed(2)}€</span>
+                                                <span className="w-1/5 text-right">{customer.totalWithholding?.toFixed(2)}€</span>
                                             </div>
-                                            ))}
-                                        </div>
+                                            <div className="ml-4 flex flex-col gap-1 mt-2">
+                                                {customer.invoices?.map((invoice, index) => (
+                                                <div
+                                                    key={invoice.invoiceNumber}
+                                                    className={`flex w-full p-2 text-sm rounded-full shadow ${
+                                                        index % 2 === 0 ? "bg-[color:var(--alt-even)]" : "bg-[color:var(--alt-uneven)]"
+                                                        }`}
+                                                >
+                                                    <span className="w-1/5">{invoice.invoiceNumber}</span>
+                                                    <span className="w-1/5">{new Date(invoice.docDate).toLocaleDateString("es-ES")}</span>
+                                                    <span className="w-1/5 text-right">{invoice.totalNet?.toFixed(2)}€</span>
+                                                    <span className="w-1/5 text-right">{invoice.totalVat?.toFixed(2)}€</span>
+                                                    <span className="w-1/5 text-right">{invoice.totalWithholding?.toFixed(2)}€</span>
+                                                </div>
+                                                ))}
+                                            </div>
                                         </div>
                                     ))}
                                     </div>

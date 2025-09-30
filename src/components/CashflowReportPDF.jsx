@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     fontWeight: "bold",
     flexDirection: "row",
-    wrap: false // 🔒 Evita que se divida
+    wrap: false
   },
   invoiceRowEven: {
     flexDirection: "row",
@@ -94,25 +94,25 @@ const CashflowReportPDF = ({ t, title, startDate, endDate, report }) => (
       </View>
 
       {/* Customers + Invoices */}
-      {report.parties?.map((customer) => (
-        <View key={customer.idCompany} wrap={false}>
+      {report.parties?.map((party) => (
+        <View key={party.idCompany} wrap={false}>
           {/* Customer */}
           <View style={styles.customer}>
-            <Text style={styles.cellWide}>{customer.legalName}</Text>
+            <Text style={styles.cellWide}>{party.legalName} / {party.vatNumber}</Text>
             <Text style={styles.cellRight}>
-              {customer.totalNet?.toFixed(2)}€
+              {party.totalNet?.toFixed(2)}€
             </Text>
             <Text style={styles.cellRight}>
-              {customer.totalVat?.toFixed(2)}€
+              {party.totalVat?.toFixed(2)}€
             </Text>
             <Text style={styles.cellRight}>
-              {customer.totalWithholding?.toFixed(2)}€
+              {party.totalWithholding?.toFixed(2)}€
             </Text>
           </View>
 
           {/* Invoices */}
           <View style={{ marginLeft: 10 }}>
-            {customer.invoices?.map((invoice, index) => (
+            {party.invoices?.map((invoice, index) => (
               <View
                 key={invoice.invoiceNumber}
                 style={

@@ -178,15 +178,16 @@ function OutcomesReport(){
                                 </label>
                                 <div className="flex">
                                     <label className="w-2/5 font-semibold">{t('reports.provider')}</label>
-                                    <label className="w-1/5 font-semibold">{t('reports.total_net')}</label>
-                                    <label className="w-1/5 font-semibold">{t('reports.total_vat')}</label>
-                                    <label className="w-1/5 font-semibold">{t('reports.total_withholding')}</label>
+                                    <label className="w-1/5 font-semibold text-right">{t('reports.total_net')}</label>
+                                    <label className="w-1/5 font-semibold text-right">{t('reports.total_vat')}</label>
+                                    <label className="w-1/5 font-semibold text-right">{t('reports.total_withholding')}</label>
                                 </div>{/* -> Header hasta aquí*/}
                                 <div className="flex flex-col gap-2">
                                     {report.parties?.map((provider) => (
                                         <div key={provider.idCompany} className="w-full">
                                         <div className="flex w-full border border-[color:var(--primary)] bg-[color:var(--background)] rounded-full p-2 font-semibold">
-                                            <span className="w-2/5">{provider.legalName}</span>
+                                            <span className="w-1/5">{provider.legalName}</span>
+                                            <span className="w-1/5">{provider.vatNumber}</span>
                                             <span className="w-1/5 text-right">{provider.totalNet?.toFixed(2)}€</span>
                                             <span className="w-1/5 text-right">{provider.totalVat?.toFixed(2)}€</span>
                                             <span className="w-1/5 text-right">{provider.totalWithholding?.toFixed(2)}€</span>
