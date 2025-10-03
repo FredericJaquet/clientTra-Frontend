@@ -4,10 +4,12 @@ import { useNavigate  } from "react-router-dom";
 import api from "../api/axios";
 import { useTranslation } from 'react-i18next';
 import { emailValidator } from "../utils/validator";
+import { Eye, EyeOff } from "lucide-react";
 
 function RegisterStep1({ formData, setFormData, nextStep }) {
 
   const { t } = useTranslation();
+  const [showPassword, setShowPassword] = useState(false);
 
   let userLang = navigator.language || navigator.userLanguage;
 
@@ -98,24 +100,40 @@ function RegisterStep1({ formData, setFormData, nextStep }) {
               />
             </div>
             <div className="flex gap-2">
-              <input
-                type="password"
-                name="password"
-                value={formData.password}
-                onChange={handleChange}
-                placeholder={t('register.password')}
-                className="border border-[color:var(--border)] rounded-lg p-2 w-1/2 focus:outline-none focus:ring-2 focus:ring-[color:var(--primary)]"
-                required
-              />
-              <input
-                type="password"
-                name="repeatedPassword"
-                value={formData.repeatedPassword}
-                onChange={handleChange}
-                placeholder={t('register.repeated_password')}
-                className="border border-[color:var(--border)] rounded-lg p-2 w-1/2 focus:outline-none focus:ring-2 focus:ring-[color:var(--primary)]"
-                required
-              />
+              <div className="relative w-full">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  name="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  className="p-2 rounded-lg border bg-[color:var(--background)] w-full"
+                  placeholder={t('register.password')}
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500 hover:text-gray-700"
+                  >
+                  {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                </button>
+              </div>
+              <div className="relative w-full">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  name="repeatedPassword"
+                  value={formData.repeatedPassword}
+                  onChange={handleChange}
+                  className="p-2 rounded-lg border bg-[color:var(--background)] w-full"
+                  placeholder={t('register.repeated_password')}
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500 hover:text-gray-700"
+                  >
+                  {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                </button>
+              </div>
             </div>
 
             {error && (

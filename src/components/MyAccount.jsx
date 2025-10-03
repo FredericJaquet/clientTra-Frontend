@@ -3,14 +3,15 @@ import { useContext, useState, useEffect } from "react";
 import { ThemeContext } from "../contexts/ThemeContext";
 import { useTranslation } from 'react-i18next';
 import { emailValidator } from "../utils/validator";
+import EditingPasswordForm from "./EditingPasswordForm";
 
-//TODO: Change Password
 function MyAccount() {
 
   const { t, i18n } = useTranslation();
   const { theme, setTheme, darkMode, setDarkMode } = useContext(ThemeContext);
 
   const [isEditing, setIsEditing] = useState(false);
+  const [isEditingPassword, setIsEditingPassword] = useState(false);
   const [formData, setFormData] = useState({ username:"", email: "" });
   const [user, setUser]=useState({});
   const [error, setError]=useState("");
@@ -96,6 +97,14 @@ function MyAccount() {
     }
   };
 
+  const handleEditPassword = () => {
+    setIsEditingPassword(true);
+  }
+
+  const handleClosePasswordForm = () => {
+    setIsEditingPassword(false);
+  }
+
   return (
     <div className="flex w-full flex-col items-center gap-5 py-10">
       <div className="rounded-xl shadow-lg w-3/4 p-4 bg-[color:var(--secondary)]">
@@ -158,30 +167,41 @@ function MyAccount() {
                 {error}
               </div>
             )}
-            {!isEditing ?
-              <button
-                onClick={handleEdit}
-                className="mt-4 px-4 py-2 bg-[color:var(--primary)] text-[color:var(--text-light)] rounded-xl hover:bg-[color:var(--primary-hover)]"
-              >
-                {t('button.edit')}
-              </button> :
+            {!isEditing ?(
               <div className="flex gap-2">
                 <button
-                  onClick={handleSaveEmail}
+                  onClick={handleEditPassword}
                   className="mt-4 px-4 py-2 bg-[color:var(--primary)] text-[color:var(--text-light)] rounded-xl hover:bg-[color:var(--primary-hover)]"
                 >
-                  {t('button.save')}
+                  {t('button.edit_password')}
                 </button>
+                <button
+                  onClick={handleEdit}
+                  className="mt-4 px-4 py-2 bg-[color:var(--primary)] text-[color:var(--text-light)] rounded-xl hover:bg-[color:var(--primary-hover)]"
+                >
+                  {t('button.edit')}
+                </button>
+              </div> ) : (
+              <div className="flex gap-2">
                 <button
                   onClick={handleEdit}
                   className="mt-4 px-4 py-2 bg-[color:var(--primary)] text-[color:var(--text-light)] rounded-xl hover:bg-[color:var(--primary-hover)]"
                   >
                     {t('button.cancel')}
                 </button>
+                <button
+                  onClick={handleSaveEmail}
+                  className="mt-4 px-4 py-2 bg-[color:var(--primary)] text-[color:var(--text-light)] rounded-xl hover:bg-[color:var(--primary-hover)]"
+                >
+                  {t('button.save')}
+                </button>
               </div>
-            }
+            )}
           </div>
       </div>
+      {isEditingPassword && (
+        <EditingPasswordForm onClose={handleClosePasswordForm} />
+      )}
     </div>
   );
 }

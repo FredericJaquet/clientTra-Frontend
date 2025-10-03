@@ -16,6 +16,7 @@
         "delete": "Eliminar",
         "back": "Volver",
         "edit": "Editar",
+        "edit_password": "Cambiar contraseña",
         "blue": "Azul",
         "red": "Rojo",
         "next": "Siguiente",
@@ -141,7 +142,7 @@
         "add_po": "Añadir Orden de Pedido",
         "select_customer": "Elige un cliente",
         "select_provider": "Elige un proveedor",
-        "last_number": "Última factura",
+        "last_number": "Último número",
         "new_change_rate": "Nuevo cambio",
         "currency1": "Divisa 1",
         "currency2": "Divisa 2",
@@ -295,6 +296,7 @@
     },
     "reports": {
         "report_incomes": "Informes de Ingresos",
+        "with_orders": "Incluir pedidos pendientes",
         "report_incomes_graph": "Gráfico de Ingresos",
         "report_outcomes": "Informes de Gastos",
         "loading": "Cargando...",
@@ -348,6 +350,10 @@
         "add_user": "Añadir Usuario",
         "theme": "Tema colores",
         "darkmode": "Modo Oscuro",
-        "language": "Idioma"
+        "language": "Idioma",
+        "change_password": "Cambiar contraseña",
+        "current_password": "Contraseña actual",
+        "new_password": "Nueva contraseña",
+        "repeat_new_password": "Repite la nueva contraseña"
     }
 }

@@ -16,6 +16,7 @@
         "delete": "Éliminer",
         "back": "Retour",
         "edit": "Modifier",
+        "edit_password": "Changer mot de passe",
         "blue": "Bleu",
         "red": "Rouge",
         "next": "Suivant",
@@ -141,7 +142,7 @@
         "add_po": "Ajouter un bon de commande",
         "select_customer": "Sélectionnez un client",
         "select_provider": "Sélectionnez un fournisseur",
-        "last_number": "Dernière facture",
+        "last_number": "Dernier numéro",
         "new_change_rate": "Nouveau taux de change",
         "currency1": "Devise 1",
         "currency2": "Devise 2",
@@ -173,6 +174,7 @@
         "deleting_account": "Erreur lors de l'élimination du compte bancaire",
         "deleting_scheme": "Erreur lors de l'élimination du schéma de facturation",
         "deleting_contact": "Erreur lors de l'élimination du contact",
+        "deletying_order": "Erreur lors de l'élimination de la commande",
         "editing_scheme": "Erreur lors de la modification du schéma de facturation",
         "editing_customer": "Erreur lors de la modification du client",
         "editing_provider": "Erreur lors de la modification du fournisseur",
@@ -209,6 +211,7 @@
         "register": "Inscription"
     },
     "orders": {
+        "orders": "Commandes",
         "edit_order": "Modifier la commande",
         "add_order": "Ajouter une commande",
         "select_customer": "Choisissez un client",
@@ -293,6 +296,7 @@
     },
     "reports": {
         "report_incomes": "Rapports de revenus",
+        "with_orders": "Avec commandes en attente",
         "report_incomes_graph": "Graphique des revenus",
         "report_outcomes": "Rapports de dépenses",
         "loading": "Chargement...",
@@ -346,6 +350,10 @@
         "add_user": "Ajouter un utilisateur",
         "theme": "Thème couleurs",
         "darkmode": "Mode nuit",
-        "language": "Langue"
+        "language": "Langue",
+        "change_password": "Changer mot de passe",
+        "current_password": "Mot de passe actuel",
+        "new_password": "Nouveau mot de passe",
+        "repeat_new_password": "Répéter le nouveau mot de passe"
     }
 }

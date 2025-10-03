@@ -539,8 +539,6 @@ const { t } = useTranslation();
                     <div className="bg-[color:var(--secondary)] rounded-xl shadow-lg p-6 w-2/3 max-h-[90vh] flex flex-col">
                     <h3 className="text-xl font-semibold mb-4">{t('documents.add_po')}</h3>
                     <div className="p-6 modal-scroll overflow-y-auto">
-                        <div className="flex p-6 modal-scroll overflow-y-auto justify-end">
-                        </div>
                         <div className="flex gap-4 mb-4">
                             <select
                                 className="p-2 w-1/3 rounded-full border bg-[color:var(--background)]"

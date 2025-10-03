@@ -39,6 +39,7 @@ function QuotesList(){
                                         totalVat:0,
                                         totalGross:0
                                     });
+    const [lastQuoteNumber, setLastQuoteNumber] = useState("");
     const [selectedTab, setSelectedTab] = useState("all");
     const [sortConfig, setSortConfig] = useState({ key: "docDate", direction: "desc" });
     const [showAddForm, setShowAddForm] = useState(false);
@@ -126,6 +127,13 @@ function QuotesList(){
     //Handle Add
     const handleAddQuote = async () => {
         setShowAddForm(true);
+        try{
+            const response = await axios.get("/quotes/last-number");
+            setLastQuoteNumber(response.data);
+        }catch(err){
+            console.error(err);
+            setError(err.response?.data?.message || "Error");
+        }
         setFormData(initialFormData);
     };
 
@@ -597,7 +605,10 @@ function QuotesList(){
                     <div className="bg-[color:var(--secondary)] rounded-xl shadow-lg p-6 w-2/3 max-h-[90vh] flex flex-col">
                     <h3 className="text-xl font-semibold mb-4">{t('documents.add_quote')}</h3>
                     <div className="p-6 modal-scroll overflow-y-auto">
-                        <div className="flex p-6 modal-scroll overflow-y-auto justify-end">
+                        <div className="flex p-6">
+                            <span className="p-2 w-1/3">
+                                {lastQuoteNumber ? `${t("documents.last_number")}: ${lastQuoteNumber}` : ""}
+                            </span>
                         </div>
                         <div className="flex gap-4 mb-4">
                             <select

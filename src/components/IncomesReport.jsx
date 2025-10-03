@@ -12,6 +12,7 @@ function IncomesReport(){
     const [loading, setLoading] = useState(false);
     const [startDate, setStartDate] = useState("");
     const [endDate, setEndDate] = useState("");
+    const [withOrders, setWithOrders] = useState(false);
 
 
     useEffect(() => {
@@ -20,7 +21,8 @@ function IncomesReport(){
         axios.get("/reports/cash-flow/income", {
             params: {
                 initDate: startDate,
-                endDate: endDate
+                endDate: endDate,
+                withOrders: withOrders
             }
         })
         .then((response) => {
@@ -31,7 +33,7 @@ function IncomesReport(){
             console.error(error.response?.data?.message || "Error");
             setLoading(false);
         });
-    }, [startDate, endDate, loading]);
+    }, [startDate, endDate, loading, withOrders]);
 
     const handleDateSelection = (e) => {
         if(e.target.name === "startDate"){
@@ -90,13 +92,31 @@ function IncomesReport(){
         setLoading(true);
     };
 
+    const handleToggleWithOrders = () => {
+        setWithOrders(!withOrders);
+        setLoading(true);
+    }
+
     return(
        <div className="flex w-full flex-col items-center gap-5 py-10">
             <div className="rounded-xl shadow-lg w-3/4 p-4 bg-[color:var(--secondary)]">
-                <div className="w-full flex justify-between items-center mb-2">
+                <div className="w-full flex justify-between items-center mb-4">
                     <h4 className="text-lg font-semibold mb-2 w-1/2">{t('reports.report_incomes')}</h4>
+                    <label className="mr-2">{t('reports.with_orders')}:</label>
                     <button
-                        className="mb-4 px-4 py-2 rounded-xl bg-[color:var(--primary)] text-[color:var(--text-light)] w-max flex items-center gap-2 hover:bg-[color:var(--primary-hover)] transition-colors duration-300"
+                        onClick={handleToggleWithOrders}
+                        className={`relative w-14 h-8 rounded-full transition-colors duration-300 ${
+                            withOrders ? "bg-gray-800" : "bg-gray-300"
+                        }`}
+                    >
+                        <span
+                            className={`absolute top-1 left-1 w-6 h-6 bg-white rounded-full shadow-md transform transition-transform duration-300 ${
+                            withOrders ? "translate-x-6" : "translate-x-0"
+                            }`}
+                        ></span>
+                    </button>       
+                    <button
+                        className="px-4 py-2 rounded-xl bg-[color:var(--primary)] text-[color:var(--text-light)] w-max hover:bg-[color:var(--primary-hover)] transition-colors duration-300"
                         onClick={() => handlePrint()}
                     >
                         {t('button.print')}

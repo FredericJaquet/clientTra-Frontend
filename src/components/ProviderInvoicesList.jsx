@@ -358,6 +358,20 @@ function ProviderInvoicesList(){
         const newStatus = e.target.checked ? "PAID" : "PENDING";
 
         setFormData(prev => ({...prev, status: newStatus}));
+        if(showDetailedInvoice){
+            setSelectedInvoice(prev => ({...prev, status: newStatus}));
+
+            setInvoices(prevInvoices =>
+                prevInvoices.map(invoice =>
+                    invoice.idDocument === selectedInvoice.idDocument ? { ...invoice, status: newStatus } : invoice
+                )
+            );
+        }
+        try{
+            axios.get(`/provider-invoices/toggle-paid-status/${selectedInvoice.idDocument}`)
+        }catch(err){
+            console.error(err.response?.data?.message || "Error");
+        }
     };
 
     const handleCurrencySelection = (e) => {
@@ -492,30 +506,41 @@ function ProviderInvoicesList(){
             {showDetailedInvoice && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
                     <div className="modal-scroll bg-[color:var(--secondary)] rounded-xl shadow-lg p-6 sm:p-16 lg:p-32 flex flex-col overflow-y-auto max-h-[90vh]">
-                        <div className="flex justify-end mb-4 gap-2">
-                            <button
-                                className="mb-4 px-4 py-2 rounded-xl bg-[color:var(--primary)] text-[color:var(--text-light)] w-max flex items-center gap-2 hover:bg-[color:var(--primary-hover)] transition-colors duration-300"
-                                onClick={handleBackToList}
-                            >
-                                {t('button.back')}
-                            </button>
-                            {(role === "ROLE_ADMIN" || role === "ROLE_ACCOUNTING") &&(
-                            <>
-                            <button
-                                className="mb-4 px-4 py-2 rounded-xl bg-[color:var(--primary)] text-[color:var(--text-light)] w-max flex items-center gap-2 hover:bg-[color:var(--primary-hover)] transition-colors duration-300"
-                                onClick={() => handleEditInvoice(selectedInvoice)}
-                            >
-                                {t('button.edit')}
-                            </button>
-                            <button
-                                className="mb-4 px-4 py-2 rounded-xl bg-[color:var(--primary)] text-[color:var(--text-light)] w-max flex items-center gap-2 hover:bg-[color:var(--primary-hover)] transition-colors duration-300"
-                                onClick={() => handleDelete(selectedInvoice)}
-                            >
-                                {t('button.delete')}
-                            </button>
-                            </>
-                            )}
+                        <div className="flex justify-between items-center mb-4">
+                            <div className="flex p-6 modal-scroll overflow-y-auto justify-end">
+                                <label className="p-2">{t('documents.is_paid')}</label>
+                                <input
+                                    type="checkbox"
+                                    className="w-4 border border-[color:var(--border)] rounded focus:outline-none focus:ring-2 focus:ring-[color:var(--primary)]"
+                                    checked={formData.status === "PAID"}
+                                    onChange={handlePaidChange}
+                                />
+                            </div>
+                            <div className="flex justify-end mb-4 gap-2">
+                                <button
+                                    className="mb-4 px-4 py-2 rounded-xl bg-[color:var(--primary)] text-[color:var(--text-light)] w-max flex items-center gap-2 hover:bg-[color:var(--primary-hover)] transition-colors duration-300"
+                                    onClick={handleBackToList}
+                                >
+                                    {t('button.back')}
+                                </button>
+                                {(role === "ROLE_ADMIN" || role === "ROLE_ACCOUNTING") &&(
+                                <>
+                                <button
+                                    className="mb-4 px-4 py-2 rounded-xl bg-[color:var(--primary)] text-[color:var(--text-light)] w-max flex items-center gap-2 hover:bg-[color:var(--primary-hover)] transition-colors duration-300"
+                                    onClick={() => handleEditInvoice(selectedInvoice)}
+                                >
+                                    {t('button.edit')}
+                                </button>
+                                <button
+                                    className="mb-4 px-4 py-2 rounded-xl bg-[color:var(--primary)] text-[color:var(--text-light)] w-max flex items-center gap-2 hover:bg-[color:var(--primary-hover)] transition-colors duration-300"
+                                    onClick={() => handleDelete(selectedInvoice)}
+                                >
+                                    {t('button.delete')}
+                                </button>
+                                </>
+                                )}
 
+                            </div>
                         </div>
                         <div className="w-[794px] bg-white shadow-lg p-10 flex flex-col h-full">
                         {/* contenido */}
@@ -674,8 +699,6 @@ function ProviderInvoicesList(){
                     <div className="bg-[color:var(--secondary)] rounded-xl shadow-lg p-6 w-2/3 max-h-[90vh] flex flex-col">
                     <h3 className="text-xl font-semibold mb-4">{t('documents.add_invoice')}</h3>
                     <div className="p-6 modal-scroll overflow-y-auto">
-                        <div className="flex p-6 modal-scroll overflow-y-auto justify-end">
-                        </div>
                         <div className="flex gap-4 mb-4">
                             <select
                                 className="p-2 w-1/3 rounded-full border bg-[color:var(--background)]"

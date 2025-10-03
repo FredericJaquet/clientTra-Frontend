@@ -16,6 +16,7 @@
         "delete": "Delete",
         "back": "Back",
         "edit": "Edit",
+        "edit_password": "Change Password",
         "blue": "Blue",
         "red": "Red",
         "next": "Next",
@@ -141,7 +142,7 @@
         "add_po": "Add Purchase Order",
         "select_customer": "Select a customer",
         "select_provider": "Select a supplier",
-        "last_number": "Last invoice",
+        "last_number": "Last number",
         "new_change_rate": "New exchange rate",
         "currency1": "Currency 1",
         "currency2": "Currency 2",
@@ -154,7 +155,6 @@
         "rejected": "Rejected",
         "pending_quote": "Pending"
     },
-
     "error": {
         "all_fields_required": "All fields are required",
         "incorrect_credentials": "Incorrect username and/or password",
@@ -211,6 +211,7 @@
         "register": "Register"
     },
     "orders": {
+        "orders": "Orders",
         "edit_order": "Edit Order",
         "add_order": "Add Order",
         "select_customer": "Select a customer",
@@ -293,8 +294,9 @@
         "state": "State/Province",
         "country": "Country"
     },
-        "reports": {
+    "reports": {
         "report_incomes": "Income Reports",
+        "with_orders": "With Pending Orders",
         "report_incomes_graph": "Income Graph",
         "report_outcomes": "Expense Reports",
         "loading": "Loading...",
@@ -348,6 +350,10 @@
         "add_user": "Add User",
         "theme": "Theme",
         "darkmode": "Dark Mode",
-        "language": "Language"
+        "language": "Language",
+        "change_password": "Change Password",
+        "current_password": "Current Password",
+        "new_password": "New Password",
+        "repeat_new_password": "Repeat New Password"
     }
 }
