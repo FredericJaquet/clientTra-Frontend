@@ -126,7 +126,6 @@ function OutcomesGraph(){
                         {t('reports.year')}
                     </button>
                 </div>
-                <hr className="border-[color:var(--primary)] mb-2" />
                 {startDate && endDate && (
                     <>
                         <label className="modal-scroll flex justify-center w-full border border-[color:var(--primary)] rounded-full mb-2 p-2 font-semibold overflow-auto">
