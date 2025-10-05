@@ -20,7 +20,8 @@
         "blue": "Bleu",
         "red": "Rouge",
         "next": "Suivant",
-        "print": "Imprimer"
+        "print": "Imprimer",
+        "change_logo": "Changer logo"
     },
     "companies": {
         "phones": "Téléphones",
@@ -93,7 +94,7 @@
         "cashing": "Encaissements en attente",
         "payment": "Paiements en attente",
         "graphics": "Graphiques",
-        "search_bar": "Recherchez des entreprises par nom commercial, raison sociale ou CIF",
+        "search_bar": "Recherchez des entreprises par nom commercial, raison sociale ou SIRET",
         "finances": "Finances",
         "benefit": "Bénéfice",
         "pending_orders": "Commandes en attente",

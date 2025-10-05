@@ -26,7 +26,6 @@ function OutcomesReport(){
         })
         .then((response) => {
             setReport(response.data);
-            console.log(response.data);
             setLoading(false);
         })
         .catch((error) => {
@@ -102,6 +101,7 @@ function OutcomesReport(){
             <div className="rounded-xl shadow-lg w-3/4 p-4 bg-[color:var(--secondary)]">
                 <div className="w-full flex justify-between items-center mb-2">
                     <h4 className="text-lg font-semibold mb-2 w-1/2">{t('reports.report_outcomes')}</h4>
+                    <label className="mr-2">{t('reports.with_orders')}:</label>
                     <button
                         onClick={handleToggleWithOrders}
                         className={`relative w-14 h-8 rounded-full transition-colors duration-300 ${

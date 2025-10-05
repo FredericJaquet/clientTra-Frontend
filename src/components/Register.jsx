@@ -5,9 +5,6 @@ import RegisterStep1 from './RegisterStep1';
 import RegisterStep2 from './RegisterStep2';
 import { useTranslation } from 'react-i18next';
 
-
-
-
 function Register(){
 
   const { i18n } = useTranslation();

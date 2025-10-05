@@ -20,7 +20,8 @@
         "blue": "Blue",
         "red": "Red",
         "next": "Next",
-        "print": "Print"
+        "print": "Print",
+        "change_logo": "Change logo"
     },
     "companies": {
         "phones": "Phones",
@@ -80,7 +81,7 @@
         "providers": "Providers",
         "create": "Create",
         "orders": "Orders",
-        "orders_Customer": "Orders Customers",
+        "orders_customers": "Orders Customers",
         "orders_providers": "Orders Providers",
         "customer_invoices": "Customer Invoices",
         "provider_invoices": "Provider Invoices",

@@ -1,4 +1,3 @@
-import React from "react";
 import logoBlue from "../assets/img/logo_blue_transparent500x150.png";
 import logoRed from "../assets/img/logo_red_transparent500x150.png";
 import { Link } from "react-router-dom";

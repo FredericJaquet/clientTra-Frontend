@@ -3,7 +3,8 @@ import axios from "../api/axios";
 import { useTranslation } from 'react-i18next';
 
 function PosList(){
-const { t } = useTranslation();
+    
+    const { t } = useTranslation();
     
     const user = JSON.parse(localStorage.getItem("user"));
     const role = user?.role || "ROLE_USER";
@@ -903,7 +904,7 @@ const { t } = useTranslation();
                         <thead className="bg-[color:var(--secondary)] sticky top-0 z-10">
                         <tr>
                             <th className="w-1/3 py-3 text-left text-[color:var(--text)] font-medium" onClick={() => handleSort("comName")}>
-                            {t('customers.customer')} {sortConfig.key === "comName" && (sortConfig.direction === "asc" ? "▲" : "▼")}
+                            {t('providers.provider')} {sortConfig.key === "comName" && (sortConfig.direction === "asc" ? "▲" : "▼")}
                             </th>
                             <th className="w-1/3 py-3 text-left text-[color:var(--text)] font-medium" onClick={() => handleSort("docNumber")}>
                             {t('documents.number')} {sortConfig.key === "docNumber" && (sortConfig.direction === "asc" ? "▲" : "▼")}

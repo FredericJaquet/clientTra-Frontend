@@ -6,6 +6,7 @@ import { setupResponseInterceptor } from "./api/axios";
 
 const Login = lazy(() => import('./components/Login'));
 const Register = lazy(() => import('./components/Register'));
+const Project = lazy(() => import('./components/Project'));
 const DashboardLayout = lazy(() => import('./components/DashboardLayout'));
 const DashboardHome = lazy(() => import('./components/DashboardHome'));
 const MyAccount = lazy(() => import('./components/MyAccount'));
@@ -52,6 +53,7 @@ function AppWrapper() {
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/project" element={<Project />} />
           <Route
             path="/dashboard"
             element={

@@ -1,4 +1,3 @@
-import React from "react";
 import api from "../api/axios";
 import { useState, useEffect } from "react";
 import { useTranslation } from 'react-i18next';
@@ -44,7 +43,7 @@ function SearchBar(){
     useEffect(() => {
         if (providersSearchResult.length > 0) {
             if (providersSearchResult.length === 1) {
-                navigate(`/dashboard/providers/${providersSearchResult[0].idProvider}`);
+                navigate(`/dashboard/providers/${providersSearchResult[0].idCompany}`);
             } else {
                 navigate(`/dashboard/providers?search=${query}`);
             }

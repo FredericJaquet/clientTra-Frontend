@@ -36,11 +36,11 @@ function DashboardHome() {
 
         if (role === "ROLE_ADMIN" || role === "ROLE_ACCOUNTING") {
           promises.push(
-            axios.get(`/reports/cash-flow/income?initDate=${initDate}&endDate=${endDate}`)
+            axios.get(`/reports/cash-flow/income?initDate=${initDate}&endDate=${endDate}&withOrders=false`)
               .then(res => setCashflowInReport(res.data))
           );
           promises.push(
-            axios.get(`/reports/cash-flow/outcome?initDate=${initDate}&endDate=${endDate}`)
+            axios.get(`/reports/cash-flow/outcome?initDate=${initDate}&endDate=${endDate}&withOrders=false`)
               .then(res => setCashflowOutReport(res.data))
           );
           promises.push(

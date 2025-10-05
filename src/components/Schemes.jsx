@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import axios from "../api/axios";
 import { useTranslation } from 'react-i18next';
-import { ServerRouter } from "react-router-dom";
 
 //TODO: Evitar editción de esquemas si USER
 function Schemes({schemes, idCompany, onSchemesChange}){

@@ -20,7 +20,8 @@
         "blue": "Azul",
         "red": "Rojo",
         "next": "Siguiente",
-        "print": "Imprimir"
+        "print": "Imprimir",
+        "change_logo": "Cambiar logo"
     },
     "companies": {
         "phones": "Teléfonos",

@@ -1,7 +1,10 @@
 import api from "../api/axios";
 import { useEffect, useState } from "react";
+import { useTranslation } from 'react-i18next';
 
 function CompanyLogo({ logoPath, onLogoChange }) {
+
+  const { t } = useTranslation();
 
   const user = JSON.parse(localStorage.getItem("user"));
   const role = user?.role || "ROLE_USER";
@@ -50,7 +53,7 @@ function CompanyLogo({ logoPath, onLogoChange }) {
       )}
       {role === "ROLE_ADMIN" && (
       <label className="px-4 py-2 bg-[color:var(--primary)] text-[color:var(--text-light)] rounded-lg cursor-pointer hover:bg-[color:var(--primary-hover)] transition">
-        Cambiar logo
+        {t("button.change_logo")}
         <input
           type="file"
           name="logo"

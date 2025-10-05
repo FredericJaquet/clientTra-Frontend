@@ -43,7 +43,7 @@ const { t } = useTranslation();
         axios
             .get("/orders/providers")
             .then(
-                (response) => {setOrders(response.data);})
+                (response) => {setOrders(response.data)})
             .catch((err) => console.error(err.response.data.message || "Error"));
         axios
             .get("providers/minimal-list")
