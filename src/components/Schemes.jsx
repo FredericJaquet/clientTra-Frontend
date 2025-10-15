@@ -508,7 +508,7 @@ function Schemes({schemes, idCompany, onSchemesChange}){
             {showDeleteConfirm && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
                     <div className="bg-[color:var(--secondary)] rounded-xl shadow-lg p-6 w-1/3">
-                        <h3 className="text-xl font-semibold mb-4">{t('phones.confirm_delete')}</h3>
+                        <h3 className="text-xl font-semibold mb-4">{t('schemes.confirm_delete')}</h3>
                         
                         <div className="flex justify-end gap-2 mt-4">
                             <button

@@ -321,6 +321,8 @@
     },
     "schemes": {
         "add_scheme": "Ajouter un schéma",
+        "edit_scheme": "Modifier le schéma",
+        "confirm_delete": "Voulez-vous supprimer ce schéma ?",
         "select_scheme": "Choisissez un schéma",
         "name": "Nom",
         "price": "Prix",

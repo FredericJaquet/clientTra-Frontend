@@ -571,6 +571,7 @@ function CustomerInvoicesList(){
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
                     <div className="modal-scroll bg-[color:var(--secondary)] rounded-xl shadow-lg p-6 sm:p-16 lg:p-32 flex flex-col overflow-y-auto max-h-[90vh]">
                         <div className="flex justify-between items-center mb-4">
+                            {(role === "ROLE_ADMIN" || role === "ROLE_ACCOUNTING") && (
                             <div className="flex p-6 modal-scroll overflow-y-auto justify-end">
                                 <label className="p-2">{t('documents.is_paid')}</label>
                                 <input
@@ -580,6 +581,7 @@ function CustomerInvoicesList(){
                                     onChange={handlePaidChange}
                                 />
                             </div>
+                            )}
                             <div className="flex justify-end mb-4 gap-2">
                                 <button
                                     className="mb-4 px-4 py-2 rounded-xl bg-[color:var(--primary)] text-[color:var(--text-light)] w-max flex items-center gap-2 hover:bg-[color:var(--primary-hover)] transition-colors duration-300"

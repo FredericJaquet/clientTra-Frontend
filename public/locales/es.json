@@ -322,6 +322,8 @@
     "schemes": {
         "add_scheme": "Añadir Esquema",
         "select_scheme": "Elige un esquema",
+        "edit_scheme": "Modificar Esquema",
+        "confirm_delete": "¿Quieres eliminar este esquema?",
         "name":"Nombre",
         "price": "Precio",
         "units": "Unidades",
