@@ -8,7 +8,6 @@ import BankAccounts from "./BankAccounts";
 import ContactPersons from "./ContactPersons";
 import Schemes from "./Schemes";
 
-//TODO Afinar la creación y edición de esquemas (Al presionar Enter en la descripción de una linea por ejemplo)
 function CustomerDetails() {
     const { t } = useTranslation();
     const { id } = useParams();
@@ -346,7 +345,7 @@ function CustomerDetails() {
             <div className="flex mb-4">
                 <label className="font-semibold w-1/6">{t("customers.invocing_method")}</label>
                 {!isEditing ? 
-                    <label className="mr-2 w-1/3">{customer.invoicingMethod}</label>
+                    <label className="mr-2 w-1/3 break-all whitespace-normal">{customer.invoicingMethod}</label>
                     :
                     <input
                     type="text"

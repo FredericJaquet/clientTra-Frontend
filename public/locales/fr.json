@@ -81,8 +81,8 @@
         "providers": "Fournisseurs",
         "create": "Créer",
         "orders": "Commandes",
-        "orders_customers": "Commandes Clientes",
-        "orders_providers": "Commandes Fournisseurs",
+        "orders_customers": "Commandes clients",
+        "orders_providers": "Commandes fournisseurs",
         "customer_invoices": "Factures clients",
         "provider_invoices": "Factures fournisseurs",
         "quotes": "Devis",
@@ -190,7 +190,8 @@
         "editing_order": "Erreur lors de la modification de la commande",
         "order_without_items": "Le total de la commande doit être > 0.",
         "document_without_Order": "Le total du document doit être > 0.",
-        "no_orders": "Voud devez inclure ua moins une commande."
+        "no_orders": "Voud devez inclure ua moins une commande.",
+        "scheme_lines_required": "Au moins une ligne de schéma est requise"
     },
     "languages": {
         "es": "Espagnol",
@@ -299,6 +300,7 @@
         "report_incomes": "Rapports de revenus",
         "with_orders": "Avec commandes en attente",
         "report_incomes_graph": "Graphique des revenus",
+        "report_outcomes_graph": "Graphique des dépenses",
         "report_outcomes": "Rapports de dépenses",
         "loading": "Chargement...",
         "date_from": "De",

@@ -74,18 +74,21 @@ function OrdersListForCustomers(){
     //Select scheme in Add form
     useEffect(() => {
         if(!selectedScheme.schemeName) return;
-
+        const newDescrip = formData.descrip;
+        const newDateOrder = formData.dateOrder;
+        const newTotal = formData.total;
+        const newItems = formData.items;
         setFormData({
-            descrip: "",
-            dateOrder: "",
+            descrip: newDescrip,
+            dateOrder: newDateOrder,
             pricePerUnit: selectedScheme.price,
             units: selectedScheme.units,
-            total: 0.0,
+            total: newTotal,
             billed: false,
             fieldName: selectedScheme.fieldName,
             sourceLanguage: selectedScheme.sourceLanguage,
             targetLanguage: selectedScheme.targetLanguage,
-            items: []
+            items: newItems
         });
 
         loadNextSchemeLine();
@@ -115,7 +118,10 @@ function OrdersListForCustomers(){
     //Handle Add
     const addOrder = () => {
         setShowAddForm(true);
-    };
+        if(selectedCustomer){
+            handleSelectionCustomer(selectedCustomer);
+        }
+    }
 
     const handleAddCancel = () => {
         setShowAddForm(false);
@@ -204,7 +210,6 @@ function OrdersListForCustomers(){
     const handleAddItem = (e) => {
         if (e.type === "keydown" && e.key !== "Enter") return;
         e.preventDefault();
-        console.log(itemInput);
         if ( !itemInput.descrip || itemInput.qty === "" || itemInput.discount == null || itemInput.discount === ""){ 
             setError(t('error.all_fields_required'));
             return;
@@ -382,6 +387,28 @@ function OrdersListForCustomers(){
     //Inputs changes for Add or Edit
     const handleChange = (e) => {
         setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
+        if(e.target.name === "pricePerUnit"){
+            // Recalculate totals if pricePerUnit changes
+            if (isNaN(Number(formData.pricePerUnit))) {
+                setError(t('error.invalid_price'));
+                return;
+            }
+            const price = parseFloat(e.target.value) || 0;
+            const updatedItems = formData.items.map(item => {
+                const qty = parseFloat(item.qty) || 0;
+                let discount = parseFloat(item.discount) || 0;
+                if (discount > 1) discount = discount / 100;
+                const total = price * qty * (1 - discount);
+                return { ...item, total };
+            });
+            const granTotal = updatedItems.reduce(
+                (sum, i) => sum + (parseFloat(i.total) || 0),
+                0
+            );
+            setFormData(prev => ({
+                ...prev, items: updatedItems, total: granTotal
+            }));
+        }
     }
 
     const handleItemChange = (e) => {

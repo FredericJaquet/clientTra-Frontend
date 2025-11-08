@@ -160,7 +160,7 @@ function DashboardHome() {
             ? [[t('dashboard.loading'), ""]]
             : !pendingOrders || !pendingOrders.length
               ? [[t('dashboard.no_results'), ""]]
-              : pendingOrders.map(r => [r.descrip, r.dateOrder])
+              : pendingOrders.map(r => [r.descrip, new Date(r.dateOrder).toLocaleDateString("es-ES", { day:"2-digit", month:"2-digit", year:"numeric" })])
         }
       />
 
@@ -174,7 +174,7 @@ function DashboardHome() {
             ? [[t('dashboard.loading'), ""]]
             : !pendingQuotes || !pendingQuotes.length
               ? [[t('dashboard.no_results'), ""]]
-              : pendingQuotes.map(r => [r.docNumber, r.docDate])
+              : pendingQuotes.map(r => [r.docNumber, new Date(r.docDate).toLocaleDateString("es-ES", { day:"2-digit", month:"2-digit", year:"numeric" })])
         }
       />
     </div>

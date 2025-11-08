@@ -123,6 +123,9 @@ function PosList(){
         setShowAddForm(false);
         setSelectedProvider({});
         setFormData(initialFormData);
+        setTotals({  totalNet:0,
+                     totalVat:0,
+                     totalGross:0,});
         setOrders([]);
         setError("");
     };
@@ -155,6 +158,9 @@ function PosList(){
             setSelectedProvider({});
             setOrders([]);
             setFormData(initialFormData);
+            setTotals({  totalNet:0,
+                     totalVat:0,
+                     totalGross:0,});
             setError("");
 
         }catch(err){
@@ -462,8 +468,8 @@ function PosList(){
                                     {/* Order details */}
                                     <div className="bg-gray-200 px-4 rounded-full grid grid-cols-[3fr_1fr_1fr_1fr] gap-2 text-black font-semibold">
                                         <div>{order.descrip}</div>
-                                        <div>{order.dateOrder}</div>
-                                        <div>{order.quantity} {order.units}</div>
+                                        <div>{new Date(order.dateOrder).toLocaleDateString("es-ES", { day:"2-digit", month:"2-digit", year:"numeric" })}</div>
+                                        <div>{order.pricePerUnit.toFixed(2)}{selectedPo.changeRate?.currency1 || "€"}</div>
                                         <div>{order.total.toFixed(2)}{selectedPo.changeRate?.currency1 || "€"}</div>
                                     </div>
                                     <hr className="border-gray-200 mb-2"/>
@@ -473,7 +479,7 @@ function PosList(){
                                         <div key={item.idItem} className="grid grid-cols-[3fr_1fr_1fr_1fr_1fr] gap-2 mb-1 text-black">
                                             <div>{item.descrip}</div>
                                             <div>{item.quantity}</div>
-                                            <div>{order.pricePerUnit.toFixed(2)}{selectedPo.changeRate?.currency1 || "€"}</div>
+                                            <div>{order.units}</div>
                                             <div>{(item.discount*100).toFixed(2)}%</div>
                                             <div>{item.total.toFixed(2)}{selectedPo.changeRate?.currency1 || "€"}</div>
                                         </div>

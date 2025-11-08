@@ -93,15 +93,15 @@ function Customers(){
     const handleAddSubmit = async (e) => {
         e.preventDefault();
         setError("");
-        if (!formData.legalName || !formData.vatNumber || !formData.email || !formData.addresses.street || !formData.addresses.stNumber || !formData.addresses.cp || !formData.addresses.city || !formData.addresses.country) {
+        if (!formData.legalName || !formData.vatNumber || !formData.addresses.street || !formData.addresses.stNumber || !formData.addresses.cp || !formData.addresses.city || !formData.addresses.country) {
             setError(t('error.all_fields_required'));
             return;
         }
-        if(!emailValidator(formData.email)){
+        if(formData.email && !emailValidator(formData.email)){
             setError(t('error.email_invalid'));
             return;
         }
-        if(!urlValidator(formData.web)){
+        if(formData.web && !urlValidator(formData.web)){
             setError(t('error.url_invalid'));
             return;
         }
@@ -159,10 +159,13 @@ function Customers(){
     }
 
     const handleChange = (e) => {
-        const { name, value } = e.target;
+        const { name, type, value, checked } = e.target;
 
+        if (type === "checkbox") {
+            setFormData(prev => ({ ...prev, [name]: checked }));
+        }
         // If field for Address
-        if (['street','stNumber','apt','cp','city','state','country'].includes(name)) {
+        else if (['street','stNumber','apt','cp','city','state','country'].includes(name)) {
             setFormData(prev => ({
                 ...prev,
                 addresses: { ...prev.addresses, [name]: value }

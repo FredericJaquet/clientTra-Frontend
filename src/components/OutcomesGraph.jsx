@@ -77,7 +77,7 @@ function OutcomesGraph(){
        <div className="flex w-full flex-col items-center gap-5 py-10">
             <div className="rounded-xl shadow-lg w-3/4 p-4 bg-[color:var(--secondary)]">
                 <div className="w-full flex justify-between items-center mb-2">
-                    <h4 className="text-lg font-semibold mb-2 w-1/2">{t('reports.report_incomes_graph')}</h4>
+                    <h4 className="text-lg font-semibold mb-2 w-1/2">{t('reports.report_outcomes_graph')}</h4>
                 </div>
                 <div className="flex justify-center items-center mb-4 gap-6">
                     <div>

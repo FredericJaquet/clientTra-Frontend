@@ -190,7 +190,8 @@
         "no_provider_selected":"You must select a provider",
         "order_without_items": "The order total must be > 0.",
         "document_without_Order": "The document total must be > 0.",
-        "no_orders": "You must include al least one order."
+        "no_orders": "You must include al least one order.",
+        "scheme_lines_required": "At least one scheme line is required"
     },
     "languages": {
         "es": "Spanish",
@@ -299,6 +300,7 @@
         "report_incomes": "Income Reports",
         "with_orders": "With Pending Orders",
         "report_incomes_graph": "Income Graph",
+        "report_outcomes_graph": "Expense Graph",
         "report_outcomes": "Expense Reports",
         "loading": "Loading...",
         "date_from": "From",

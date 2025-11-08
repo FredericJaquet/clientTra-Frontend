@@ -190,7 +190,8 @@
         "no_provider_selected": "Tiene que seleccionar un proveedor",
         "order_without_items": "El total del pedido debe ser > 0.",
         "document_without_Order": "El total del document debe ser > 0.",
-        "no_orders": "Debes incluir al menos un pedido."
+        "no_orders": "Debes incluir al menos un pedido.",
+        "scheme_lines_required": "Se requiere al menos una línea de esquema"
     },
     "languages": {
         "es": "Español",

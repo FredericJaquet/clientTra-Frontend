@@ -74,18 +74,22 @@ const { t } = useTranslation();
     //Select scheme in Add form
     useEffect(() => {
         if(!selectedScheme.schemeName) return;
+        const newDescrip = formData.descrip;
+        const newDateOrder = formData.dateOrder;
+        const newTotal = formData.total;
+        const newItems = formData.items;
 
         setFormData({
-            descrip: "",
-            dateOrder: "",
+            descrip: newDescrip,
+            dateOrder: newDateOrder,
             pricePerUnit: selectedScheme.price,
             units: selectedScheme.units,
-            total: 0.0,
+            total: newTotal,
             billed: false,
             fieldName: selectedScheme.fieldName,
             sourceLanguage: selectedScheme.sourceLanguage,
             targetLanguage: selectedScheme.targetLanguage,
-            items: []
+            items: newItems
         });
 
         loadNextSchemeLine();
@@ -115,6 +119,9 @@ const { t } = useTranslation();
     //Handle Add
     const addOrder = () => {
         setShowAddForm(true);
+        if(selectedProvider){
+            handleSelectionProvider(selectedProvider);
+        }
     };
 
     const handleAddCancel = () => {
@@ -155,7 +162,7 @@ const { t } = useTranslation();
             return;
         }
         if(!selectedProvider.idCompany){
-            setError(t('error.no_customer_selected'));
+            setError(t('error.no_provider_selected'));
             return;
         }
 
@@ -195,7 +202,7 @@ const { t } = useTranslation();
         }
     };
 
-    const handleSelectionCustomer = (provider) =>{
+    const handleSelectionProvider = (provider) =>{
         axios
             .get(`companies/${provider.idCompany}/schemes`)
             .then(
@@ -384,6 +391,28 @@ const { t } = useTranslation();
     //Inputs hanges for Add or Edit
     const handleChange = (e) => {
         setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
+        if(e.target.name === "pricePerUnit"){
+            // Recalculate totals if pricePerUnit changes
+            if (isNaN(Number(formData.pricePerUnit))) {
+                setError(t('error.invalid_price'));
+                return;
+            }
+            const price = parseFloat(e.target.value) || 0;
+            const updatedItems = formData.items.map(item => {
+                const qty = parseFloat(item.qty) || 0;
+                let discount = parseFloat(item.discount) || 0;
+                if (discount > 1) discount = discount / 100;
+                const total = price * qty * (1 - discount);
+                return { ...item, total };
+            });
+            const granTotal = updatedItems.reduce(
+                (sum, i) => sum + (parseFloat(i.total) || 0),
+                0
+            );
+            setFormData(prev => ({
+                ...prev, items: updatedItems, total: granTotal
+            }));
+        }
     }
 
     const handleItemChange = (e) => {
@@ -470,7 +499,7 @@ const { t } = useTranslation();
                                     onChange={(e) => {
                                         const provider = providers.find(p => p.idCompany === Number(e.target.value));
                                         setSelectedProvider(provider || {});
-                                        handleSelectionCustomer(provider);
+                                        handleSelectionProvider(provider);
                                     }}
                                     >
                                     <option value="">{t("orders.select_provider")}</option>
@@ -574,7 +603,7 @@ const { t } = useTranslation();
                                 <div className="flex justify-between items-center mb-4">
                                     <h4 className="text-xl font-semibold">{t('orders.items')}</h4>
                                     <span className="p-2 rounded-lg border">
-                                        {`${t("orders.total")}: ${formData.total.toFixed(2)}€`}
+                                        {`${t("orders.total")}: ${formData.total?.toFixed(2)}€`}
                                     </span>
                                 </div>
 

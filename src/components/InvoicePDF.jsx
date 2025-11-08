@@ -289,7 +289,7 @@ const InvoicePDF = ({ invoice, owner, customer, translations, logo }) => (
                             <Text style={styles.orderCell}>{order.descrip}</Text>
                             <Text style={styles.orderCellSmall}>{order.dateOrder}</Text>
                             <Text style={styles.orderCellSmall}>
-                                {order.quantity} {order.units}
+                                {order.pricePerUnit.toFixed(2)} {invoice.changeRate?.currency1 || "€"}
                             </Text>
                             <Text style={styles.orderCellSmall}>
                                 {order.total.toFixed(2)}
@@ -299,11 +299,8 @@ const InvoicePDF = ({ invoice, owner, customer, translations, logo }) => (
                         {order.items.map((item, idy) => (
                         <View key={idy} style={styles.itemRow}>
                             <Text style={styles.itemCell}>{item.descrip}</Text>
-                            <Text style={styles.itemCellSmall}>{item.quantity}</Text>
-                            <Text style={styles.itemCellSmall}>
-                                {order.pricePerUnit.toFixed(2)}
-                                {invoice.changeRate?.currency1 || "€"}
-                            </Text>
+                            <Text style={styles.itemCellSmall}>{item.qty}</Text>
+                            <Text style={styles.itemCellSmall}>{order.units}</Text>
                             <Text style={styles.itemCellSmall}>{(item.discount * 100).toFixed(2)}%</Text>
                             <Text style={styles.itemCellSmall}>
                                 {item.total.toFixed(2)}

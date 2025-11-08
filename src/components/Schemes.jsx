@@ -77,6 +77,10 @@ function Schemes({schemes, idCompany, onSchemesChange}){
             setError(t('error.all_fields_required'));
             return;
         }
+        if(formData.schemeLines.length === 0){
+            setError(t('error.scheme_lines_required'));
+            return;
+        }
         if (isNaN(Number(formData.price))) {
             setError(t('error.invalid_price'));
             return;

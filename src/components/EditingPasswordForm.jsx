@@ -1,11 +1,13 @@
 import api from "../api/axios";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { Eye, EyeOff } from "lucide-react";
 import { useTranslation } from 'react-i18next';
-
+import { ThemeContext } from "../contexts/ThemeContext";
 function EditingPasswordForm({ onClose }) {
 
     const { t } = useTranslation();
+    const { darkMode, setTheme, toggleDarkMode } = useContext(ThemeContext);
+
     const [formData, setFormData] = useState({ currentPassword: "", newPassword: "", confirmNewPassword: "" });
     const [error, setError] = useState("");
      const [showPassword, setShowPassword] = useState(false);
@@ -23,12 +25,24 @@ function EditingPasswordForm({ onClose }) {
         try {
             await api.patch("/users/me/change-password", {currentPassword: formData.currentPassword, newPassword: formData.newPassword});
 
+            handleLogout();
+            
             onClose();
+
         } catch (err) {
             console.error(err);
             setError(err.response?.data?.message || "Error");
         }
     }
+
+    const handleLogout = () => {
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+        setTheme("blue");
+        if (darkMode) toggleDarkMode();
+        window.location.href = "/";
+
+    };
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">

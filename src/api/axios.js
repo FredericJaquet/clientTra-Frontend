@@ -27,7 +27,9 @@ export const setupResponseInterceptor = () => {
   api.interceptors.response.use(
     (response) => response,
     (error) => {
-      if (error.response?.status === 401) {
+      const isLoginRequest = error.config?.url?.includes("/auth/login");
+
+      if (!isLoginRequest && error.response?.status === 401) {
         // Token invalid or expired
         localStorage.removeItem("token");
         localStorage.removeItem("user");

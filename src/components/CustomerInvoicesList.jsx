@@ -180,11 +180,15 @@ function CustomerInvoicesList(){
         setShowAddForm(true);
         
         setFormData(initialFormData);
-        console.log(changeRates[0])
         setSelectedChangeRate(changeRates[0]);
         setFormData(prev => ({...prev, idChangeRate: changeRates[0].idChangeRate || ""}));
 
         setFormData(prev => ({...prev, idBankAccount: bankAccounts[0]?.idBankAccount || ""}));
+
+        if(selectedCustomer.idCompany){
+            await getPendingOrders(selectedCustomer);
+            setFormData(prev => ({...prev, idCompany: selectedCustomer.idCompany}));
+        }
 
         try{
             const response = await axios.get("/customer-invoices/last-number");
@@ -199,6 +203,13 @@ function CustomerInvoicesList(){
         setShowAddForm(false);
         setSelectedCustomer({});
         setFormData(initialFormData);
+        setTotals({  totalNet:0,
+                        totalVat:0,
+                        totalWithholding:0,
+                        totalGross:0,
+                        totalGross2: 0,
+                        totalToPay:0,
+                        totalToPay2: 0});
         setSelectedChangeRate({});
         setOrders([]);
         setError("");
@@ -232,6 +243,13 @@ function CustomerInvoicesList(){
             setSelectedCustomer({});
             setOrders([]);
             setFormData(initialFormData);
+            setTotals({  totalNet:0,
+                        totalVat:0,
+                        totalWithholding:0,
+                        totalGross:0,
+                        totalGross2: 0,
+                        totalToPay:0,
+                        totalToPay2: 0});
             setSelectedChangeRate({});
             setError("");
 
@@ -250,6 +268,10 @@ function CustomerInvoicesList(){
         setSelectedCustomer(customer);
         setFormData(prev => ({...prev, idCompany: customer.idCompany}));
 
+        await getPendingOrders(customer);
+    };
+
+    const getPendingOrders = async (customer) => {
         try{
             const pendingOrdersResponse = await axios.get(`companies/${customer.idCompany}/orders/pending`);
             const pendingOrders = pendingOrdersResponse.data;
@@ -260,12 +282,11 @@ function CustomerInvoicesList(){
             setFormData(prev => ({...prev, vatRate: customerDetail.defaultVat}));
             setFormData(prev => ({...prev, withholding: customerDetail.defaultWithholding}));
             setFormData(prev => ({...prev, language: customerDetail.defaultLanguage}));
-
         }catch(err){
             console.error(err);
             setError(err.response?.data?.message || "Error");
         }
-    };
+    }
 
     // Handle View Details
     const handleViewDetails = async (invoice) => {
@@ -273,6 +294,7 @@ function CustomerInvoicesList(){
             const invoiceResponse = await axios.get(`/customer-invoices/by-id/${invoice.idDocument}`);
             const invoiceData = invoiceResponse.data;
             setSelectedInvoice(invoiceData);
+            setFormData(prev => ({...prev, status: invoiceData.status || "PENDING"}));
             switch(invoiceData.language){
                 case "en":
                     setTranslations(en);
@@ -666,7 +688,7 @@ function CustomerInvoicesList(){
                                 </div>
                                 <div className="flex gap-1 w-1/3">
                                 <label className="font-semibold text-black">{translations.date}:</label>
-                                <label className="text-black">{selectedInvoice.docDate}</label>
+                                <label className="text-black">{new Date(selectedInvoice.docDate).toLocaleDateString("es-ES", { day:"2-digit", month:"2-digit", year:"numeric" })}</label>
                                 </div>
                                 <div className="flex gap-1 w-1/3">
                                 {/* Here goes pages section in PDF*/}
@@ -680,8 +702,8 @@ function CustomerInvoicesList(){
                                     {/* Order details */}
                                     <div className="bg-gray-200 px-4 rounded-full grid grid-cols-[3fr_1fr_1fr_1fr] gap-2 text-black font-semibold">
                                         <div>{order.descrip}</div>
-                                        <div>{order.dateOrder}</div>
-                                        <div>{order.quantity} {order.units}</div>
+                                        <div>{new Date(order.dateOrder).toLocaleDateString("es-ES", { day:"2-digit", month:"2-digit", year:"numeric" })}</div>
+                                        <div>{order.pricePerUnit.toFixed(2)}{selectedInvoice.changeRate?.currency1 || "€"}</div>
                                         <div>{order.total.toFixed(2)}{selectedInvoice.changeRate?.currency1 || "€"}</div>
                                     </div>
                                     <hr className="border-gray-200 mb-2"/>
@@ -690,8 +712,8 @@ function CustomerInvoicesList(){
                                         {order.items.map((item) => (
                                         <div key={item.idItem} className="grid grid-cols-[3fr_1fr_1fr_1fr_1fr] gap-2 mb-1 text-black">
                                             <div>{item.descrip}</div>
-                                            <div>{item.quantity}</div>
-                                            <div>{order.pricePerUnit.toFixed(2)}{selectedInvoice.changeRate?.currency1 || "€"}</div>
+                                            <div>{item.qty}</div>
+                                            <div>{order.units}</div>
                                             <div>{(item.discount*100).toFixed(2)}%</div>
                                             <div>{item.total.toFixed(2)}{selectedInvoice.changeRate?.currency1 || "€"}</div>
                                         </div>
@@ -995,7 +1017,7 @@ function CustomerInvoicesList(){
                                 title="Double click to edit"
                                 >
                                 <label className="w-1/2 py-2">{order.descrip}</label>
-                                <label className="w-1/6 py-2">{order.dateOrder}</label>
+                                <label className="w-1/6 py-2">{new Date(order.dateOrder).toLocaleDateString("es-ES", { day:"2-digit", month:"2-digit", year:"numeric" })}</label>
                                 <label className="w-1/6 py-2">{`${order.total.toFixed(2)}${formData.currency}`}</label>
                                 <input
                                     type="checkbox"
@@ -1219,7 +1241,7 @@ function CustomerInvoicesList(){
                                 title="Double click to edit"
                                 >
                                 <label className="w-1/2 py-2">{order.descrip}</label>
-                                <label className="w-1/6 py-2">{order.dateOrder}</label>
+                                <label className="w-1/6 py-2">{new Date(order.dateOrder).toLocaleDateString("es-ES", { day:"2-digit", month:"2-digit", year:"numeric" })}</label>
                                 <label className="w-1/6 py-2">{`${order.total.toFixed(2)}${selectedChangeRate.currency1}`}</label>
                                 <input
                                     type="checkbox"

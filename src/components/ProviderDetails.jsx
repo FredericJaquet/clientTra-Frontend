@@ -7,6 +7,7 @@ import Phones from "./Phones";
 import BankAccounts from "./BankAccounts";
 import ContactPersons from "./ContactPersons";
 import Schemes from "./Schemes";
+import { emailValidator, urlValidator } from "../utils/validator";
 
 
 //TODO Afinar la creación y edición de esquemas (Al presionar Enter en la descripción de una linea por ejemplo)
@@ -60,8 +61,6 @@ function ProviderDetails() {
                             europe: response.data.europe,
                             enabled: response.data.enabled,
                         });
-
-            console.log(response.data);
         })
         .catch(err => {
             console.error(err);
@@ -94,9 +93,18 @@ function ProviderDetails() {
 
     const handleSave = async () => {
         try {
+            if(formData.email && !emailValidator(formData.email)){
+                setError(t('error.email_invalid'));
+                return;
+            }
+            if(formData.web && !urlValidator(formData.web)){
+                setError(t('error.url_invalid'));
+                return;
+            }
             const response = await api.patch(`/providers/${id}`, formData);
             setProvider(response.data);
             setIsEditing(false);
+            setError("");
         } catch (err) {
             setError(err.response.data.message || t('error.editing_provider'));
         }

@@ -74,12 +74,9 @@ function ContactPersons ({contacts, idCompany, onContactsChange}){
         try {
             const response = await api.post(`/companies/${idCompany}/contacts`, formData);
 
-            console.log(response);
-
             setContactsList(prevContacts => {
                 const updatedContacts = [...prevContacts, response.data];
                 onContactsChange(updatedContacts);
-                console.log(updatedContacts);
                 return updatedContacts;
             });
 

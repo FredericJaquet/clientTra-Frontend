@@ -29,6 +29,7 @@ function LoginForm() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    console.log("Login ejecuntando");
 
     if (!formData.username || !formData.password) {
       setError(t('error.all_fields_required'));
@@ -51,6 +52,7 @@ function LoginForm() {
       });
 
     } catch (err) {
+      console.log("Error de login capturado:", err);
       localStorage.removeItem("token");
       localStorage.removeItem("user");
       const backendError = err?.response?.data?.error;

@@ -15,7 +15,8 @@ function ProviderInvoicesList(){
                             docNumber:"", docDate:"", status:"PENDING", docType:"INV_PROV",
                             language:"", vatRate:0.0, withholding:0.0, currency:"€",
                             noteDelivery:"", notePayment:"", noteComment:"", deadline:"",
-                            idChangeRate:"", idCompany:"", idDocumentParent:"", orderIds:[]
+                            idChangeRate:"", idCompany:"", idDocumentParent:"", orderIds:[],
+        
                         };
     const currencies = [
                         "EUR","GBP","USD","AED","AFN","ALL","AMD","ANG","AOA","ARS","AUD","AWG","AZN",
@@ -165,12 +166,24 @@ function ProviderInvoicesList(){
         setFormData(initialFormData);
         setSelectedChangeRate(changeRates[0]);
         setFormData(prev => ({...prev, idChangeRate: changeRates[0].idChangeRate || ""}));
+        
+        if(selectedProvider.idCompany){
+            await getPendingOrders(selectedProvider);
+            setFormData(prev => ({...prev, idCompany: selectedProvider.idCompany || ""}));
+        }
     };
 
     const handleAddCancel = () =>{
         setShowAddForm(false);
         setSelectedProvider({});
         setFormData(initialFormData);
+        setTotals({  totalNet:0,
+                        totalVat:0,
+                        totalWithholding:0,
+                        totalGross:0,
+                        totalGross2: 0,
+                        totalToPay:0,
+                        totalToPay2: 0});
         setSelectedChangeRate({});
         setOrders([]);
         setError("");
@@ -204,6 +217,13 @@ function ProviderInvoicesList(){
             setSelectedProvider({});
             setOrders([]);
             setFormData(initialFormData);
+            setTotals({  totalNet:0,
+                        totalVat:0,
+                        totalWithholding:0,
+                        totalGross:0,
+                        totalGross2: 0,
+                        totalToPay:0,
+                        totalToPay2: 0});
             setSelectedChangeRate({});
             setError("");
 
@@ -218,6 +238,10 @@ function ProviderInvoicesList(){
         setSelectedProvider(provider);
         setFormData(prev => ({...prev, idCompany: provider.idCompany}));
 
+        getPendingOrders(provider);
+    };
+
+    const getPendingOrders = async (provider) => {
         try{
             const pendingOrdersResponse = await axios.get(`companies/${provider.idCompany}/orders/pending`);
             const pendingOrders = pendingOrdersResponse.data;
@@ -233,7 +257,7 @@ function ProviderInvoicesList(){
             console.error(err);
             setError(err.response?.data?.message || "Error");
         }
-    };
+    }
 
     // Handle View Details
     const handleViewDetails = async (invoice) => {
@@ -241,7 +265,7 @@ function ProviderInvoicesList(){
             const invoiceResponse = await axios.get(`/provider-invoices/by-id/${invoice.idDocument}`);
             const invoiceData = invoiceResponse.data;
             setSelectedInvoice(invoiceData);
-
+            setFormData(prev => ({...prev, status: invoiceData.status || "PENDING"}));
             const ownerResponse = await axios.get("/owner");
             const ownerData = ownerResponse.data;
             setOwnerInfo(ownerData);
@@ -413,6 +437,8 @@ function ProviderInvoicesList(){
             setShowChangeRateForm(false);
             setNewChangeRate({currency1:"", currency2:"", rate:1, date:today});
             setSelectedChangeRate(data);
+            setFormData(prev => ({ ...prev, idChangeRate: data.idChangeRate}));
+            setFormData(prev => ({ ...prev, currency: data.currency1}));
         }catch(err){
             console.error(err);
         }
@@ -588,7 +614,7 @@ function ProviderInvoicesList(){
                                 </div>
                                 <div className="flex gap-1 w-1/3">
                                 <label className="font-semibold text-black">{t("documents.date")}:</label>
-                                <label className="text-black">{selectedInvoice.docDate}</label>
+                                <label className="text-black">{new Date(selectedInvoice.docDate).toLocaleDateString("es-ES", { day:"2-digit", month:"2-digit", year:"numeric" })}</label>
                                 </div>
                             </div>
                             <hr className="border border-gray-200 mb-4"/>
@@ -599,8 +625,8 @@ function ProviderInvoicesList(){
                                     {/* Order details */}
                                     <div className="bg-gray-200 px-4 rounded-full grid grid-cols-[3fr_1fr_1fr_1fr] gap-2 text-black font-semibold">
                                         <div>{order.descrip}</div>
-                                        <div>{order.dateOrder}</div>
-                                        <div>{order.quantity} {order.units}</div>
+                                        <div>{new Date(order.dateOrder).toLocaleDateString("es-ES", { day:"2-digit", month:"2-digit", year:"numeric" })}</div>
+                                        <div>{order.pricePerUnit.toFixed(2)}{selectedInvoice.changeRate?.currency1 || "€"}</div>
                                         <div>{order.total.toFixed(2)}{selectedInvoice.changeRate?.currency1 || "€"}</div>
                                     </div>
                                     <hr className="border-gray-200 mb-2"/>
@@ -609,8 +635,8 @@ function ProviderInvoicesList(){
                                         {order.items.map((item) => (
                                         <div key={item.idItem} className="grid grid-cols-[3fr_1fr_1fr_1fr_1fr] gap-2 mb-1 text-black">
                                             <div>{item.descrip}</div>
-                                            <div>{item.quantity}</div>
-                                            <div>{order.pricePerUnit.toFixed(2)}{selectedInvoice.changeRate?.currency1 || "€"}</div>
+                                            <div>{item.qty}</div>
+                                            <div>{order.units}</div>
                                             <div>{(item.discount*100).toFixed(2)}%</div>
                                             <div>{item.total.toFixed(2)}{selectedInvoice.changeRate?.currency1 || "€"}</div>
                                         </div>
@@ -801,7 +827,7 @@ function ProviderInvoicesList(){
                         </div>
                         <div className="flex gap-4 mt-4 mb-1 w-full">
                             <span className="p-2 w-1/4">
-                                {`${t("documents.total_net")}: ${totals.totalNet}${formData.currency}`}
+                                {`${t("documents.total_net")}: ${totals.totalNet}${selectedChangeRate.currency1}`}
                             </span>
                             <span className="p-2 w-1/4">
                                 {(selectedProvider?.vatRate ?? 0) > 1
@@ -810,7 +836,7 @@ function ProviderInvoicesList(){
                                 }
                             </span>
                             <span className="p-2 w-1/4">
-                                {`${t("documents.total_vat")}: ${totals.totalVat}${formData.currency}`}
+                                {`${t("documents.total_vat")}: ${totals.totalVat}${selectedChangeRate.currency1}`}
                             </span>
                         </div>
                         <div className="flex gap-4 mb-1 w-full">
@@ -821,15 +847,15 @@ function ProviderInvoicesList(){
                                 }
                             </span>
                             <span className="p-2 w-1/2">
-                                {`${t("documents.withholding")}: ${totals.totalWithholding}${formData.currency}`}
+                                {`${t("documents.withholding")}: ${totals.totalWithholding}${selectedChangeRate.currency1}`}
                             </span>
                         </div>
                         <div className="flex gap-4 mb-2 w-full">
                             <span className="p-2 w-1/4">
-                                {`${t("documents.total_gross")}: ${totals.totalGross}${formData.currency}`}
+                                {`${t("documents.total_gross")}: ${totals.totalGross}${selectedChangeRate.currency1}`}
                             </span>
                             <span className="p-2 w-1/2">
-                                {`${t("documents.total_to_pay")}: ${totals.totalToPay}${formData.currency}`}
+                                {`${t("documents.total_to_pay")}: ${totals.totalToPay}${selectedChangeRate.currency1}`}
                             </span>
                         </div>
                         {(selectedChangeRate?.rate || 1) !== 1 && 
@@ -885,7 +911,7 @@ function ProviderInvoicesList(){
                                 title="Double click to edit"
                                 >
                                 <label className="w-1/2 py-2">{order.descrip}</label>
-                                <label className="w-1/6 py-2">{order.dateOrder}</label>
+                                <label className="w-1/6 py-2">{new Date(order.dateOrder).toLocaleDateString("es-ES", { day:"2-digit", month:"2-digit", year:"numeric" })}</label>
                                 <label className="w-1/6 py-2">{`${order.total.toFixed(2)}${formData.currency}`}</label>
                                 <input
                                     type="checkbox"
@@ -1087,7 +1113,7 @@ function ProviderInvoicesList(){
                                 title="Double click to edit"
                                 >
                                 <label className="w-1/2 py-2">{order.descrip}</label>
-                                <label className="w-1/6 py-2">{order.dateOrder}</label>
+                                <label className="w-1/6 py-2">{new Date(order.dateOrder).toLocaleDateString("es-ES", { day:"2-digit", month:"2-digit", year:"numeric" })}</label>
                                 <label className="w-1/6 py-2">{`${order.total.toFixed(2)}${selectedChangeRate.currency1}`}</label>
                                 <input
                                     type="checkbox"
@@ -1135,9 +1161,15 @@ function ProviderInvoicesList(){
                                     </option>
                                 ))}
                             </select>
-                            <span className="p-2 w-1/3">
-                                    {newChangeRate.rate}
-                            </span>
+                            <input 
+                                type="text"
+                                name="rate"
+                                className="p-2 w-full rounded-lg border bg-[color:var(--background)]"
+                                value={newChangeRate.rate || ""}
+                                placeholder={t('documents.note_comment')}
+                                onChange={handleCurrencySelection}
+                                required    
+                                />
                         </div>
                         <div className="flex justify-end gap-2 my-5">
                             <button

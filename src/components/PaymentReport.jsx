@@ -15,7 +15,6 @@ function PaymentReport(){
         axios.get("reports/pending/outcome")
         .then(response => {
             setReport(response.data);
-            console.log(response.data);
             setLoading(false);
         })
         .catch(error => {
@@ -37,7 +36,7 @@ function PaymentReport(){
        <div className="flex w-full flex-col items-center gap-5 py-10">
             <div className="rounded-xl shadow-lg w-3/4 p-4 bg-[color:var(--secondary)]">
                 <div className="w-full flex items-center mb-2">
-                    <h4 className="text-lg font-semibold mb-2 w-1/2">{t('reports.report_pending_cashing')}</h4>
+                    <h4 className="text-lg font-semibold mb-2 w-1/2">{t('reports.report_pending_payment')}</h4>
                 </div>
                 <hr className="border-[color:var(--primary)] mb-2" />
                 {loading ? (

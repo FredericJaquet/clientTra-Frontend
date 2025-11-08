@@ -174,6 +174,7 @@ function IncomesReport(){
                     <>
                         <label className="modal-scroll flex justify-center w-full border border-[color:var(--primary)] rounded-full mb-2 p-2 font-semibold overflow-auto">
                             {t('reports.report_incomes')}: {t('reports.date_from')}{" "}
+                            
                             {new Date(startDate).toLocaleDateString("es-ES", {
                                 day: "2-digit",
                                 month: "2-digit",
@@ -219,7 +220,11 @@ function IncomesReport(){
                                                         }`}
                                                 >
                                                     <span className="w-1/5">{invoice.invoiceNumber}</span>
-                                                    <span className="w-1/5">{new Date(invoice.docDate).toLocaleDateString("es-ES")}</span>
+                                                    <span className="w-1/5">{new Date(invoice.docDate).toLocaleDateString("es-ES", {
+                                                                                                        day: "2-digit",
+                                                                                                        month: "2-digit",
+                                                                                                        year: "numeric"
+                                                                                                    })}</span>
                                                     <span className="w-1/5 text-right">{invoice.totalNet?.toFixed(2)}€</span>
                                                     <span className="w-1/5 text-right">{invoice.totalVat?.toFixed(2)}€</span>
                                                     <span className="w-1/5 text-right">{invoice.totalWithholding?.toFixed(2)}€</span>
