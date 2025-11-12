@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { useNavigate  } from "react-router-dom";
 import api from "../api/axios";
 import { useTranslation } from 'react-i18next';
@@ -9,6 +10,7 @@ function RegisterStep1({ formData, setFormData, nextStep }) {
 
   const { t } = useTranslation();
   const [showPassword, setShowPassword] = useState(false);
+  const [legalAccepted, setLegalAccepted] = useState(false);
 
   let userLang = navigator.language || navigator.userLanguage;
 
@@ -38,6 +40,11 @@ function RegisterStep1({ formData, setFormData, nextStep }) {
       setError(t('error.email_invalid'));
       return;
     }
+    if(!legalAccepted){
+      setError(t('error.legal_requirements'));
+      return;
+    }
+
     setError('');
     nextStep();
   };
@@ -50,6 +57,11 @@ function RegisterStep1({ formData, setFormData, nextStep }) {
     }
     if (formData.password !== formData.repeatedPassword) {
       setError(t('error.incorrect_repeated_password'));
+      return;
+    }
+
+    if(!legalAccepted){
+      setError(t('error.legal_requirements'));
       return;
     }
 
@@ -133,6 +145,16 @@ function RegisterStep1({ formData, setFormData, nextStep }) {
                   {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                 </button>
               </div>
+            </div>
+
+            <div className="flex - space-x-2">
+              <input
+                type="checkbox"
+                name="legalAccepted"
+                onChange={(e) => setLegalAccepted(e.target.checked)}
+                className="border border-[color:var(--border)] rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[color:var(--primary)]" 
+                />
+              <Link to="/legal" className="text-sm text-[color:var(--info)]">{t('register.legal_requirements')}</Link>
             </div>
 
             {error && (

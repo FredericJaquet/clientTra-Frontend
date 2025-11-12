@@ -81,8 +81,8 @@
         "providers": "Providers",
         "create": "Create",
         "orders": "Orders",
-        "orders_customers": "Orders Customers",
-        "orders_providers": "Orders Providers",
+        "orders_customers": "Customer Orders",
+        "orders_providers": "Provider Orders",
         "customer_invoices": "Customer Invoices",
         "provider_invoices": "Provider Invoices",
         "quotes": "Quotes",
@@ -191,12 +191,75 @@
         "order_without_items": "The order total must be > 0.",
         "document_without_Order": "The document total must be > 0.",
         "no_orders": "You must include al least one order.",
-        "scheme_lines_required": "At least one scheme line is required"
+        "scheme_lines_required": "At least one scheme line is required",
+        "legal_requirements": "You must accept the legal terms and privacy policy."
     },
     "languages": {
         "es": "Spanish",
         "fr": "French",
         "en": "English"
+    },
+    "legal": {
+        "title": "Legal Terms",
+        "subtitle": "🧾 Terms of Use and Privacy Policy of ClientTra",
+        "updated": "Last update: November 2025",
+        "controller": "Data controller:",
+        "email": "Contact email:",
+        "hosting": "Hosting provider:",
+        "section1": {
+        "title": "1. Purpose",
+        "text": "This document governs the access, use, and processing of personal data in the ClientTra application, a SaaS platform designed for managing clients, suppliers, orders, and business documents. By registering and using ClientTra, the user declares that they have read and fully accepted these terms."
+        },
+        "section2": {
+        "title": "2. Data Controller",
+        "text": "In accordance with Regulation (EU) 2016/679 (GDPR) and Spanish Law 3/2018 (LOPDGDD), the data controller is Frédéric Jaquet. Data is stored on European servers managed by Hetzner Online GmbH (Germany), which complies with GDPR and maintains appropriate security measures."
+        },
+        "section3": {
+        "title": "3. Processed Data and Purpose",
+        "text": [
+            "User data: name, email, username, and encrypted password.",
+            "Company data: legal name, trade name, tax ID, and contact information.",
+            "System data: information on clients, suppliers, orders, documents, and any business data entered by the user."
+        ]
+        },
+        "section4": {
+        "title": "4. Legal Basis",
+        "text": "Processing is based on the user’s explicit consent when registering and accepting this policy, as well as the contractual necessity to provide the SaaS service."
+        },
+        "section5": {
+        "title": "5. Data Retention",
+        "text": "Data will be retained as long as the user maintains an active account in ClientTra. The user may request full deletion of their account and associated data at any time by emailing frederic.jaquet@gmail.com."
+        },
+        "section6": {
+        "title": "6. User Rights",
+        "text": "Users may exercise their rights of access, rectification, deletion, objection, restriction of processing, and data portability by contacting the indicated email."
+        },
+        "section7": {
+        "title": "7. Security Measures",
+        "text": [
+            "Password encryption.",
+            "Secure connections (HTTPS).",
+            "Role-based access control.",
+            "Data isolation per company.",
+            "Regular backups."
+        ]
+        },
+        "section8": {
+        "title": "8. User Responsibility",
+        "text": [
+            "Keep login credentials confidential.",
+            "Ensure that the data entered is accurate and up to date.",
+            "Obtain consent from clients or suppliers when required."
+        ]
+        },
+        "section9": {
+        "title": "9. Modifications",
+        "text": "The controller may update this policy to comply with legal changes or service improvements. Registered users will be notified before the changes take effect."
+        },
+        "section10": {
+        "title": "10. Acceptance",
+        "text": "By registering and using ClientTra, the user fully and unconditionally accepts these terms of use and privacy policy."
+        }
     },
     "login": {
         "title": "Login",
@@ -210,7 +273,8 @@
         "login": "Login",
         "project": "Project",
         "dashboard": "Dashboard",
-        "register": "Register"
+        "register": "Register",
+        "legal": "Legal Terms"
     },
     "orders": {
         "orders": "Orders",
@@ -294,7 +358,8 @@
         "cp": "ZIP",
         "city": "City",
         "state": "State/Province",
-        "country": "Country"
+        "country": "Country",
+        "legal_requirements": "By registering, I accept the legal terms and privacy policy."
     },
     "reports": {
         "report_incomes": "Income Reports",

@@ -21,6 +21,9 @@ function SearchBar(){
         api.get(`/customers/search?input=${query}`)
             .then((res) => setCustomersSearchResult(res.data))
             .catch((err) => console.error("Error fetching customers:", err));
+
+
+        console.log(customersSearchResult);
     };
 
     // Effect for Customers
@@ -29,6 +32,7 @@ function SearchBar(){
             if (customersSearchResult.length === 1) {
                 navigate(`/dashboard/customers/${customersSearchResult[0].idCompany}`);
             } else {
+                console.log(query);
                 navigate(`/dashboard/customers?search=${query}`);
             }
         } else if (query !== "") {
@@ -37,6 +41,7 @@ function SearchBar(){
                 .then((res) => setProvidersSearchResult(res.data))
                 .catch((err) => console.error("Error fetching providers:", err));
         }
+        setQuery("");
     }, [customersSearchResult]);
 
     // effect for Providers

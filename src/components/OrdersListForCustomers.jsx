@@ -94,6 +94,18 @@ function OrdersListForCustomers(){
         loadNextSchemeLine();
     }, [selectedScheme]);
 
+    useEffect(() => {
+        if (!formData.pricePerUnit || formData.items.length === 0) return;
+
+        const { updatedItems, grandTotal } = calculateTotals(formData.pricePerUnit, formData.items);
+
+        setFormData(prev => ({
+            ...prev,
+            items: updatedItems,
+            total: grandTotal,
+        }));
+    }, [formData.pricePerUnit]);
+
     //Sorting columns
     const sortedOrders = [...filteredOrders].sort((a, b) => {
         const aValue = a[sortConfig.key] ?? "";
@@ -210,36 +222,24 @@ function OrdersListForCustomers(){
     const handleAddItem = (e) => {
         if (e.type === "keydown" && e.key !== "Enter") return;
         e.preventDefault();
-        if ( !itemInput.descrip || itemInput.qty === "" || itemInput.discount == null || itemInput.discount === ""){ 
-            setError(t('error.all_fields_required'));
-            return;
-        }
-        if (isNaN(Number(itemInput.discount))) {
-            setError(t('error.invalid_discount'));
-            return;
-        }
-        if (isNaN(Number(itemInput.qty))) {
-            setError(t('error.invalid_qty'));
-            return;
-        }
+        if (!itemInput.descrip || !itemInput.qty) return setError(t('error.all_fields_required'));
 
-        if(Number(itemInput.qty)>0){
-            setFormData(prev => {
-                let updatedItems;
-                if (editingItemIndex !== null) {
-                    // Editing existing item
-                    updatedItems = prev.items.map((item, index) =>
-                        index === editingItemIndex ? itemInput : item
-                    );
-                } else {
-                    // Add new line
-                    updatedItems = [...(prev.items || []), itemInput];
-                }
-                return { ...prev, items: updatedItems };
-            });
-        }
+        const newItems =
+            editingItemIndex !== null
+            ? formData.items.map((item, idx) =>
+                idx === editingItemIndex ? itemInput : item
+                )
+            : [...formData.items, itemInput];
 
-        setItemInput({ descrip: "", discount: "", qty: "" });
+        const { updatedItems, grandTotal } = calculateTotals(formData.pricePerUnit, newItems);
+
+        setFormData(prev => ({
+            ...prev,
+            items: updatedItems,
+            total: grandTotal,
+        }));
+
+        setItemInput({ descrip: "", qty: "", discount: "" });
         setEditingItemIndex(null);
         setError("");
         loadNextSchemeLine();
@@ -260,7 +260,6 @@ function OrdersListForCustomers(){
 
     //Handle Edit
     const handleEditOrder = (order) => {
-        
         axios
             .get(`/orders/${order.idOrder}`)
             .then(
@@ -387,87 +386,61 @@ function OrdersListForCustomers(){
     //Inputs changes for Add or Edit
     const handleChange = (e) => {
         setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
-        if(e.target.name === "pricePerUnit"){
-            // Recalculate totals if pricePerUnit changes
-            if (isNaN(Number(formData.pricePerUnit))) {
-                setError(t('error.invalid_price'));
-                return;
-            }
-            const price = parseFloat(e.target.value) || 0;
-            const updatedItems = formData.items.map(item => {
-                const qty = parseFloat(item.qty) || 0;
-                let discount = parseFloat(item.discount) || 0;
-                if (discount > 1) discount = discount / 100;
-                const total = price * qty * (1 - discount);
-                return { ...item, total };
-            });
-            const granTotal = updatedItems.reduce(
-                (sum, i) => sum + (parseFloat(i.total) || 0),
-                0
-            );
-            setFormData(prev => ({
-                ...prev, items: updatedItems, total: granTotal
-            }));
-        }
     }
 
     const handleItemChange = (e) => {
         const { name, value } = e.target;
 
         if (editingItemIndex !== null) {
-            // Editing existing item
+            // --- Editing existing item ---
             const updatedItems = [...formData.items];
             updatedItems[editingItemIndex] = {
                 ...updatedItems[editingItemIndex],
                 [name]: value,
             };
 
-            // Recalculate total for this item
-            const item = updatedItems[editingItemIndex];
-            const price = parseFloat(formData.pricePerUnit) || 0;
+            const { updatedItems: recalculatedItems, grandTotal } = calculateTotals(
+                formData.pricePerUnit,
+                updatedItems
+            );
+
+            setFormData(prev => ({
+                ...prev,
+                items: recalculatedItems,
+                total: grandTotal,
+            }));
+
+            setItemInput(recalculatedItems[editingItemIndex]);
+        } else {
+            // --- New item (not yet in items array) ---
+            const newItem = { ...itemInput, [name]: value };
+
+            const { updatedItems: _, grandTotal } = calculateTotals(
+            formData.pricePerUnit,
+            [...formData.items, newItem]
+            );
+
+            setItemInput(newItem);
+                setFormData(prev => ({
+                ...prev,
+                total: grandTotal,
+            }));
+        }
+    };
+
+    //Function to calculate totals when adding/editing datas
+    const calculateTotals = (pricePerUnit, items) => {
+        const price = parseFloat(pricePerUnit) || 0;
+        const updatedItems = items.map(item => {
             const qty = parseFloat(item.qty) || 0;
             let discount = parseFloat(item.discount) || 0;
             if (discount > 1) discount = discount / 100;
-            item.total = price * qty * (1 - discount);
+            const total = price * qty * (1 - discount);
+            return { ...item, total };
+        });
 
-            // Recalculate grand total
-            const granTotal = updatedItems.reduce(
-                (sum, i) => sum + (parseFloat(i.total) || 0),
-                0
-            );
-
-            setFormData((prev) => ({
-                ...prev,
-                items: updatedItems,
-                total: granTotal,
-            }));
-
-            setItemInput(item);
-        } else {
-            // New item (not yet in items array)
-            const newItem = { ...itemInput, [name]: value };
-
-            const price = parseFloat(formData.pricePerUnit) || 0;
-            const qty = parseFloat(newItem.qty) || 0;
-            let discount = parseFloat(newItem.discount) || 0;
-            
-            if (discount > 1) discount = discount / 100;
-            newItem.total = price * qty * (1 - discount);
-
-            setItemInput(newItem);
-
-            // Calculate what grand total *would be* if added
-            const tempItems = [...formData.items, newItem];
-            const granTotal = tempItems.reduce(
-                (sum, i) => sum + (parseFloat(i.total) || 0),
-                0
-            );
-
-            setFormData((prev) => ({
-                ...prev,
-                total: granTotal,
-            }));
-        }
+        const grandTotal = updatedItems.reduce((sum, i) => sum + (i.total || 0), 0);
+        return { updatedItems, grandTotal };
     };
 
     //Used to normalize the response of the backend for PATCH request

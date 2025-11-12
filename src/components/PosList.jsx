@@ -117,6 +117,15 @@ function PosList(){
         setShowAddForm(true);
         
         setFormData(initialFormData);
+        setTotals({  totalNet:0,
+                     totalVat:0,
+                     totalGross:0,});
+        setOrders([]);
+
+        if(selectedProvider.idCompany){
+            await getPendingOrders(selectedProvider);
+            setFormData(prev => ({...prev, idCompany: selectedProvider.idCompany}));
+        }
     };
 
     const handleAddCancel = () =>{
@@ -174,6 +183,10 @@ function PosList(){
         setSelectedProvider(provider);
         setFormData(prev => ({...prev, idCompany: provider.idCompany}));
 
+        await getPendingOrders(provider);
+    };
+
+    const getPendingOrders = async (provider) => {
         try{
             const pendingOrdersResponse = await axios.get(`companies/${provider.idCompany}/orders/pending`);
             const pendingOrders = pendingOrdersResponse.data;

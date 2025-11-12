@@ -71,21 +71,32 @@ function IncomesReport(){
 
         if (e.target.name === "month") {
             start = new Date(today.getFullYear(), today.getMonth(), 1);
+            console.log(start);
             end = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+            console.log(end);
         }
 
         if (e.target.name === "quarter") {
             const quarter = Math.floor(today.getMonth() / 3); // 0,1,2,3
             start = new Date(today.getFullYear(), quarter * 3, 1);
+            console.log(start);
             end = new Date(today.getFullYear(), quarter * 3 + 3, 0);
+            console.log(end);
         }
 
         if (e.target.name === "year") {
             start = new Date(today.getFullYear(), 0, 1);
+            console.log(start);
             end = new Date(today.getFullYear(), 11, 31);
+            console.log(end);
         }
 
-        const formatDate = (d) => d.toISOString().slice(0, 10);
+        const formatDate = (date) => {
+            const yyyy = date.getFullYear();
+            const mm = String(date.getMonth() + 1).padStart(2, "0"); // Mes 0-index
+            const dd = String(date.getDate()).padStart(2, "0");
+            return `${yyyy}-${mm}-${dd}`;
+        };
 
         setStartDate(formatDate(start));
         setEndDate(formatDate(end));

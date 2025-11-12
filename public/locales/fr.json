@@ -191,12 +191,75 @@
         "order_without_items": "Le total de la commande doit être > 0.",
         "document_without_Order": "Le total du document doit être > 0.",
         "no_orders": "Voud devez inclure ua moins une commande.",
-        "scheme_lines_required": "Au moins une ligne de schéma est requise"
+        "scheme_lines_required": "Au moins une ligne de schéma est requise",
+        "legal_requirements": "Vous devez accepter les conditions légales et la politique de confidentialité."
     },
     "languages": {
         "es": "Espagnol",
         "fr": "Français",
         "en": "Anglais"
+    },
+    "legal": {
+        "title": "Conditions légales",
+        "subtitle": "🧾 Conditions d’utilisation et politique de confidentialité de ClientTra",
+        "updated": "Dernière mise à jour : novembre 2025",
+        "controller": "Responsable du traitement :",
+        "email": "Courriel de contact :",
+        "hosting": "Fournisseur d’hébergement :",
+        "section1": {
+        "title": "1. Objet",
+        "text": "Le présent document régit l’accès, l’utilisation et le traitement des données personnelles dans l’application ClientTra, une plateforme SaaS destinée à la gestion des clients, fournisseurs, commandes et documents commerciaux. En s’inscrivant et en utilisant ClientTra, l’utilisateur déclare avoir lu et accepté pleinement les présentes conditions."
+        },
+        "section2": {
+        "title": "2. Responsable du traitement",
+        "text": "Conformément au Règlement (UE) 2016/679 (RGPD) et à la Loi espagnole 3/2018 (LOPDGDD), le responsable du traitement est Frédéric Jaquet. Les données sont hébergées sur des serveurs européens gérés par Hetzner Online GmbH (Allemagne), qui respecte le RGPD et applique des mesures de sécurité appropriées."
+        },
+        "section3": {
+        "title": "3. Données traitées et finalité",
+        "text": [
+            "Données de l’utilisateur : nom, adresse e-mail, identifiant et mot de passe chiffré.",
+            "Données de l’entreprise : raison sociale, nom commercial, numéro fiscal et coordonnées.",
+            "Données internes : informations sur les clients, fournisseurs, commandes, documents et autres données saisies par l’utilisateur."
+        ]
+        },
+        "section4": {
+        "title": "4. Base juridique du traitement",
+        "text": "Le traitement repose sur le consentement explicite de l’utilisateur lors de son inscription, ainsi que sur la nécessité contractuelle liée à la fourniture du service SaaS."
+        },
+        "section5": {
+        "title": "5. Conservation des données",
+        "text": "Les données sont conservées tant que l’utilisateur maintient un compte actif sur ClientTra. L’utilisateur peut demander à tout moment la suppression complète de son compte et de toutes les données associées, en écrivant à frederic.jaquet@gmail.com."
+        },
+        "section6": {
+        "title": "6. Droits des utilisateurs",
+        "text": "L’utilisateur peut exercer ses droits d’accès, de rectification, de suppression, d’opposition, de limitation du traitement et de portabilité en contactant l’adresse indiquée."
+        },
+        "section7": {
+        "title": "7. Mesures de sécurité",
+        "text": [
+            "Chiffrement des mots de passe.",
+            "Connexions sécurisées (HTTPS).",
+            "Contrôle d’accès par rôles.",
+            "Isolation des données par entreprise.",
+            "Sauvegardes régulières."
+        ]
+        },
+        "section8": {
+        "title": "8. Responsabilité de l’utilisateur",
+        "text": [
+            "Maintenir la confidentialité de ses identifiants.",
+            "Garantir l’exactitude et la mise à jour des données saisies.",
+            "Obtenir le consentement de ses clients ou fournisseurs lorsque cela est nécessaire."
+        ]
+        },
+        "section9": {
+        "title": "9. Modifications",
+        "text": "Le responsable peut mettre à jour cette politique pour l’adapter aux évolutions légales ou techniques. Les utilisateurs enregistrés seront informés avant l’entrée en vigueur des modifications."
+        },
+        "section10": {
+        "title": "10. Acceptation",
+        "text": "L’inscription et l’utilisation de ClientTra impliquent l’acceptation pleine et entière des présentes conditions d’utilisation et de la politique de confidentialité."
+        }
     },
     "login": {
         "title": "Se connecter",
@@ -210,7 +273,8 @@
         "login": "Connexion",
         "project": "Projet",
         "dashboard": "Dashboard",
-        "register": "Inscription"
+        "register": "Inscription",
+        "legal": "Avis légal"
     },
     "orders": {
         "orders": "Commandes",
@@ -294,7 +358,8 @@
         "cp": "Code postal",
         "city": "Ville",
         "state": "Province",
-        "country": "Pays"
+        "country": "Pays",
+        "legal_requirements": "En m'inscrivant, j'accepte les conditions légales et la politique de confidentialité."
     },
     "reports": {
         "report_incomes": "Rapports de revenus",

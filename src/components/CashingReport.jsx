@@ -15,7 +15,6 @@ function CashingReport(){
         axios.get("reports/pending/income")
         .then(response => {
             setReport(response.data);
-            console.log(response.data);
             setLoading(false);
         })
         .catch(error => {

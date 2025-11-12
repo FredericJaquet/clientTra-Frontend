@@ -481,6 +481,8 @@ function CustomerInvoicesList(){
             setShowChangeRateForm(false);
             setNewChangeRate({currency1:"", currency2:"", rate:1, date:today});
             setSelectedChangeRate(data);
+            setFormData(prev => ({ ...prev, idChangeRate: data.idChangeRate}));
+            setFormData(prev => ({ ...prev, currency: data.currency1}));
         }catch(err){
             console.error(err);
         }
@@ -1289,9 +1291,15 @@ function CustomerInvoicesList(){
                                     </option>
                                 ))}
                             </select>
-                            <span className="p-2 w-1/3">
-                                    {newChangeRate.rate}
-                            </span>
+                            <input 
+                                type="text"
+                                name="rate"
+                                className="p-2 w-full rounded-lg border bg-[color:var(--background)]"
+                                value={newChangeRate.rate || ""}
+                                placeholder={t('documents.note_comment')}
+                                onChange={handleCurrencySelection}
+                                required    
+                                />
                         </div>
                         <div className="flex justify-end gap-2 my-5">
                             <button

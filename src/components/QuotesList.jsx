@@ -138,6 +138,12 @@ function QuotesList(){
         setTotals({  totalNet:0,
                      totalVat:0,
                      totalGross:0,});
+        setOrders([]);
+
+        if(selectedCustomer.idCompany){
+            await getPendingOrders(selectedCustomer);
+            setFormData(prev => ({...prev, idCompany: selectedCustomer.idCompany}));
+        }
     };
 
     const handleAddCancel = () =>{
@@ -191,6 +197,10 @@ function QuotesList(){
         setSelectedCustomer(customer);
         setFormData(prev => ({...prev, idCompany: customer.idCompany}));
 
+        await getPendingOrders(customer);
+    };
+
+    const getPendingOrders = async (customer) => {
         try{
             const pendingOrdersResponse = await axios.get(`companies/${customer.idCompany}/orders/pending`);
             const pendingOrders = pendingOrdersResponse.data;
@@ -205,7 +215,7 @@ function QuotesList(){
             console.error(err);
             setError(err.response?.data?.message || "Error");
         }
-    };
+    }
 
     // Handle View Details
     const handleViewDetails = async (quote) => {

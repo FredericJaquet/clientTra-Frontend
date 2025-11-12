@@ -84,7 +84,12 @@ function OutcomesReport(){
             end = new Date(today.getFullYear(), 11, 31);
         }
 
-        const formatDate = (d) => d.toISOString().slice(0, 10);
+        const formatDate = (date) => {
+            const yyyy = date.getFullYear();
+            const mm = String(date.getMonth() + 1).padStart(2, "0"); // Mes 0-index
+            const dd = String(date.getDate()).padStart(2, "0");
+            return `${yyyy}-${mm}-${dd}`;
+        };
 
         setStartDate(formatDate(start));
         setEndDate(formatDate(end));

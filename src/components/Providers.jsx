@@ -232,14 +232,14 @@ function Providers(){
                                         type="text"
                                         name="street"
                                         onChange={handleChange}
-                                        className="border border-[color:var(--border)] rounded-lg p-2 w-1/2 focus:outline-none focus:ring-2 focus:ring-[color:var(--primary)]"
+                                        className="p-2 w-full rounded-lg border bg-[color:var(--background)]"
                                         placeholder={t('register.street')}
                                         required />
                                     <input
                                         type="text"
                                         name="stNumber"
                                         onChange={handleChange}
-                                        className="border border-[color:var(--border)] rounded-lg p-2 w-1/2 focus:outline-none focus:ring-2 focus:ring-[color:var(--primary)]"
+                                        className="p-2 w-full rounded-lg border bg-[color:var(--background)]"
                                         placeholder={t('register.st_number')}
                                         required
                                     />
@@ -249,14 +249,14 @@ function Providers(){
                                         type="text"
                                         name="apt"
                                         onChange={handleChange}
-                                        className="border border-[color:var(--border)] rounded-lg p-2 w-1/2 focus:outline-none focus:ring-2 focus:ring-[color:var(--primary)]"
+                                        className="p-2 w-full rounded-lg border bg-[color:var(--background)]"
                                         placeholder={t('register.apt')}
                                     />
                                     <input
                                         type="text"
                                         name="cp"
                                         onChange={handleChange}
-                                        className="border border-[color:var(--border)] rounded-lg p-2 w-1/2 focus:outline-none focus:ring-2 focus:ring-[color:var(--primary)]"
+                                        className="p-2 w-full rounded-lg border bg-[color:var(--background)]"
                                         placeholder={t('register.cp')}
                                         required
                                     />
@@ -266,7 +266,7 @@ function Providers(){
                                         type="text"
                                         name="city"
                                         onChange={handleChange}
-                                        className="border border-[color:var(--border)] rounded-lg p-2 w-1/2 focus:outline-none focus:ring-2 focus:ring-[color:var(--primary)]"
+                                        className="p-2 w-full rounded-lg border bg-[color:var(--background)]"
                                         placeholder={t('register.city')}
                                         required
                                     />
@@ -274,7 +274,7 @@ function Providers(){
                                         type="text"
                                         name="state"
                                         onChange={handleChange}
-                                        className="border border-[color:var(--border)] rounded-lg p-2 w-1/2 focus:outline-none focus:ring-2 focus:ring-[color:var(--primary)]"
+                                        className="p-2 w-full rounded-lg border bg-[color:var(--background)]"
                                         placeholder={t('register.state')}
                                     />
                                 </div>
@@ -283,7 +283,7 @@ function Providers(){
                                         type="text"
                                         name="country"
                                         onChange={handleChange}
-                                        className="border border-[color:var(--border)] rounded-lg p-2 w-1/2 focus:outline-none focus:ring-2 focus:ring-[color:var(--primary)]"
+                                        className="p-2 w-1/2 rounded-lg border bg-[color:var(--background)]"
                                         placeholder={t('register.country')}
                                         required
                                     />
