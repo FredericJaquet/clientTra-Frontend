@@ -435,6 +435,7 @@ function CustomerInvoicesList(){
                 )
             );
         }
+        if(!selectedInvoice.idDocument) return;
         try{
             axios.get(`/customer-invoices/toggle-paid-status/${selectedInvoice.idDocument}`)
         }catch(err){

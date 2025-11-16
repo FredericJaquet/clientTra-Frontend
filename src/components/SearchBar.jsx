@@ -55,8 +55,6 @@ function SearchBar(){
         }
     }, [providersSearchResult]);
 
-
-
     return (
         <div id="search_bar" className="bg-[color:var(--primary)] sticky top-0 z-10 flex w-full p-4">
             <img    id="glass_icon"

@@ -4,6 +4,8 @@ import { ThemeProvider } from "./contexts/ThemeProvider";
 import SelectLanguage from './contexts/LanguageContext';
 import { setupResponseInterceptor } from "./api/axios";
 
+import PublicLayout from "./layouts/PublicLayout";
+
 const Login = lazy(() => import('./components/Login'));
 const Register = lazy(() => import('./components/Register'));
 const Project = lazy(() => import('./components/Project'));
@@ -51,16 +53,23 @@ function AppWrapper() {
   return (
     <ThemeProvider>
       <Suspense fallback={<div className="text-center mt-10">Cargando...</div>}>
+
         <Routes>
-          <Route path="/" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/project" element={<Project />} />
-          <Route path="/legal" element={<LegalTerms />} />
+
+          {/* ---------- Páginas públicas (SIEMPRE tema azul) ---------- */}
+          <Route element={<PublicLayout />}>
+            <Route path="/" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/project" element={<Project />} />
+            <Route path="/legal" element={<LegalTerms />} />
+          </Route>
+
+          {/* ---------- Páginas privadas (tema del usuario) ---------- */}
           <Route
             path="/dashboard"
             element={
               <PrivateRoute>
-                <DashboardLayout />
+                  <DashboardLayout />
               </PrivateRoute>
             }
           >
@@ -85,7 +94,9 @@ function AppWrapper() {
             <Route path="customers/:id" element={<CustomerDetails />} />
             <Route path="providers/:id" element={<ProviderDetails />} />
           </Route>
+
         </Routes>
+
       </Suspense>
     </ThemeProvider>
   );

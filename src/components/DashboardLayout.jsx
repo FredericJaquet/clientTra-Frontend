@@ -12,6 +12,19 @@ function DashboardLayout() {
     const [isDemo, setIsDemo] = useState(true);
     const [showRegisterForm, setShowRegisterForm] = useState(false);
 
+useEffect(() => {
+    const user = JSON.parse(localStorage.getItem("user"));
+    const theme = user?.preferredTheme || "blue";
+    const darkMode = user?.preferredMode || "light";
+
+    document.documentElement.setAttribute("data-theme", theme);
+      if (darkMode === "dark") {
+        document.documentElement.classList.add("dark");
+      } else {
+        document.documentElement.classList.remove("dark");
+      }
+    }, []);
+
     useEffect(() => {
         api.get("/context")
         .then((response) => {

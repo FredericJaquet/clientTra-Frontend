@@ -1,6 +1,6 @@
 import React from "react";
 import axios from "../api/axios";
-import { useState, useContext } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Eye, EyeOff } from "lucide-react";
 import { useTranslation } from 'react-i18next';
@@ -9,7 +9,6 @@ import { ThemeContext } from "../contexts/ThemeContext";
 function LoginForm() {
 
     const { t, i18n } = useTranslation();
-    const { setTheme, setDarkMode } = useContext(ThemeContext);
     const [showPassword, setShowPassword] = useState(false);
 
     const errors = {
@@ -44,8 +43,6 @@ function LoginForm() {
 
       localStorage.setItem("token", token);
       localStorage.setItem("user", JSON.stringify(user));
-      setTheme(user.preferredTheme);
-      setDarkMode(user.preferredMode);
       i18n.changeLanguage(user.preferredLanguage).then(() => {
         setError("");
         navigate("/dashboard");

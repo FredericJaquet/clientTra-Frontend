@@ -192,7 +192,8 @@
         "document_without_Order": "Le total du document doit être > 0.",
         "no_orders": "Voud devez inclure ua moins une commande.",
         "scheme_lines_required": "Au moins une ligne de schéma est requise",
-        "legal_requirements": "Vous devez accepter les conditions légales et la politique de confidentialité."
+        "legal_requirements": "Vous devez accepter les conditions légales et la politique de confidentialité.",
+        "invalid_quantity": "La quantité doit être un nombre valide."
     },
     "languages": {
         "es": "Espagnol",

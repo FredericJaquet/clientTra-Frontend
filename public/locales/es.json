@@ -192,7 +192,8 @@
         "document_without_Order": "El total del document debe ser > 0.",
         "no_orders": "Debes incluir al menos un pedido.",
         "scheme_lines_required": "Se requiere al menos una línea de esquema",
-        "legal_requirements": "Debes aceptar las condiciones legales y la política de privacidad."
+        "legal_requirements": "Debes aceptar las condiciones legales y la política de privacidad.",
+        "invalid_quantity": "La cantidad debe ser un número válido."
     },
     "languages": {
         "es": "Español",

@@ -95,9 +95,9 @@ function OrdersListForCustomers(){
     }, [selectedScheme]);
 
     useEffect(() => {
-        if (!formData.pricePerUnit || formData.items.length === 0) return;
+        if (!formData.pricePerUnit) return;
 
-        const { updatedItems, grandTotal } = calculateTotals(formData.pricePerUnit, formData.items);
+        const { updatedItems, grandTotal } = calculateTotals(formData.pricePerUnit, formData.items, itemInput);
 
         setFormData(prev => ({
             ...prev,
@@ -212,6 +212,7 @@ function OrdersListForCustomers(){
     };
 
     const handleSelectionCustomer = (customer) =>{
+        if(!customer.idCompany) return;
         axios
             .get(`companies/${customer.idCompany}/schemes`)
             .then(
@@ -224,20 +225,53 @@ function OrdersListForCustomers(){
         e.preventDefault();
         if (!itemInput.descrip || !itemInput.qty) return setError(t('error.all_fields_required'));
 
-        const newItems =
-            editingItemIndex !== null
-            ? formData.items.map((item, idx) =>
-                idx === editingItemIndex ? itemInput : item
-                )
-            : [...formData.items, itemInput];
+        if(isNaN(Number(itemInput.qty))){
+            return setError(t('error.invalid_quantity'));
+        }
 
-        const { updatedItems, grandTotal } = calculateTotals(formData.pricePerUnit, newItems);
+        if(isNaN(Number(itemInput.discount))){
+            return setError(t('error.invalid_discount'));
+        }
 
-        setFormData(prev => ({
-            ...prev,
-            items: updatedItems,
-            total: grandTotal,
-        }));
+        if (editingItemIndex !== null) {
+
+            const newItems = [...formData.items];
+            newItems[editingItemIndex] = itemInput;
+
+            const { updatedItems, grandTotal } = calculateTotals(
+                formData.pricePerUnit,
+                newItems,
+                []
+            );
+
+            setFormData(prev => ({
+                ...prev,
+                items: updatedItems,
+                total: grandTotal,
+            }));
+
+            // reset edición
+            setEditingItemIndex(null);
+            setItemInput({ descrip: "", qty: "", discount: "" });
+            setError("");
+            return;
+        }
+
+        if (parseFloat(itemInput.qty) > 0) {
+            const { updatedItems, grandTotal } = calculateTotals(
+                formData.pricePerUnit,
+                formData.items,
+                itemInput
+            );
+
+            updatedItems.push(itemInput);
+
+            setFormData(prev => ({
+                ...prev,
+                items: updatedItems,
+                total: grandTotal,
+            }));
+        }
 
         setItemInput({ descrip: "", qty: "", discount: "" });
         setEditingItemIndex(null);
@@ -401,8 +435,11 @@ function OrdersListForCustomers(){
 
             const { updatedItems: recalculatedItems, grandTotal } = calculateTotals(
                 formData.pricePerUnit,
-                updatedItems
+                updatedItems,
+                []
             );
+
+            console.log("Grand Total:", grandTotal);
 
             setFormData(prev => ({
                 ...prev,
@@ -411,17 +448,18 @@ function OrdersListForCustomers(){
             }));
 
             setItemInput(recalculatedItems[editingItemIndex]);
-        } else {
+        } else{
             // --- New item (not yet in items array) ---
             const newItem = { ...itemInput, [name]: value };
 
             const { updatedItems: _, grandTotal } = calculateTotals(
-            formData.pricePerUnit,
-            [...formData.items, newItem]
+                formData.pricePerUnit,
+                formData.items,
+                newItem
             );
 
             setItemInput(newItem);
-                setFormData(prev => ({
+            setFormData(prev => ({
                 ...prev,
                 total: grandTotal,
             }));
@@ -429,17 +467,25 @@ function OrdersListForCustomers(){
     };
 
     //Function to calculate totals when adding/editing datas
-    const calculateTotals = (pricePerUnit, items) => {
+    const calculateTotals = (pricePerUnit, items, itemInput) => {
         const price = parseFloat(pricePerUnit) || 0;
-        const updatedItems = items.map(item => {
-            const qty = parseFloat(item.qty) || 0;
-            let discount = parseFloat(item.discount) || 0;
-            if (discount > 1) discount = discount / 100;
-            const total = price * qty * (1 - discount);
-            return { ...item, total };
-        });
+        let grandTotal = 0;
+        let updatedItems = [];
+        if(items){
+            updatedItems = items.map(item => {
+                const qty = parseFloat(item.qty) || 0;
+                let discount = parseFloat(item.discount) || 0;
+                if (discount > 1) discount = discount / 100;
+                const total = price * qty * (1 - discount);
+                return { ...item, total };
+            });
 
-        const grandTotal = updatedItems.reduce((sum, i) => sum + (i.total || 0), 0);
+            grandTotal = updatedItems.reduce((sum, i) => sum + (i.total || 0), 0);
+        }
+        if(itemInput){
+            itemInput.total = price * parseFloat(itemInput.qty) * (1 - (parseFloat(itemInput.discount) > 1 ? parseFloat(itemInput.discount) / 100 : parseFloat(itemInput.discount) || 0));
+        }
+        grandTotal += itemInput.total || 0; 
         return { updatedItems, grandTotal };
     };
 
